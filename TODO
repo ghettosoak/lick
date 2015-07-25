@@ -1,0 +1,101 @@
+note
+	//location at hash
+		if location doesn't exist, create new note
+
+	//title
+		//expanding text
+
+	//bit
+		//expanding text
+
+		//new bit
+			//enter
+			//button at bottom
+
+		//sortable
+			//by hand
+			//by keyboard!!!!!!
+
+		//indentation
+			//remember indentation @newline
+
+		//menu
+			//structure
+			//kill
+			//mark
+			//search w/ google
+			++send / copy to another board
+
+		//paste
+			//seperate newlines into bits?
+			//parse links
+
+		//up / down
+
+	menu
+		//new note
+		kill
+			are you sure?
+		undo list
+		//mark
+		add to board
+			existing board
+			new board
+
+board
+	//drag notes / rearrange
+		//show title
+
+	//click to enter
+
+	menu
+		mark
+		kill 
+			only when board is empty
+		undo list
+		//new note
+		new board
+
+	notes!
+		send / copy to another board
+
+list
+
+old notes
+	array
+	'this note was a child of \x board'
+	'this bit was a child of \x note'
+
+user authentication
+
+design
+	bit
+	typeface
+	colors
+	colorBG
+	bit menu
+	adjust up and down key params when new typeface added
+
+bugs :c
+	after adding a new bit, the model appears to refresh itself, generating a brand new ng-repeat. this kicks the users' focus from the bit.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

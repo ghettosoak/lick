@@ -1,0 +1,142 @@
+html,
+body{
+	height:100%;
+	position: relative;
+	color: @color-copy;
+	font-family: @standard;
+	font-weight: @light;
+	font-size: @base-font-size;
+	line-height: @base-line-height;	
+}
+
+body{
+	width: 100%;
+	// width: 100vw;
+	overflow-x: hidden;
+	&.search_open{
+		overflow: hidden;
+	}
+	
+	&.sidebar_open{
+		@media @mobile-max { 
+		}
+	}
+}
+
+#master{
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	height: 100%;
+	width: 100%;
+	-webkit-overflow-scrolling: touch;
+}
+
+.header{
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: @height_header;
+	width: 100%;
+	// width: 100vw;
+	background-color: @color-brand;
+	color: @color-copy-contrast;
+	z-index: 1;
+	perspective: 1000px;
+	.transform(translate3d(0));
+	.transition(all .5s @eio);
+
+	.sidebar_open &{
+
+		// left: @width_sidebar;
+		.transform(translate3d(@width_sidebar, 0, 0));
+	}
+}
+
+.main{
+	padding-top: @height_header;
+	width: 100%;
+	// width: 100vw;
+	position: relative;
+	min-height: 100%;
+	background-color: @color-background;
+	z-index: 0;
+	margin-bottom: -@height_footer;
+	perspective: 1000px;
+	.transform(translate3d(0, 0, 0));
+	left: 0;
+	.transition(all .5s @eio);
+
+	&:before{
+		content:'';
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		top: 0;
+		left: 0;
+		background-color: rgba(50, 50, 50, .5);
+		z-index: 5;
+		opacity: 0;
+		visibility: hidden;
+		.transition(all .5s @eio);
+
+		.sidebar_open &{
+			opacity: 1;
+			visibility: visible;
+		}
+	}
+
+	&:after {
+		content: "";
+		display: block;
+		height: @height_footer;		
+	}
+
+	.sidebar_open &{
+		min-height: none;
+		// left: @width_sidebar;
+		.transform(translate3d(@width_sidebar, 0, 0));
+	}
+}
+
+.section{
+	position: relative;
+	float: left;
+	width: 100%;
+	padding:4em 0;
+
+	@media @mobile-max {
+		padding: 2em 0;
+	}	
+}
+
+.subsection{
+	padding: 2em 0;
+
+	@media @mobile-max {
+		padding: 1em 0;
+	}	
+}
+
+.footer{
+	position: relative;
+	float: left;
+	width: 100%;
+	// width: 100vw;
+	left: 0;
+	perspective: 1000px;
+	height: @height_footer;
+	background-color: @color-copy;
+	color: @color-copy-contrast;
+
+	.transform(translate3d(0, 0, 0));
+	.transition(all .5s @eio);
+	
+	.sidebar_open &{
+
+		// left: @width_sidebar;
+		.transform(translate3d(@width_sidebar, 0, 0));
+	}
+}

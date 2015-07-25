@@ -1,0 +1,53 @@
+<div class="boardBody" ng-controller="boardCtrl">
+
+	<div class="board" ng-model="board">
+
+		<div class="header board_menu">
+
+			<div class="new" ng-click="newNote_board(board.id)">new</div>
+			<div class="kill" ng-click="">kill</div>
+			<div class="undo" ng-click="">undo</div>
+			<div class="mark" ng-click="">mark</div>
+			<div class="add" ng-click="">add</div>
+
+		</div>
+
+		<div class="board_interior">			
+
+			<div class="textarea-container board_title">			
+				<textarea ng-model="board.title"></textarea>
+				<div class="textarea-autosize">{{board.title}}</div>
+			</div>
+
+			<div 
+				class="board_body" 
+				ng-model="board.notes"
+				gridster="boardGridOpts"
+			>
+				<ul>
+					<li 
+						class="board_note" 
+						ng-repeat="note in board.notes"
+						gridster-item="note"
+						row="note.y" 
+						col="note.x" 
+						size-x="1" 
+						size-y="1"
+						data-id="{{note.id}}"
+					>
+						<input 
+							type="text"
+							ng-click="noteTitleLookup(note.id, $event)"
+							ng-blur="titleSave(note.id, $event.target)"
+						/>
+						{{ noteTitleLookup(note.id) }}
+						<a href="#/note/{{note.id}}">have a look!</a>
+
+
+						
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

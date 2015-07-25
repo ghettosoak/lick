@@ -1,0 +1,82 @@
+.radio-container{
+	margin:10px 0;
+	overflow:hidden;
+
+	.parsley-errors-list.filled{
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+}
+
+.radio{
+	padding:5px 0;
+	position: relative;
+	display: block;
+
+	&.parsley-error{
+		color: @color-error;
+		margin-top: 25px;
+	}
+
+	& > input{
+		position: absolute;
+		height: 0;
+		width: 0;
+		opacity: 0;
+	}
+
+	.circle, 
+	.dot {
+		display: block;
+		position: absolute;
+		top:50%;
+		border-radius:10px;
+	}
+
+	.dot{
+		display:none;
+		left: 4px;
+		margin-top: -5px;
+		position: absolute;
+		height:10px;
+		width:10px;
+		background-color:@color-brand;
+	}
+
+	input:checked ~ .dot{
+		display:block;
+	}
+
+	.circle{
+		left: 0;
+		border: 1px solid @color-brand; 
+		padding: 0;
+		margin-top: -9px;
+		width: 18px;
+		height: 18px;
+
+		.parsley-error&{
+			border-color: @color-error;
+		}
+	}
+
+	& > span{
+		display: block;
+		margin-left: 30px;
+
+		input{
+			padding:0 0 5px 0;
+			margin:0;
+		}
+	}
+
+	.parsley-error ~ &{
+		color: @color-error;
+		margin-top: 25px;
+
+		.circle{
+			border-color: @color-error;			
+		}
+	}
+}

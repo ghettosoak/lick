@@ -1,0 +1,23 @@
+.sidebar{
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	height: 100%;
+	width: @width_sidebar;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	-webkit-overflow-scrolling: touch;
+	background-color: @color-background;
+	.transform(translate3d(-@width_sidebar, 0, 0));
+	.transition(all .5s @eio);
+	display: none;
+
+	@media @tablet-max {
+		display: block;
+	}	
+
+	.sidebar_open &{
+		.transform(translate3d(0, 0, 0));
+	}
+}

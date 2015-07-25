@@ -1,0 +1,27 @@
+<?xml version="1.0" standalone="no"?> 
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<svg xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <font id="fonticons" horiz-adv-x="1000">
+    <font-face font-family="fonticons"
+      units-per-em="1000" ascent="1000"
+      descent="0" />
+    <missing-glyph horiz-adv-x="0" />
+    <glyph glyph-name="loupe"
+      unicode="&#xE001;"
+      horiz-adv-x="1000" d=" M810 213.3L666.7 356.7000000000001C710 406.7000000000001 736.7 470 736.7 540C736.7 693.3000000000001 613.4000000000001 816.7 460.0000000000001 816.7S183.3 693.3 183.3 540S306.7 263.3 460 263.3C530 263.3 593.3 290 643.3 333.3L786.7 190L810 213.3zM216.7 540C216.7 673.3 326.7 783.3 460 783.3S703.3 673.3 703.3 540S593.3 296.7000000000001 460 296.7000000000001S216.7 406.7000000000001 216.7 540z" />
+    <glyph glyph-name="cross"
+      unicode="&#xE002;"
+      horiz-adv-x="1000" d=" M523.3 500L850 173.3L826.7 150L500 476.7L173.3 150L150 173.3L476.7 500L150 826.7L173.3 850L500 523.3L826.7 850L850 826.7L523.3 500z" />
+    <glyph glyph-name="check"
+      unicode="&#xE003;"
+      horiz-adv-x="1000" d=" M303.3 176.7000000000001L83.3 396.7000000000001L106.6 420L303.3 223.3L893.3 813.3L916.6 790L303.3 176.7000000000001z" />
+    <glyph glyph-name="arrow_small_right"
+      unicode="&#xE004;"
+      horiz-adv-x="1000" d=" M906.7 500L756.7 350L733.4000000000001 373.3L843.4000000000001 483.3H116.7V516.5999999999999H840L733.3 626.5999999999999L756.5999999999999 649.9L906.7 500z" />
+    <glyph glyph-name="plus"
+      unicode="&#xE005;"
+      horiz-adv-x="1000" d=" M834 488H512V166H488.0000000000001V488H166V511.9999999999999H488.0000000000001V834H512V511.9999999999999H834V488z" />
+  </font>
+</defs>
+</svg>
