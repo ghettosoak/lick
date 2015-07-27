@@ -23,20 +23,22 @@ note
 			//structure
 			//kill
 			//mark
+				//quickmark w/ keyboard
 			//search w/ google
-			++send / copy to another board
+			++send to another board
 
 		//paste
 			//seperate newlines into bits?
 			//parse links
+			//still allow link to be edited! :)
 
 		//up / down
 
 	menu
 		//new note
-		kill
-			are you sure?
-		undo list
+		//kill
+			//are you sure?
+			//kill note from board
 		//mark
 		add to board
 			existing board
@@ -48,23 +50,25 @@ board
 
 	//click to enter
 
+	notes
+		mark
+		kill
+		move to
+
 	menu
 		mark
 		kill 
-			only when board is empty
-		undo list
+			only when board is empty?
+			release all notes?
+			kill all notes?
 		//new note
-		new board
-
-	notes!
-		send / copy to another board
+		//new board
 
 list
+	add note
+	remove note / board (at note)
 
-old notes
-	array
-	'this note was a child of \x board'
-	'this bit was a child of \x note'
+move note to board
 
 user authentication
 
@@ -75,9 +79,31 @@ design
 	colorBG
 	bit menu
 	adjust up and down key params when new typeface added
+	header
+
+	note
+		bit dot
+		indent?
+		kill note
+			are you sure? .danger
+
+	board
+		notes
+		new title
+		marked
+		icons
+			mark
+			kill
+			move
+
+	list
+		notes v boards 
+			switcher
+
+	animating between routes!
 
 bugs :c
-	after adding a new bit, the model appears to refresh itself, generating a brand new ng-repeat. this kicks the users' focus from the bit.
+	//after adding a new bit, the model appears to refresh itself, generating a brand new ng-repeat. this kicks the users' focus from the bit.
 
 
 

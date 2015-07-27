@@ -2,8 +2,9 @@ module.exports = function(
 	$rootScope, 
 	$scope, 
 	newNote,
+	killNote,
 	Note, 
-	NoteIndex,
+	// NoteIndex,
 	newBit,
 	$routeParams, 
 	$route, 
@@ -12,6 +13,8 @@ module.exports = function(
 	$location
 ) {
 	
+	var altIsPressed = false;
+
 	Note($routeParams.id).$bindTo($scope, 'note')
 	.then(function() {
 		if (typeof($scope.note.body) === 'undefined'){
@@ -19,7 +22,7 @@ module.exports = function(
 		}
 	});
 
-	NoteIndex($routeParams.id).$bindTo($scope, 'noteIndex');
+	// NoteIndex().$bindTo($scope, 'noteIndex');
 
 	// 	                                                                                         
 	// 	88        88   ,ad8888ba, 888888888888 88      a8P  88888888888 8b        d8 ad88888ba   
@@ -35,11 +38,21 @@ module.exports = function(
 
 	hotkeys.bindTo($scope)
 		.add({
-			combo: 'ctrl',
-			description: 'add new bit',
+			combo: 'alt',
+			description: 'disable "links"',
 			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			action: 'keydown',
 			callback: function(event, hotkey) {
-				console.log($scope.note)
+				altIsPressed = true;
+			}
+		})
+		.add({
+			combo: 'alt',
+			description: 'disable "links"',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			action: 'keyup',
+			callback: function(event, hotkey) {
+				altIsPressed = false;
 			}
 		})
 		.add({
@@ -130,6 +143,16 @@ module.exports = function(
 			callback: function() {
 				$scope.parsePasted(_bitIndex());
 			}
+		})
+		.add({
+			combo: 'shift shift',
+			description: 'toggle marked',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			callback: function() {
+				if ( _isTextarea()){
+					$scope.note.body[_bitIndex()].mark = !$scope.note.body[_bitIndex()].mark;
+				}
+			}
 		});
 
 	// 	                                                                                                
@@ -145,9 +168,6 @@ module.exports = function(
 	// 	                                                                                                
 
 	$scope.addBit = function(index, content){
-
-		console.log(index)
-
 		var incomingContent;
 
 		if (typeof(content) === 'undefined')
@@ -166,7 +186,6 @@ module.exports = function(
 
 			_focusMe(index + 1);
 		}, 50);
-
 	};
 
 	$scope.parsePasted = function(index){
@@ -224,8 +243,13 @@ module.exports = function(
 		}
 	}
 
-	$scope.openLink = function(index){
-		console.log('yeah!')
+	$scope.openLink = function(bit){
+
+		if (bit.isLink && !altIsPressed){
+			document.activeElement.blur();
+			var win = window.open('https://www.google.com/search?q=' + bit.address, '_blank');
+			win.focus();
+		}
 	}
 
 	$scope.killBit = function(index){
@@ -318,7 +342,7 @@ module.exports = function(
 	};
 
 	$scope.killNote = function(){
-
+		killNote($scope.note.id, $scope.note.parent);
 	};
 
 	$scope.showUndoList = function(){

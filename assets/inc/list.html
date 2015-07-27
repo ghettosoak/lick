@@ -1,0 +1,34 @@
+<div 
+	class="list" 
+>
+
+	<div class="header list_menu">
+
+		<div class="newNote" ng-click="newNote()">new note</div>
+		<div class="newBoard" ng-click="newBoard()">new board</div>
+		<div class="undo" ng-click="showUndoList()">undo</div>
+
+	</div>
+
+	<div class="list_interior">
+
+		<div class="note_list" ng-model="notes" ui-sortable="sortableOptions_list">
+
+			<li 
+				ng-repeat="note in notes"
+				ng-if="!note.parent"
+			>
+			<a href="#/note/{{note}}">{{ note.title }}</a>
+			</li>
+		</div>
+
+		<div class="board_list" ng-model="boards" ui-sortable="sortableOptions_list">
+
+			<li 
+				ng-repeat="board in boards"
+			>
+			<a href="#/board/{{board}}">{{ board.title }}</a>
+			</li>
+		</div>
+	</div>
+</div>

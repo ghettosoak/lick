@@ -1,88 +1,89 @@
-<div class="noteBody" ng-controller="noteCtrl">
+<div 
+	class="note" 
+	ng-model="note"
+	ng-class="{
+		note_marked: note.mark
+	}"
+	ng-click="note.kill = false;"
+>
 
-	<div 
-		class="note" 
-		ng-model="note"
-		ng-class="{
-			note_marked: note.mark
-		}"
-	>
+	<div class="header note_menu">
 
-		<div class="header note_menu">
+		<div class="new" ng-click="newNote()">new</div>
+		<div class="kill" 
+			ng-class="{danger: note.kill}" 
+			ng-click="note.kill && killNote(); note.kill = !note.kill; $event.stopPropagation();"
+		>
+			kill
+		</div>
+		<div class="undo" ng-click="showUndoList()">undo</div>
+		<div class="mark" ng-click="note.mark = !note.mark">mark</div>
+		<div class="add" ng-click="addToBoard()">add to table</div>
 
-			<div class="new" ng-click="newNote()">new</div>
-			<div class="kill" ng-click="killNote()">kill</div>
-			<div class="undo" ng-click="showUndoList()">undo</div>
-			<div class="mark" ng-click="note.mark = !note.mark">mark</div>
-			<div class="add" ng-click="addToBoard()">add to table</div>
+	</div>
 
+	<div class="note_interior">		
+
+		<div class="textarea-container note_title">			
+			<textarea 
+				ng-model="note.title"
+				ng-change="noteIndex[note.id] = note.title"
+			></textarea>
+			<div class="textarea-autosize">{{note.title}}</div>
 		</div>
 
-		<div class="note_interior">		
-
-			<div class="textarea-container note_title">			
-				<textarea 
-					ng-model="note.title"
-					ng-change="noteIndex[note.id] = note.title"
-				></textarea>
-				<div class="textarea-autosize">{{note.title}}</div>
-			</div>
-
-			<div class="note_body" ng-model="note.body" ui-sortable="sortableOptions_note">
-				
-				<div 
-					ng-repeat="bit in note.body" 
-					class="note_bit indent_{{bit.tabCount}}"
-					ng-class="{ 
-						bit_menu_open: bit.menu_open,
-						bit_marked: bit.mark
-					}"
-				>
-
-					<div 
-						class="bit_anchor" 
-						ng-click="bit.menu_open = !bit.menu_open"
-					></div>
-
-					<div class="bit_menu">
-						<button class="bit_menu_point kill" ng-click="killBit($index)">
-							<span class="gfx-cross"></span>
-						</button>
-						<button class="bit_menu_point mark" ng-click="mark($index)">
-							<span class="gfx-check"></span>
-						</button>
-						<button class="bit_menu_point search" ng-click="search(bit.content)">
-							<span class="gfx-loupe"></span>
-						</button>
-						<button class="bit_menu_point send" ng-click="addBit($index)">
-							<span class="gfx-arrow_small_right"></span>
-						</button>
-					</div>
-
-					<div class="textarea-container bit_content">			
-						<textarea
-							class="mousetrap"
-							ng-model="bit.content"
-							ng-keyup="caretTracker($index)"
-							ng-blur="bitBlur($index)"
-							ng-click="caretTracker($index); bit.isLink && openLink($index)"
-						></textarea>
-						<!-- <caret ng-model="bit.content"></caret> -->
-						<div class="textarea-autosize" ng-bind-html="bit.contentCaret"></div>
-					</div>
-
-				</div>
+		<div class="note_body" ng-model="note.body" ui-sortable="sortableOptions_note">
+			
+			<div 
+				ng-repeat="bit in note.body track by $index" 
+				class="note_bit indent_{{bit.tabCount}}"
+				ng-class="{ 
+					bit_menu_open: bit.menu_open,
+					bit_marked: bit.mark
+				}"
+			>
 
 				<div 
-					class="new_bit gfx-plus" 
-					ng-click="addBit(note.body.length - 1)"
+					class="bit_anchor" 
+					ng-click="bit.menu_open = !bit.menu_open"
 				></div>
 
+				<div class="bit_menu">
+					<button class="bit_menu_point kill" ng-click="killBit($index)">
+						<span class="gfx-cross"></span>
+					</button>
+					<button class="bit_menu_point mark" ng-click="mark($index)">
+						<span class="gfx-check"></span>
+					</button>
+					<button class="bit_menu_point search" ng-click="search(bit.content)">
+						<span class="gfx-loupe"></span>
+					</button>
+					<button class="bit_menu_point send" ng-click="addBit($index)">
+						<span class="gfx-arrow_small_right"></span>
+					</button>
+				</div>
+
+				<div class="textarea-container bit_content">			
+					<textarea
+						class="mousetrap"
+						ng-model="bit.content"
+						ng-keyup="caretTracker($index)"
+						ng-blur="bitBlur($index)"
+						ng-click="caretTracker($index); openLink(bit)"
+					></textarea>
+					<div class="textarea-autosize" ng-bind-html="bit.contentCaret"></div>
+				</div>
+
 			</div>
+
+			<div 
+				class="new_bit gfx-plus" 
+				ng-click="addBit(note.body.length - 1)"
+			></div>
 
 		</div>
 
 	</div>
-</div>
 
+</div>
 

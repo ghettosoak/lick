@@ -7,6 +7,7 @@ var lessPluginAutoprefix = require('less-plugin-autoprefix');
 var sourcemaps           = require('gulp-sourcemaps');
 var options              = require('../options').less;
 var handleErrors         = require('../utils/handleErrors');
+var path 				 = require('path');
 
 // Get an autoprefixer instance
 var autoprefixer = new lessPluginAutoprefix({browsers: options.autoprefix});
@@ -22,9 +23,12 @@ gulp.task('less', function (){
 		.pipe( sourcemaps.init() )
 
 		// Compile and autoprefix less
-		.pipe( less({
-			plugins: [autoprefixer]
-		}) )
+		.pipe( 
+			less({
+				// plugins: [autoprefixer],
+				paths: [ path.join(__dirname, 'less', 'includes') ]
+			})
+		)
 
 		.on('error', handleErrors)
 

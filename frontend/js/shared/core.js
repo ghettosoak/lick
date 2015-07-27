@@ -220,7 +220,7 @@ $(function() {
 			subscribers.push(method);
 		};
 
-		$(window).load(gMapSetup)
+		// $(window).load(gMapSetup)
 
 		// Returnal
 		//////////////////////////////////////////////////

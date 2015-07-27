@@ -3,30 +3,14 @@
 
 var $$_ = window.$$_ = require('./shared/core'); 
 
-// require('./vendor/chosen.jquery.min'); 
-
-// include your scripts here
-
-// require('./shared/textarea-autosize'); 
-// require('./shared/img'); 
-// require('./shared/map'); 
-// require('./shared/parallax'); 
-// require('./shared/select'); 
-// require('./shared/search'); 
-
 var noteCtrl = require('./modules/noteCtrl');
 var boardCtrl = require('./modules/boardCtrl');
+var listCtrl = require('./modules/listCtrl');
 
 // expose your functions to the global scope for testing
 var mxm = {};
 
-window.firebaseURL = 'https://lick.firebaseio.com';
-
-// init some things
-// $(function($){
-
-// });
-
+window._Firebase = new Firebase( 'https://lick.firebaseio.com' );
 
 // define our app and dependencies (remember to include firebase!)
 var app = angular.module(
@@ -41,7 +25,7 @@ var app = angular.module(
 	]
 );
 
-app.config(function($routeProvider) {
+app.config( function($routeProvider) {
     $routeProvider
 
         // route for the home page
@@ -60,54 +44,77 @@ app.config(function($routeProvider) {
         .when('/board/:id', { 
             templateUrl : 'assets/inc/board.html',
             controller  : 'boardCtrl'
+        })
+
+        // route for list
+        .when('/list', { 
+            templateUrl : 'assets/inc/list.html',
+            controller  : 'listCtrl'
         });
 });
+
+app.factory('Notes', ['$firebaseObject',
+	function($firebaseObject) {
+		return function(id) {
+			var ref = window._Firebase.child('notes');
+			return $firebaseObject(ref);
+		};
+	}
+]);
+
+app.factory('Boards', ['$firebaseObject',
+	function($firebaseObject) {
+		return function(id) {
+			var ref = window._Firebase.child('boards');
+			return $firebaseObject(ref);
+		};
+	}
+]);
 
 app.factory('Note', ['$firebaseObject',
 	function($firebaseObject) {
 		return function(id) {
-			var ref = new Firebase( window.firebaseURL + '/notes/' + id);
-
-
-			// var theFBObject = 
-
-			// console.log(theFBObject)
-			// console.log(theFBObject.d)
-
+			var ref = window._Firebase.child('notes/' + id);
 			return $firebaseObject(ref);
 		};
 	}
 ]);
 
-app.factory('NoteIndex', ['$firebaseObject',
-	function($firebaseObject) {
-		return function(id) {
-			var ref = new Firebase( window.firebaseURL + '/noteIndex/');
-
-			return $firebaseObject(ref);
-		};
-	}
-]);
+// app.factory('NoteIndex', ['$firebaseObject',
+// 	function($firebaseObject) {
+// 		return function() {
+// 			var ref = window._Firebase.child('/noteIndex/');
+// 			return $firebaseObject(ref);
+// 		};
+// 	}
+// ]);
 
 app.factory('Board', ['$firebaseObject',
 	function($firebaseObject) {
 		return function(id) {
-			var ref = new Firebase( window.firebaseURL + '/boards/' + id);
-
+			var ref = window._Firebase.child('/boards/' + id);
 			return $firebaseObject(ref);
 		};
 	}
 ]);
 
-app.factory('BoardIndex', ['$firebaseObject',
-	function($firebaseObject) {
-		return function(id) {
-			var ref = new Firebase( window.firebaseURL + '/boardIndex/');
+// app.factory('BoardIndex', ['$firebaseObject',
+// 	function($firebaseObject) {
+// 		return function() {
+// 			var ref = window._Firebase.child('/boardIndex');
+// 			return $firebaseObject(ref);
+// 		};
+// 	}
+// ]);
 
-			return $firebaseObject(ref);
-		};
-	}
-]);
+// app.factory('List', ['$firebaseObject',
+// 	function($firebaseObject) {
+// 		return function(id) {
+// 			var ref = window._Firebase.child('/list');
+// 			return $firebaseObject(ref);
+// 		};
+// 	}
+// ]);
 
 app.factory('newBit', 
 	function() {
@@ -131,10 +138,9 @@ app.factory('newBit',
 	}
 );
 
-app.factory('newNote',['newBit', '$firebaseObject', 'NoteIndex',
-	function(newBit, $firebaseObject, NoteIndex) {
+app.factory('newNote',['newBit', '$firebaseObject', '$firebaseArray',// 'NoteIndex', 'List',
+	function(newBit, $firebaseObject, $firebaseArray/*, NoteIndex, List*/) {
 		return function(parent, id) {
-			
 			var noteID;
 
 			if (id){
@@ -143,10 +149,22 @@ app.factory('newNote',['newBit', '$firebaseObject', 'NoteIndex',
 				noteID = $$_.randomize();
 			}
 
-			var noteIndexRef = new Firebase( window.firebaseURL + '/noteIndex/' + noteID);
-			noteIndexRef.set('');
+			// //ADD TO BOARD (IF NECESSARY)
+			// if (typeof(parent) !== 'undefined'){
+			// 	console.log(parent)
+			// 	var noteRef_board = window._Firebase.child('/boards/' + parent + '/notes'),
+			// 	obj = $firebaseArray(noteRef_board).$loaded(function(theNotes) {
+			// 		noteRef_board.child(theNotes.length).set({id: noteID});
+			// 	});
+			// }
 
-			var noteRef = new Firebase( window.firebaseURL + '/notes/' + noteID );
+			//NOTE INDEX
+
+			// var noteIndexRef = window._Firebase.child('/noteIndex/' + noteID);
+			// noteIndexRef.set('');
+
+			//NOTES
+			var noteRef = window._Firebase.child('/notes/' + noteID );
 			noteRef.set({
 				title: '',
 				parent: typeof(parent) === 'undefined' ? null : parent,
@@ -157,39 +175,103 @@ app.factory('newNote',['newBit', '$firebaseObject', 'NoteIndex',
 				list: true
 			});
 
+			// //LIST
+			// var listRef = window._Firebase.child('/list/notes');
+
+			// var list = $firebaseArray(listRef).$loaded(function(theList) {
+			// 	listRef.child(theList.length).set(noteID);
+			// });
+
 			return noteID;
 		};
 	}
 ]);
 
 
-app.factory('newBoard', 
-	function() {
+app.factory('killNote', ['$firebaseArray', '$firebaseObject', 'Note', '$location',
+	function($firebaseArray, $firebaseObject, Note, $location) {
+		return function(id, parent) {
+
+			if (parent !== ''){
+				$location.path('/board/' + parent);
+
+				// var noteRef = window._Firebase.child('/boards/' + parent + '/notes'),
+				// obj = $firebaseArray(noteRef).$loaded(function(theNotes) {
+				// 	var notesIndex;
+
+				// 	for (var i = 0; i < theNotes.length; i++){
+				// 		if (theNotes[i].id === id)
+				// 			notesIndex = i;
+				// 	}
+
+				// 	noteRef.child(notesIndex).remove();
+				// });
+
+			}
+			else{
+				$location.path('/list');
+			}
+
+			note = Note(id);
+			note.$remove();
+
+			// var ref = window._Firebase.child('/noteIndex/' + id ),
+			// 	obj = $firebaseObject(ref);
+			// obj.$remove();
+
+			// var listRef = window._Firebase.child('/list/notes'),
+
+			// list = $firebaseArray(listRef).$loaded(function(theList) {
+			// 	var listIndex;
+
+			// 	for (var i = 0; i < theList.length; i++){
+			// 		if (theList[i].$value === id)
+			// 			listIndex = i;
+			// 	}
+
+			// 	listRef.child(listIndex).remove();
+			// });
+		};
+	}
+]);
+
+app.factory('newBoard', ['$firebaseArray',
+	function($firebaseArray) {
 		return function() {
 			boardID = $$_.randomize();
 
-			var boardRef = new Firebase( window.firebaseURL + '/boards/' + boardID );
+			//BOARDS
+			var boardRef = window._Firebase.child('/boards/' + boardID );
 			boardRef.set({
 				title: '',
 				id: boardID,
 				notes:[]
 			});
 
+			// //BOARDINDEX
+			// var boardIndexRef = window._Firebase.child('/boardIndex/' + boardID);
+			// boardIndexRef.set('');
+
+			//LIST
+			// var listRef = window._Firebase.child('/list/boards');
+
+			// var list = $firebaseArray(listRef).$loaded(function(theList) {
+			// 	listRef.child(theList.length).set(boardID);
+			// });
+
 			return boardID;
 		};
 	}
-);
-
-
-
+]);
 
 app.controller('noteCtrl', 
 	[
 		'$rootScope', 
 		'$scope',
 		'newNote', 
+		'killNote',
 		'Note',
-		'NoteIndex',
+		// 'NoteIndex',
 		'newBit',
 		'$routeParams', 
 		'$route',
@@ -205,8 +287,10 @@ app.controller('boardCtrl',
 		'$rootScope', 
 		'$scope', 
 		'Board',
+		'Notes',
 		'newNote',
-		'NoteIndex',
+		'newBoard',
+		// 'NoteIndex',
 		'$routeParams', 
 		'$route',
 		'hotkeys',
@@ -216,120 +300,25 @@ app.controller('boardCtrl',
 	]
 );
 
-// app.directive('caret', function(){
-// 	var hello = 0;
-// 	return {
-//         restrict: 'E',
-//         require: 'ngModel',
-//         // replace: true,
-//         scope: {
-//             // props: '=parseUrl',
-//             ngModel: '=ngModel'
-//         },
-//         link: function compile(scope, element, attrs, controller) {
-//             scope.$watch('ngModel', function (value) {
-//                 // var html = value.replace(urlPattern, '<a target="' + scope.props.target + '" href="$&">$&</a>') + " | " + scope.props.otherProp;
-//                 // element.html(html);
-//                 // console.log(element)
-//                 // console.log(
-
-//                 	var currentCaret = element.next()[0].selectionStart;
-//                 	// var theValue = that.target.value;
-
-//                 	// var $theSizer = $(that.target).siblings('.sizer')
-
-//                 	element.html(
-//                 		'<span class="delicate">'+
-//                 		value.substring(0, currentCaret) + 
-//                 		'<span class="hiddenCaret"></span>' + 
-//                 		value.substring(currentCaret, value.length)+
-//                 		'</span>'
-//                 	)
-
-
-//                 	// element.html('yeah! ' + hello++)
-
-//                 	console.log(element.next())
-//                 	console.log(element.next()[0].selectionStart)
-
-//                 	// console.log(value, scope, element, attrs, controller)
-//                 	// )
-//             });
-//         }
-//     };
-// })
-
-
-
-// app.directive('caret', function(){
-// 	return {
-// 	        restrict: 'A',
-// 	        require: '?ngModel',
-// 	        link: function (scope, element, attrs, controller) {
-// 	            scope.$watch(attrs.ngModel, function(newValue) {
-// 	                       console.log("Changed to " + newValue);
-// 	            });
-// 	        }
-// 	    } 
-// })
-// app.directive('caret', function(){
-// 	return {
-//         restrict: 'E',
-//         scope: {
-//             val: '='
-//         },
-//         link: function(scope, element, attrs) {
-//             scope.$watch('val', function(newValue, oldValue) {
-//                 if (newValue)
-//                     console.log("I see a data change!");
-//             }, true);
-//         }
-//     }
-// })
-
-// app.directive('caret', function() {
-//   return {
-//     restrict: 'E',
-//     transclude: true,
-//     compile: function(elem) {
-//     	console.log('jep')
-//       // elem.replaceWith(Markdowner.transform(elem.html()));
-//     }
-//   }
-// });
-
-// app.directive('newFocus', ['$timeout', function($timeout) {
-// 	return {
-// 		restrict: 'A',
-// 		link : function($scope, $element) {
-// 			$timeout(function() {
-// 				console.log(document.activeElement.type)
-// 				if (document.activeElement.type === 'textarea'){
-// 					console.log('WOW')
-// 					$element[0].focus();
-// 				}
-// 			});
-// 		}
-// 	}
-// }]);
-
-// app.directive('customAutofocus', function() {
-//   return{
-//          restrict: 'A',
-
-//          link: function(scope, element, attrs){
-//            scope.$watch(function(){
-//              return scope.$eval(attrs.customAutofocus);
-//              },function (newValue){
-//                if (newValue == true){
-//                    element[0].focus();//use focus function instead of autofocus attribute to avoid cross browser problem. And autofocus should only be used to mark an element to be focused when page loads.
-//                }
-//            });
-//          }
-//      };
-// })
-
-
+app.controller('listCtrl', 
+	[
+		'$firebaseArray',
+		'$rootScope', 
+		'$scope', 
+		'Notes',
+		'Boards',
+		'newNote',
+		'newBoard',
+		// 'NoteIndex',
+		// 'BoardIndex',
+		'$routeParams', 
+		'$route',
+		'hotkeys',
+		'$timeout',
+		'$location',
+		listCtrl
+	]
+);
 
 
 

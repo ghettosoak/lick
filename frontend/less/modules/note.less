@@ -1,5 +1,10 @@
-.note{
+.noteMaster{
+	position: relative;
+	min-height: 100%;
+}
 
+.note{
+	min-height: 100%;
 }
 	
 .note_interior{
@@ -11,22 +16,27 @@
 	}
 }
 
+.note_body{
+	position: relative;
+	overflow: hidden; 
+}
+
 .note_bit{
 	position: relative;
 	float: left;
-	width: 100%;
+	width: 100%;  
 	min-height: 50px;
 	border-bottom: 1px @color-primary;
 	padding-left: 60px;
 
 	.transition(all .3s ease);
 
-	&.bit_menu_open{
+	&.bit_menu_open{ 
 		z-index: 3;
 	}
 
 	&.indent_1{ padding-left: 80px; }
-	&.indent_2{ padding-left: 100px; }
+	&.indent_2{ padding-left: 100px; } 
 }
 
 .bit_anchor{

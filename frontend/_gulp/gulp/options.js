@@ -4,7 +4,7 @@ var webassets = 'assets'; // Relative to webroot
 module.exports = {
 
 	// Project name
-	name: 'SBB Clever Pendeln',
+	name: 'LICK',
 
 	// Less settings
 	less: {

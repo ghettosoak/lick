@@ -3,6 +3,7 @@
 		"n1": {
 			"title": "This is note #1!",
 			"parent": "b1",
+			"order": "1",
 			"id": "n1",
 			"body": [
 				{
@@ -18,7 +19,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -33,7 +36,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -48,7 +53,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -63,7 +70,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				}
 			],
 			"mark": false,
@@ -73,6 +82,7 @@
 		"n2": {
 			"title": "This is note #2!",
 			"parent": "b1",
+			"order": "2",
 			"id": "n2",
 			"body": [
 				{
@@ -88,7 +98,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -103,7 +115,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -118,7 +132,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -133,7 +149,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				}
 			],
 			"mark": false,
@@ -143,6 +161,7 @@
 		"n3": {
 			"title": "This is note #3!",
 			"parent": "b1",
+			"order": "3",
 			"id": "n3",
 			"body": [
 				{
@@ -158,7 +177,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -173,7 +194,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -188,7 +211,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -203,7 +228,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				}
 			],
 			"mark": false,
@@ -213,6 +240,7 @@
 		"n4": {
 			"title": "This is note #4!",
 			"parent": "b1",
+			"order": "4",
 			"id": "n4",
 			"body": [
 				{
@@ -228,7 +256,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -243,7 +273,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -258,7 +290,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -273,7 +307,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				}
 			],
 			"mark": false,
@@ -282,7 +318,8 @@
 		},
 		"n5": {
 			"title": "This is note #5!",
-			"parent": "null",
+			"parent": null,
+			"order": "5",
 			"id": "n5",
 			"body": [
 				{
@@ -298,7 +335,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -313,7 +352,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -328,7 +369,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -343,7 +386,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				}
 			],
 			"mark": false,
@@ -352,7 +397,8 @@
 		},
 		"n6": {
 			"title": "This is note #6!",
-			"parent": "null",
+			"parent": null,
+			"order": "6",
 			"id": "n6",
 			"body": [
 				{
@@ -368,7 +414,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -383,7 +431,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -398,7 +448,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				},
 				{
 					"display": true,
@@ -413,7 +465,9 @@
 					"marked": "",
 					"menu_open": false,
 					"isLink": false,
-					"address": ""
+					"address": "",
+					"col": "0",
+					"row": "0"
 				}
 			],
 			"mark": false,
@@ -423,47 +477,11 @@
 	},
 	"boards":{
 		"b1": {
+			"order": "0",
 			"title": "board01",
 			"id": "b1",
-			"notes":[
-				{
-					"id": "n1",
-					"x": "1",
-					"y": "1"
-				},
-				{
-					"id": "n2",
-					"x": "2",
-					"y": "1"
-				},
-				{
-					"id": "n3",
-					"x": "3",
-					"y": "2"
-				},
-				{
-					"id": "n4",
-					"x": "4",
-					"y": "1"
-				}
-			]
+			"marked": false
 		}
-	},
-	"list":[
-		"n5",
-		"b1",
-		"n6"
-	],
-	"noteIndex":{
-		"n1": "This is note #1!",
-		"n2": "This is note #2!",
-		"n3": "This is note #3!",
-		"n4": "This is note #4!",
-		"n5": "This is note #5!",
-		"n6": "This is note #6!"
-	},
-	"boardIndex":{
-		"b1": "board01"
 	}
 }
 

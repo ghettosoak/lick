@@ -69,36 +69,16 @@ body{
 	left: 0;
 	.transition(all .5s @eio);
 
-	&:before{
-		content:'';
-		position: absolute;
-		height: 100%;
-		width: 100%;
-		top: 0;
-		left: 0;
-		background-color: rgba(50, 50, 50, .5);
-		z-index: 5;
-		opacity: 0;
-		visibility: hidden;
-		.transition(all .5s @eio);
-
-		.sidebar_open &{
-			opacity: 1;
-			visibility: visible;
-		}
-	}
-
 	&:after {
 		content: "";
 		display: block;
 		height: @height_footer;		
 	}
+}
 
-	.sidebar_open &{
-		min-height: none;
-		// left: @width_sidebar;
-		.transform(translate3d(@width_sidebar, 0, 0));
-	}
+.viewer{
+	position: relative;
+	min-height: 100%;
 }
 
 .section{
