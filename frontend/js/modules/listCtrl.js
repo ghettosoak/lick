@@ -3,34 +3,17 @@ module.exports = function(
 	$rootScope, 
 	$scope, 
 	Notes,
-	Boards,
 	newNote,
+	Boards,
 	newBoard,
-	// NoteIndex,
-	// BoardIndex,
 	$routeParams, 
 	$route, 
 	hotkeys,
 	$timeout,
 	$location
 ) {
-
-	// $scope.list = List();
-
 	Notes().$bindTo($scope, 'notes');
 	Boards().$bindTo($scope, 'boards');
-
-	// NoteIndex().$bindTo($scope, 'noteIndex');
-
-	// BoardIndex().$bindTo($scope, 'boardIndex');
-
-	// $scope.getName_note = function(id){
-	// 	return $scope.noteIndex[id];
-	// }
-
-	// $scope.getName_board = function(id){
-	// 	return $scope.boardIndex[id];
-	// }
 
 	$scope.newNote = function(){
 		$location.path('/note/' + newNote());
@@ -42,7 +25,11 @@ module.exports = function(
 
 	$scope.sortableOptions_list = {
 		stop: function(e, ui){
-			console.log(e)
+			angular.forEach($scope.notes, function(note){
+				console.log(typeof(note))
+
+				// note
+			})
 		}
 	}
 }

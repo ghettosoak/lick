@@ -1,10 +1,9 @@
 module.exports = function(
 	$rootScope, 
 	$scope, 
+	Note,
 	newNote,
 	killNote,
-	Note, 
-	// NoteIndex,
 	newBit,
 	$routeParams, 
 	$route, 
@@ -343,18 +342,6 @@ module.exports = function(
 
 	$scope.killNote = function(){
 		killNote($scope.note.id, $scope.note.parent);
-	};
-
-	$scope.showUndoList = function(){
-
-	};
-
-	$scope.markNote = function(){
-
-	};
-
-	$scope.addToTable = function(){
-
 	};
 
 	// 	                                                                                      

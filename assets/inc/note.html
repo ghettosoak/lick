@@ -16,9 +16,10 @@
 		>
 			kill
 		</div>
-		<div class="undo" ng-click="showUndoList()">undo</div>
 		<div class="mark" ng-click="note.mark = !note.mark">mark</div>
-		<div class="add" ng-click="addToBoard()">add to table</div>
+		<a href="#/change/{{note.id}}">change!</a>	
+		<a href="#/board/{{note.parent}}" ng-if="note.parent">close</a>
+		<a href="#/list" ng-if="!note.parent">close</a>
 
 	</div>
 

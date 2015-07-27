@@ -3,9 +3,10 @@
 
 var $$_ = window.$$_ = require('./shared/core'); 
 
-var noteCtrl = require('./modules/noteCtrl');
-var boardCtrl = require('./modules/boardCtrl');
-var listCtrl = require('./modules/listCtrl');
+var noteCtrl = require('./modules/noteCtrl'),
+	changeCtrl = require('./modules/changeCtrl'),
+	boardCtrl = require('./modules/boardCtrl'),
+	listCtrl = require('./modules/listCtrl');
 
 // expose your functions to the global scope for testing
 var mxm = {};
@@ -38,6 +39,12 @@ app.config( function($routeProvider) {
         .when('/note/:id', {
             templateUrl : 'assets/inc/note.html',
             controller  : 'noteCtrl'
+        })
+
+        // route for changing boards
+        .when('/change/:id', {
+            templateUrl : 'assets/inc/change.html',
+            controller  : 'changeCtrl'
         })
 
         // route for boards
@@ -80,15 +87,6 @@ app.factory('Note', ['$firebaseObject',
 	}
 ]);
 
-// app.factory('NoteIndex', ['$firebaseObject',
-// 	function($firebaseObject) {
-// 		return function() {
-// 			var ref = window._Firebase.child('/noteIndex/');
-// 			return $firebaseObject(ref);
-// 		};
-// 	}
-// ]);
-
 app.factory('Board', ['$firebaseObject',
 	function($firebaseObject) {
 		return function(id) {
@@ -97,24 +95,6 @@ app.factory('Board', ['$firebaseObject',
 		};
 	}
 ]);
-
-// app.factory('BoardIndex', ['$firebaseObject',
-// 	function($firebaseObject) {
-// 		return function() {
-// 			var ref = window._Firebase.child('/boardIndex');
-// 			return $firebaseObject(ref);
-// 		};
-// 	}
-// ]);
-
-// app.factory('List', ['$firebaseObject',
-// 	function($firebaseObject) {
-// 		return function(id) {
-// 			var ref = window._Firebase.child('/list');
-// 			return $firebaseObject(ref);
-// 		};
-// 	}
-// ]);
 
 app.factory('newBit', 
 	function() {
@@ -138,8 +118,8 @@ app.factory('newBit',
 	}
 );
 
-app.factory('newNote',['newBit', '$firebaseObject', '$firebaseArray',// 'NoteIndex', 'List',
-	function(newBit, $firebaseObject, $firebaseArray/*, NoteIndex, List*/) {
+app.factory('newNote', ['newBit',
+	function(newBit) {
 		return function(parent, id) {
 			var noteID;
 
@@ -149,21 +129,6 @@ app.factory('newNote',['newBit', '$firebaseObject', '$firebaseArray',// 'NoteInd
 				noteID = $$_.randomize();
 			}
 
-			// //ADD TO BOARD (IF NECESSARY)
-			// if (typeof(parent) !== 'undefined'){
-			// 	console.log(parent)
-			// 	var noteRef_board = window._Firebase.child('/boards/' + parent + '/notes'),
-			// 	obj = $firebaseArray(noteRef_board).$loaded(function(theNotes) {
-			// 		noteRef_board.child(theNotes.length).set({id: noteID});
-			// 	});
-			// }
-
-			//NOTE INDEX
-
-			// var noteIndexRef = window._Firebase.child('/noteIndex/' + noteID);
-			// noteIndexRef.set('');
-
-			//NOTES
 			var noteRef = window._Firebase.child('/notes/' + noteID );
 			noteRef.set({
 				title: '',
@@ -175,38 +140,18 @@ app.factory('newNote',['newBit', '$firebaseObject', '$firebaseArray',// 'NoteInd
 				list: true
 			});
 
-			// //LIST
-			// var listRef = window._Firebase.child('/list/notes');
-
-			// var list = $firebaseArray(listRef).$loaded(function(theList) {
-			// 	listRef.child(theList.length).set(noteID);
-			// });
-
 			return noteID;
 		};
 	}
 ]);
 
 
-app.factory('killNote', ['$firebaseArray', '$firebaseObject', 'Note', '$location',
-	function($firebaseArray, $firebaseObject, Note, $location) {
+app.factory('killNote', ['Note', '$location',
+	function(Note, $location) {
 		return function(id, parent) {
 
 			if (parent !== ''){
 				$location.path('/board/' + parent);
-
-				// var noteRef = window._Firebase.child('/boards/' + parent + '/notes'),
-				// obj = $firebaseArray(noteRef).$loaded(function(theNotes) {
-				// 	var notesIndex;
-
-				// 	for (var i = 0; i < theNotes.length; i++){
-				// 		if (theNotes[i].id === id)
-				// 			notesIndex = i;
-				// 	}
-
-				// 	noteRef.child(notesIndex).remove();
-				// });
-
 			}
 			else{
 				$location.path('/list');
@@ -214,29 +159,12 @@ app.factory('killNote', ['$firebaseArray', '$firebaseObject', 'Note', '$location
 
 			note = Note(id);
 			note.$remove();
-
-			// var ref = window._Firebase.child('/noteIndex/' + id ),
-			// 	obj = $firebaseObject(ref);
-			// obj.$remove();
-
-			// var listRef = window._Firebase.child('/list/notes'),
-
-			// list = $firebaseArray(listRef).$loaded(function(theList) {
-			// 	var listIndex;
-
-			// 	for (var i = 0; i < theList.length; i++){
-			// 		if (theList[i].$value === id)
-			// 			listIndex = i;
-			// 	}
-
-			// 	listRef.child(listIndex).remove();
-			// });
 		};
 	}
 ]);
 
-app.factory('newBoard', ['$firebaseArray',
-	function($firebaseArray) {
+app.factory('newBoard',
+	function() {
 		return function() {
 			boardID = $$_.randomize();
 
@@ -248,30 +176,29 @@ app.factory('newBoard', ['$firebaseArray',
 				notes:[]
 			});
 
-			// //BOARDINDEX
-			// var boardIndexRef = window._Firebase.child('/boardIndex/' + boardID);
-			// boardIndexRef.set('');
-
-			//LIST
-			// var listRef = window._Firebase.child('/list/boards');
-
-			// var list = $firebaseArray(listRef).$loaded(function(theList) {
-			// 	listRef.child(theList.length).set(boardID);
-			// });
-
 			return boardID;
 		};
 	}
+);
+
+app.factory('killBoard', ['Board', '$location',
+	function(Board, $location) {
+		return function(id, parent) {
+			$location.path('/list');
+			board = Board(id);
+			board.$remove();
+		};
+	}
 ]);
+
 
 app.controller('noteCtrl', 
 	[
 		'$rootScope', 
 		'$scope',
+		'Note',
 		'newNote', 
 		'killNote',
-		'Note',
-		// 'NoteIndex',
 		'newBit',
 		'$routeParams', 
 		'$route',
@@ -282,20 +209,39 @@ app.controller('noteCtrl',
 	]
 );
 
-app.controller('boardCtrl', 
+app.controller('changeCtrl', 
 	[
 		'$rootScope', 
-		'$scope', 
-		'Board',
-		'Notes',
-		'newNote',
+		'$scope',
+		'Boards',
 		'newBoard',
-		// 'NoteIndex',
+		'Note',
 		'$routeParams', 
 		'$route',
 		'hotkeys',
 		'$timeout',
 		'$location',
+		'$window',
+		changeCtrl
+	]
+);
+
+app.controller('boardCtrl', 
+	[
+		'$rootScope', 
+		'$scope', 
+		'Board',
+		'newBoard',
+		'killBoard',
+		'Notes',
+		'newNote',
+		'killNote',
+		'$routeParams', 
+		'$route',
+		'hotkeys',
+		'$timeout',
+		'$location',
+		'$interval',
 		boardCtrl
 	]
 );
@@ -306,11 +252,9 @@ app.controller('listCtrl',
 		'$rootScope', 
 		'$scope', 
 		'Notes',
-		'Boards',
 		'newNote',
+		'Boards',
 		'newBoard',
-		// 'NoteIndex',
-		// 'BoardIndex',
 		'$routeParams', 
 		'$route',
 		'hotkeys',

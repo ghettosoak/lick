@@ -8,11 +8,16 @@
 
 	<div class="header board_menu">
 
-		<div class="new" ng-click="newNote_board(board.id)">new note</div>
+		<div class="new" ng-click="newNote(board.id)">new note</div>
 		<div class="add" ng-click="newBoard()">new board</div>
-		<div class="kill" ng-click="">kill</div>
-		<div class="undo" ng-click="">undo</div>
+		<div class="kill" 
+			ng-click="killBoard(board.id)"
+			ng-class="{
+				prevent: boardIsEmpty
+			}"
+		>kill</div>
 		<div class="mark" ng-click="board.marked = !board.marked">mark</div>
+		<a href="#/list">close</a>
 
 	</div>
 
@@ -43,8 +48,10 @@
 				>
 					<input type="text" ng-model="note.title">
 					<a href="#/note/{{note.id}}">have a look!</a>	
+					<a href="#/change/{{note.id}}">change!</a>	
 					<button ng-click="note.mark = !note.mark">mark that shit!</button>
-					<button ng-click="killNote()">KILL ME</button>
+					<button ng-click="killNote(note.id, board.id)">KILL ME</button>
+
 				</li>
 			</ul>
 		</div>

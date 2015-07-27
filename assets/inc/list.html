@@ -6,7 +6,6 @@
 
 		<div class="newNote" ng-click="newNote()">new note</div>
 		<div class="newBoard" ng-click="newBoard()">new board</div>
-		<div class="undo" ng-click="showUndoList()">undo</div>
 
 	</div>
 
@@ -15,19 +14,19 @@
 		<div class="note_list" ng-model="notes" ui-sortable="sortableOptions_list">
 
 			<li 
-				ng-repeat="note in notes"
-				ng-if="!note.parent"
+				ng-repeat="(noteKey, noteValue) in notes | orderBy: 'order'"
+				ng-if="!noteValue.parent"
 			>
-			<a href="#/note/{{note}}">{{ note.title }}</a>
+			<a href="#/note/{{noteKey}}">{{ noteValue.title }}</a>
 			</li>
 		</div>
 
 		<div class="board_list" ng-model="boards" ui-sortable="sortableOptions_list">
 
 			<li 
-				ng-repeat="board in boards"
+				ng-repeat="(boardKey, boardValue) in boards"
 			>
-			<a href="#/board/{{board}}">{{ board.title }}</a>
+			<a href="#/board/{{boardKey}}">{{ boardValue.title }}</a>
 			</li>
 		</div>
 	</div>

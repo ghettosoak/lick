@@ -2,29 +2,50 @@ module.exports = function(
 	$rootScope, 
 	$scope, 
 	Board,
+	newBoard,
+	killBoard,
 	Notes,
 	newNote,
-	newBoard,
-	NoteIndex, 
+	killNote,
 	$routeParams, 
 	$route, 
 	hotkeys,
 	$timeout,
-	$location
+	$location,
+	$interval
 ) {
 	Board($routeParams.id).$bindTo($scope, 'board');
 
 	Notes($routeParams.id).$bindTo($scope, 'notes');
 
-	NoteIndex($routeParams.id).$bindTo($scope, 'noteIndex');
-
-	$scope.newNote_board = function(boardID){
+	$scope.newNote = function(boardID){
 		newNote(boardID);
-	}
+	};
 
 	$scope.newBoard = function(){
 		$location.path('/board/' + newBoard());
 	};
+
+	$scope.killNote = function(id_note, id_board){
+		killNote(id_note, id_board);
+	};
+
+	var isEmpty = true;
+
+	isBoardEmpty = function(){
+		if ($('.board_body ul li').length > 0)
+			isEmpty = false;
+		else
+			isEmpty = true;
+
+		$scope.boardIsEmpty = isEmpty;
+	};
+
+	$scope.killBoard = function(id){
+		$scope.boardIsEmpty && killBoard(id);
+	}
+
+	$interval(isBoardEmpty, 1000);
 
 	$scope.boardGridOpts = {
 	    columns: 4,
@@ -39,14 +60,4 @@ module.exports = function(
 	       enabled: false,
 	    },
 	};
-
-	var _isInput = function(){
-		console.log('WHAT THE FUCK')
-		return document.activeElement.type === 'text';
-	},
-
-	_noteID = function(){
-		return $(document.activeElement).parent('.board_note').attr('data-id');
-	};
-
 }

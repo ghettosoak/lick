@@ -34,15 +34,16 @@ note
 
 		//up / down
 
-	menu
+	//menu
 		//new note
 		//kill
 			//are you sure?
 			//kill note from board
 		//mark
-		add to board
-			existing board
-			new board
+		//add to board
+			//existing board
+			//new board
+		//close
 
 board
 	//drag notes / rearrange
@@ -50,25 +51,25 @@ board
 
 	//click to enter
 
-	notes
-		mark
-		kill
-		move to
+	//notes
+		//mark
+		//kill
+		//move to
 
-	menu
-		mark
-		kill 
-			only when board is empty?
-			release all notes?
-			kill all notes?
+	//menu
+		//mark
+		//kill 
+			//only when board is empty?
 		//new note
 		//new board
 
-list
-	add note
-	remove note / board (at note)
+	keyboard shortcuts? :D
 
-move note to board
+list
+	reorder?
+	//add note
+	//add board
+	remove note (board?)
 
 user authentication
 
@@ -76,9 +77,9 @@ design
 	bit
 	typeface
 	colors
-	colorBG
+	color BG
 	bit menu
-	adjust up and down key params when new typeface added
+	adjust up and down key params w/ new typeface added
 	header
 
 	note
@@ -91,6 +92,7 @@ design
 		notes
 		new title
 		marked
+		kill board confirmation / tell user that board must be empty to kill
 		icons
 			mark
 			kill
