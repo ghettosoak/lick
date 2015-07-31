@@ -12,11 +12,23 @@ module.exports = function(
 	hotkeys,
 	$timeout,
 	$location,
-	$interval
+	$interval,
+	Logout
 ) {
 	Board($routeParams.id).$bindTo($scope, 'board');
 
 	Notes($routeParams.id).$bindTo($scope, 'notes');
+
+	hotkeys.bindTo($scope)
+		.add({
+			combo: 'esc',
+			description: 'Go back to List',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			action: 'keydown',
+			callback: function(event, hotkey) {
+				$location.path('/list');
+			}
+		})
 
 	$scope.newNote = function(boardID){
 		newNote(boardID);
@@ -41,11 +53,25 @@ module.exports = function(
 		$scope.boardIsEmpty = isEmpty;
 	};
 
+	$scope.killWarn = false;
+
 	$scope.killBoard = function(id){
-		$scope.boardIsEmpty && killBoard(id);
+		if ($scope.boardIsEmpty){
+			killBoard(id);
+		}else{
+			$scope.killWarn = true;
+
+			$timeout(function(){
+				$scope.killWarn = false;
+			}, 3000);
+		}
 	}
 
-	$interval(isBoardEmpty, 1000);
+	emptyWatcher = $interval(isBoardEmpty, 1000);
+
+	$scope.$on('$routeChangeStart', function(next, current) { 
+		$interval.cancel(emptyWatcher)
+	});
 
 	$scope.boardGridOpts = {
 	    columns: 4,
@@ -60,4 +86,8 @@ module.exports = function(
 	       enabled: false,
 	    },
 	};
+
+	$scope.logout = function(){
+		Logout();
+	}
 }

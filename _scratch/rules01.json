@@ -1,0 +1,25 @@
+{
+  "rules": {
+    "notes": {
+      ".read": "root.child('users/'+data.child('owner').val()+'/users/'+auth.uid).exists()",
+      "$note":{
+      ".read": "data.child('owner').val() == auth.uid",
+        
+        ".write": "data.child('owner').val() == auth.uid"
+        // 
+      }      
+    },
+    "boards": {
+      "$board":{
+        ".read": "data.child('owner').val() == auth.uid || root.child('users/'+data.child('owner').val()+'/users/' + auth.uid).exists()",
+        ".write": "data.child('owner').val() == auth.uid"
+      }
+    },
+    "users":{
+      "$user":{
+        ".read": "auth.uid == $user",
+        ".write": "auth.uid == $user"
+      }
+    }
+  }
+}

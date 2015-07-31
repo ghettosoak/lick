@@ -3,7 +3,7 @@
 		"n1": {
 			"title": "This is note #1!",
 			"parent": "b1",
-			"order": "1",
+			"owner":"simplelogin:1",
 			"id": "n1",
 			"body": [
 				{
@@ -82,7 +82,7 @@
 		"n2": {
 			"title": "This is note #2!",
 			"parent": "b1",
-			"order": "2",
+			"owner":"simplelogin:1",
 			"id": "n2",
 			"body": [
 				{
@@ -161,7 +161,7 @@
 		"n3": {
 			"title": "This is note #3!",
 			"parent": "b1",
-			"order": "3",
+			"owner":"simplelogin:1",
 			"id": "n3",
 			"body": [
 				{
@@ -240,7 +240,7 @@
 		"n4": {
 			"title": "This is note #4!",
 			"parent": "b1",
-			"order": "4",
+			"owner":"simplelogin:1",
 			"id": "n4",
 			"body": [
 				{
@@ -319,7 +319,7 @@
 		"n5": {
 			"title": "This is note #5!",
 			"parent": null,
-			"order": "5",
+			"owner":"simplelogin:1",
 			"id": "n5",
 			"body": [
 				{
@@ -398,7 +398,7 @@
 		"n6": {
 			"title": "This is note #6!",
 			"parent": null,
-			"order": "6",
+			"owner":"simplelogin:1",
 			"id": "n6",
 			"body": [
 				{
@@ -477,8 +477,8 @@
 	},
 	"boards":{
 		"b1": {
-			"order": "0",
 			"title": "board01",
+			"owner":"simplelogin:1",
 			"id": "b1",
 			"marked": false
 		}

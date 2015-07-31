@@ -51,6 +51,20 @@
 	transform-origin: @howmuch;
 }
 
+.directions_color(){
+	[data-direction="north"] &{ color: @color-north; }
+	[data-direction="south"] &{ color: @color-south; }
+	[data-direction="east"] &{ color: @color-east; }
+	[data-direction="west"] &{ color: @color-west; }
+}
+
+.directions_background(){
+	[data-direction="north"] &{ background-color: @color-north; }
+	[data-direction="south"] &{ background-color: @color-south; }
+	[data-direction="east"] &{ background-color: @color-east; }
+	[data-direction="west"] &{ background-color: @color-west; }
+}
+
 .noHover(){
 	&:hover{
 		text-decoration: none;

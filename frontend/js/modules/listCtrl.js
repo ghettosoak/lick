@@ -4,16 +4,20 @@ module.exports = function(
 	$scope, 
 	Notes,
 	newNote,
+	killNote,
 	Boards,
 	newBoard,
 	$routeParams, 
 	$route, 
 	hotkeys,
 	$timeout,
-	$location
+	$location,
+	Logout
 ) {
 	Notes().$bindTo($scope, 'notes');
 	Boards().$bindTo($scope, 'boards');
+
+	$scope.lookingAt = 'notes';
 
 	$scope.newNote = function(){
 		$location.path('/note/' + newNote());
@@ -21,15 +25,13 @@ module.exports = function(
 
 	$scope.newBoard = function(){
 		$location.path('/board/' + newBoard());
-	};	
+	};
 
-	$scope.sortableOptions_list = {
-		stop: function(e, ui){
-			angular.forEach($scope.notes, function(note){
-				console.log(typeof(note))
+	$scope.killNote = function(id){
+		killNote(id);
+	}
 
-				// note
-			})
-		}
+	$scope.logout = function(){
+		Logout();
 	}
 }

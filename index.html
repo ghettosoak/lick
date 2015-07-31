@@ -16,7 +16,14 @@
 
 <body id="ng-app">
 
-	<div class="main">
+	<div class="main" data-direction="south">
+
+		<div class="background">
+			<div class="north"></div>
+			<div class="south"></div>
+			<div class="east"></div>
+			<div class="west"></div>
+		</div>
 
 		<div class="viewer" ng-view></div>
 
@@ -27,6 +34,7 @@
 	<script src="assets/js/vendor/angular.js"></script>
 	<script src="assets/js/vendor/angular-route.min.js"></script>
 	<script src="assets/js/vendor/angular-sanitize.min.js"></script>
+	<script src="assets/js/vendor/angular-cookies.min.js"></script>
 	<script src="assets/js/vendor/hotkeys.min.js"></script>
 	<script src="assets/js/vendor/sortable.js"></script>
 	<script src="assets/js/vendor/firebase.js"></script>

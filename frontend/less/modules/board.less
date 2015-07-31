@@ -1,23 +1,110 @@
 .board{
 
-	.board_body{
-		position: relative;
-		width: 100%;
-		display: block;
+}
+
+.board_title{
+	padding: 10px;
+	font-size: 50px;
+	line-height: 50px;
+	margin-top: 20px;
+
+	textarea{
+		padding: 10px;
+	}
+}
+
+.board_body{
+	position: relative;
+	width: 100%;
+	display: block;
+}
+
+.board_note{
+	border: 1px @color-primary solid;
+	border-radius: 5px;
+	background-color: transparent;
+	cursor: move;
+
+	.open{
+		position: absolute;
+		top: 10px;
+		left: 50%;
+		height: 30px;
+		width: 30px;
+		margin-left: -15px;
+		font-size: 30px;
+		line-height: 30px;
+		color: @color-primary;
+		cursor: pointer;
+
+		&:hover{
+			text-decoration: none;
+		}
+
+		&:before{
+			margin: 0;
+		}
 	}
 
-	.board_note{
+	.title{
+		position: absolute;
+		width: 100%;
+		height: 20px;
+		top: 50%;
+		left: 0;
+		margin-top: -10px;
+		padding: 0 5px;
+		text-align: center;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		color: @color-primary;
 
-		// display: block;
-		// width: 25%;
-		// position: relative;
-		// float: left;
-		background-color: #ccc;
+		&:hover{
+			text-decoration: none;
+		}
+	}	
 
-		// &:before{
-		// 	content:'';
-		// 	display: block;
-		// 	padding-bottom: 100%;
-		// }
+	.change,
+	.mark,
+	.kill{
+		position: absolute;
+		font-size: 20px;
+		line-height: 30px;
+		bottom: 5px;
+		height: 30px;
+		width: 30px;
+		color: @color-primary;
+		cursor: pointer;
+
+		&:before{
+			margin: 0;
+			width: 100%;
+			text-align: center;
+		}
+	}
+
+	.change{
+		left: 5px;
+	}
+
+	.mark{
+		left: 50%;
+		margin-left: -10px;
+		background-color: transparent;
+		color: @color-primary;
+		border-radius: 30px;
+		.transition(all .25s ease);
+
+		.marked&{
+			background-color: @color-primary;
+			.directions_color;
+		}
+
+
+	}
+
+	.kill{
+		right: 5px;
 	}
 }

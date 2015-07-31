@@ -9,7 +9,8 @@ module.exports = function(
 	hotkeys,
 	$timeout,
 	$location,
-	$window
+	$window,
+	Logout
 ) {
 	Boards().$bindTo($scope, 'boards');
 	Note($routeParams.id).$bindTo($scope, 'note');
@@ -38,5 +39,14 @@ module.exports = function(
 		var newBoardID = newBoard()
 		$scope.note.parent = newBoardID;
 		$location.path('/board/' + newBoardID);
+	}
+
+	$scope.noBoard = function(){
+		$scope.note.parent = null;
+		$scope.goBack();
+	}
+
+	$scope.logout = function(){
+		Logout();
 	}
 };

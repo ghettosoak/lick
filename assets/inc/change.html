@@ -3,20 +3,28 @@
 >
 
 	<div class="header change_menu">
-		<div class="cancel" ng-click="goBack()">forget it</div>
-		<!-- <div class="newNote" ng-click="newNote()">new note</div> -->
-		<!-- <div class="newBoard" ng-click="newBoard()">new board</div> -->
+		<div class="gfx-cross close" ng-click="goBack()"></div>
+		<div class="gfx-logout logout" ng-click="logout()" title="Log out"></div>
 
 	</div>
 
-	<div class="change_interior">
+	<div class="change_interior interior">
 		<div class="board_list" ng-model="boards" ui-sortable="sortableOptions_list">
-			<li 
+			<li class="list_item list_board"
 				ng-repeat="(boardKey, boardValue) in boards"
+				ng-click="changeBoard(boardKey)"
 			>
-				<p ng-click="changeBoard(boardKey)">{{ boardValue.title }}</p>
+				<p>{{ boardValue.title }}</p>
 			</li>
-			<p ng-click="newBoard()">or how about a new board?</p>
+
+			<div class="new_board" ng-click="newBoard()">
+				<span class="gfx-plus"></span>
+				<p>Add this note to new board</p>
+			</div>
+			<div class="no_board" ng-click="noBoard()">
+				<span class="gfx-cross"></span>
+				<p>Remove this note from this board</p>
+			</div>
 		</div>
 	</div>
 </div>

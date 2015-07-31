@@ -66,47 +66,79 @@ board
 	keyboard shortcuts? :D
 
 list
-	reorder?
+	//reorder?
 	//add note
 	//add board
-	remove note (board?)
+	//remove note (board?)
+	keyboard shortcuts? :D
 
 user authentication
+	//set cookies
+	//home screen goes instead to list
+	//first note!
+	logout buttons :)
+
+about / colophon
 
 design
-	bit
-	typeface
+	//bit
+	//typeface
 	colors
-	color BG
-	bit menu
-	adjust up and down key params w/ new typeface added
-	header
+		color changer
+	//color BG
+	//bit menu
+	//adjust up and down key params w/ new typeface added
+	//header
 
-	note
-		bit dot
-		indent?
-		kill note
-			are you sure? .danger
+	//note
+		//bit dot
+		//indent?
+		//kill note
+			//are you sure? .danger
 
-	board
-		notes
-		new title
-		marked
+	//board
+		//notes
+		//new title
+		//marked
 		kill board confirmation / tell user that board must be empty to kill
-		icons
-			mark
-			kill
-			move
+		//icons
+			//mark
+			//kill
+			//move
 
-	list
-		notes v boards 
-			switcher
+	//list
+		//notes v boards 
+			//switcher
+		//kill note
+
+	//change screen
+
+	cheat sheet
+
+	front screen
+
+	about / colophon
+
+	++keyboard shortcuts @ boards / list?
 
 	animating between routes!
 
+	images in left column on larger screens? :D
+		http://www.splashbase.co/api
+		30 / 70
+		title
+
 bugs :c
 	//after adding a new bit, the model appears to refresh itself, generating a brand new ng-repeat. this kicks the users' focus from the bit.
+	after a certain amount of time has passed, the app will log the user in, but the credentials will not be valid for the session. this appears to be random as of yet.
 
+v2.0
+	dual panel
+		list / grid in one half
+		note in other?
+	adding bits animation
+	killing bits animation
+	ng cloak / whatever before user is logged in after reload
 
 
 

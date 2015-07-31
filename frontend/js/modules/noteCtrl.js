@@ -9,10 +9,12 @@ module.exports = function(
 	$route, 
 	hotkeys,
 	$timeout,
-	$location
+	$location,
+	Logout
 ) {
 	
-	var altIsPressed = false;
+	var altIsPressed = false,
+		showingCheatsheet = false;
 
 	Note($routeParams.id).$bindTo($scope, 'note')
 	.then(function() {
@@ -38,7 +40,7 @@ module.exports = function(
 	hotkeys.bindTo($scope)
 		.add({
 			combo: 'alt',
-			description: 'disable "links"',
+			description: 'Hold down to edit pasted links',
 			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			action: 'keydown',
 			callback: function(event, hotkey) {
@@ -47,7 +49,7 @@ module.exports = function(
 		})
 		.add({
 			combo: 'alt',
-			description: 'disable "links"',
+			// description: 'Hold down to edit pasted links',
 			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			action: 'keyup',
 			callback: function(event, hotkey) {
@@ -59,15 +61,18 @@ module.exports = function(
 			description: 'add new bit',
 			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function(event, hotkey) {
-				if ( _isTextarea() ){
-					$scope.addBit( _bitIndex() );
+				if ( _isTextarea()){
+					if (_isBit())
+						$scope.addBit( _bitIndex() );
+					else
+						_focusMe(0);
 					event.preventDefault();
 				}
 			}
 		})
 		.add({
 			combo: 'backspace',
-			description: 'remove bit',
+			// description: 'remove bit',
 			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function(event, hotkey) {
 				if ( _isTextarea() && ($scope.note.body[_bitIndex()].content === '')){
@@ -78,7 +83,7 @@ module.exports = function(
 		})
 		.add({
 			combo: ['command+backspace', 'ctrl+backspace'],
-			description: 'remove bit',
+			description: '(while focused) Delete this bit',
 			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function(event, hotkey) {
 				if ( _isTextarea() ){
@@ -88,8 +93,17 @@ module.exports = function(
 			}
 		})
 		.add({
+			combo: ['command+shift+backspace', 'ctrl+shift+backspace'],
+			description: 'Delete this note',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			callback: function(event, hotkey) {
+				$scope.note.kill && $scope.killNote(); 
+				$scope.note.kill = !$scope.note.kill;
+			}
+		})
+		.add({
 			combo: 'tab',
-			description: 'increase indent',
+			description: '(while focused) Indent',
 			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function(event) {
 				if ( _isTextarea() && $scope.note.body[_bitIndex()].tabCount < 2 ){
@@ -100,7 +114,7 @@ module.exports = function(
 		})
 		.add({
 			combo: 'shift+tab',
-			description: 'decrease indent',
+			description: '(while focused) Outdent',
 			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function(event) {
 				if ( _isTextarea() && $scope.note.body[_bitIndex()].tabCount > 0 ){
@@ -111,17 +125,28 @@ module.exports = function(
 		})
 		.add({
 			combo: ['up', 'down'],
-			description: 'movement',
+			// description: 'movement',
 			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function(event) {
 				if ( _isTextarea()){
-					$scope.jumpAround(_bitIndex(), event.keyIdentifier);
+					$scope.jumpAround(_bitIndex(), event.keyIdentifier, false);
+				}
+			}
+		})
+		.add({
+			combo: ['shift+up', 'shift+down'],
+			description: 'Quickly jump between bits',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			callback: function(event) {
+				if ( _isTextarea()){
+					$scope.jumpAround(_bitIndex(), event.keyIdentifier, true);
+					event.preventDefault();
 				}
 			}
 		})
 		.add({
 			combo: 'ctrl+command+up',
-			description: 'move bit up',
+			description: '(while focused) Swap bit up',
 			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function() {
 				$scope.moveUp(_bitIndex());
@@ -129,7 +154,7 @@ module.exports = function(
 		})
 		.add({
 			combo: 'ctrl+command+down',
-			description: 'move bit down',
+			description: '(while focused) Swap bit down',
 			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function() {
 				$scope.moveDown(_bitIndex());
@@ -137,7 +162,7 @@ module.exports = function(
 		})
 		.add({
 			combo: ['ctrl+v', 'command+v'],
-			description: 'paste',
+			// description: 'paste',
 			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function() {
 				$scope.parsePasted(_bitIndex());
@@ -145,12 +170,48 @@ module.exports = function(
 		})
 		.add({
 			combo: 'shift shift',
-			description: 'toggle marked',
+			description: '(while focused) Toggle this bit as marked',
 			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function() {
 				if ( _isTextarea()){
 					$scope.note.body[_bitIndex()].mark = !$scope.note.body[_bitIndex()].mark;
 				}
+			}
+		})
+		.add({
+			combo: ['ctrl+shift ctrl+shift', 'command+shift command+shift'],
+			description: 'Toggle this note as marked',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			callback: function() {
+				$scope.note.mark = !$scope.note.mark;
+			}
+		})
+		.add({
+			combo: 'esc',
+			description: 'Close note',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			callback: function() {
+
+				console.log($scope.note.parent)
+				if (showingCheatsheet){
+					showingCheatsheet = false;
+					hotkeys.toggleCheatSheet();
+				}else{
+					if ($scope.note.parent)
+						$location.path('/board/' + $scope.note.parent)
+					else 
+						$location.path('/list');
+				}
+			}
+		})
+		.add({
+			combo: 'alt+shift+/',
+			description: 'Show this handy guide :)',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			callback: function(event) {
+				event.preventDefault();
+				showingCheatsheet = !showingCheatsheet;
+				hotkeys.toggleCheatSheet();
 			}
 		});
 
@@ -175,11 +236,14 @@ module.exports = function(
 			incomingContent = content;
 
 		$timeout(function(){
-			$scope.note.body.splice(index + 1, 0, newBit());
+			$scope.note.body.splice(index + 1, 0, newBit(
+				$scope.note.body[index].tabCount,
+				incomingContent
+			));
 
-			$scope.note.body[index + 1].tabCount = $scope.note.body[index].tabCount;
-			$scope.note.body[index + 1].content = incomingContent;
-			$scope.note.body[index + 1].contentCaret = incomingContent;
+			// $scope.note.body[index + 1].tabCount = ;
+			// $scope.note.body[index + 1].content = incomingContent;
+			// $scope.note.body[index + 1].contentCaret = incomingContent;
 
 			$scope.parseLink(index);
 
@@ -246,14 +310,19 @@ module.exports = function(
 
 		if (bit.isLink && !altIsPressed){
 			document.activeElement.blur();
-			var win = window.open('https://www.google.com/search?q=' + bit.address, '_blank');
+			var win = window.open(bit.address, '_blank');
 			win.focus();
 		}
 	}
 
 	$scope.killBit = function(index){
 		$scope.note.body.splice(index, 1);
-		_focusMe(index - 1)
+
+		if ($scope.note.body.length > 0){
+			_focusMe(index - 1)
+		}else{
+			addBit(0);
+		}
 	};
 
 	$scope.moveUp = function(index){
@@ -284,23 +353,35 @@ module.exports = function(
 	}
 
 
-	$scope.jumpAround = function(index, key){
+	$scope.jumpAround = function(index, key, justgo){
+		console.log(index, key, justgo)
 		var $theBit = $(document.activeElement),
-			$theCaret = $theBit.next().find('.hiddenCaret'),
-			theCaretPos = $theCaret.position().top;
+			$theCaret = $theBit.siblings('.textarea-autosize').find('.hiddenCaret'),
+			theCaretPos = $theCaret.position().top,
+			theCaretHeight = 18;
 
 		if ( 
-			(key === 'Up') && 
-			(theCaretPos > 0) 
+			(
+				(key === 'Up') && 
+				(theCaretPos < theCaretHeight - 1) 
+			)||(
+				(key === 'Up') && 
+				justgo
+			)
 		){
 			$theBit.parents('.note_bit')
 				.prev('.note_bit').find('textarea')
 				.focus()
 		}
 
-		if ( 
-			(key === 'Down') && 
-			(theCaretPos < ($theCaret.parent().height() - 18)) 
+		if (
+			(
+				(key === 'Down') && 
+				(theCaretPos > ($theCaret.parent().height() - (theCaretHeight))) 
+			)||(
+				(key === 'Down') && 
+				justgo
+			)
 		){
 			$theBit.parents('.note_bit')
 				.next('.note_bit').find('textarea')
@@ -319,9 +400,12 @@ module.exports = function(
 	    win.focus();
 	};
 
-	$scope.bitBlur = function($index){
-		console.log('BLURD')
-	}
+	$scope.closeMenu = function(except){
+		angular.forEach($scope.note.body, function(e, k){
+			if (typeof(e.menu_open) !== 'undefined' && e.bitID !== except)
+				e.menu_open = false;
+		});
+	};
 
 	// 	                                                         
 	// 	88b           d88 88888888888 888b      88 88        88  
@@ -358,6 +442,10 @@ module.exports = function(
 
 	var _isTextarea = function(){
 		return document.activeElement.type === 'textarea';
+	},                                                                                    
+
+	_isBit = function(){
+		return document.activeElement.className.indexOf('mousetrap') > -1;
 	},
 
 	_bitIndex = function(){
@@ -373,6 +461,11 @@ module.exports = function(
 	};
 
 	$scope.sortableOptions_note = {
-		handle: '> .bit_anchor'
+		handle: '> .bit_anchor',
+		axis: 'y'
+	};
+
+	$scope.logout = function(){
+		Logout();
 	}
 }

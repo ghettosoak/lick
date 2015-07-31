@@ -8,16 +8,21 @@
 
 	<div class="header board_menu">
 
-		<div class="new" ng-click="newNote(board.id)">new note</div>
-		<div class="add" ng-click="newBoard()">new board</div>
-		<div class="kill" 
+		<a class="gfx-cross close" href="#/list"></a>
+
+		<div class="gfx-note-new newNote" ng-click="newNote(board.id)"></div>
+		<div class="gfx-board-new newBoard" ng-click="newBoard()"></div>
+		<div class="gfx-cross kill" 
 			ng-click="killBoard(board.id)"
 			ng-class="{
-				prevent: boardIsEmpty
+				prevent: !boardIsEmpty,
+				warn: killWarn
 			}"
-		>kill</div>
-		<div class="mark" ng-click="board.marked = !board.marked">mark</div>
-		<a href="#/list">close</a>
+		>
+			<span>You can only delete a board when it's empty. :)</span>
+		</div>
+		<div class="gfx-check mark" ng-click="board.mark = !board.mark"></div>
+		<div class="gfx-logout logout" ng-click="logout()" title="Log out"></div>
 
 	</div>
 
@@ -46,11 +51,11 @@
 					size-y="1"
 					data-id="{{note.id}}"
 				>
-					<input type="text" ng-model="note.title">
-					<a href="#/note/{{note.id}}">have a look!</a>	
-					<a href="#/change/{{note.id}}">change!</a>	
-					<button ng-click="note.mark = !note.mark">mark that shit!</button>
-					<button ng-click="killNote(note.id, board.id)">KILL ME</button>
+					<a class="gfx-eye open" href="#/note/{{note.id}}"></a>	
+					<a class="title" href="#/note/{{note.id}}">{{note.title}}</a>
+					<a class="gfx-transfer change" href="#/change/{{note.id}}"></a>	
+					<div class="gfx-check mark" ng-click="note.mark = !note.mark"></div>
+					<div class="gfx-cross kill" ng-click="killNote(note.id, board.id)"></div>
 
 				</li>
 			</ul>

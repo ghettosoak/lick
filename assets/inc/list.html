@@ -4,30 +4,44 @@
 
 	<div class="header list_menu">
 
-		<div class="newNote" ng-click="newNote()">new note</div>
-		<div class="newBoard" ng-click="newBoard()">new board</div>
+		<div class="gfx-note-new newNote" ng-click="newNote()"></div>
+		<div class="gfx-board-new newBoard" ng-click="newBoard()"></div>
+		<div class="gfx-logout logout" ng-click="logout()" title="Log out"></div>
 
 	</div>
 
-	<div class="list_interior">
+	<div class="list_interior interior lookingAt_{{lookingAt}}">
 
-		<div class="note_list" ng-model="notes" ui-sortable="sortableOptions_list">
-
-			<li 
-				ng-repeat="(noteKey, noteValue) in notes | orderBy: 'order'"
-				ng-if="!noteValue.parent"
-			>
-			<a href="#/note/{{noteKey}}">{{ noteValue.title }}</a>
-			</li>
+		<div class="list_switcher">
+			<span class="gfx-note" ng-click="lookingAt = 'notes'"></span>
+			<span class="gfx-board" ng-click="lookingAt = 'boards'"></span>
 		</div>
 
-		<div class="board_list" ng-model="boards" ui-sortable="sortableOptions_list">
+		<div class="list_carousel">
+			<div class="list_slide">
+				<div class="note_list">
 
-			<li 
-				ng-repeat="(boardKey, boardValue) in boards"
-			>
-			<a href="#/board/{{boardKey}}">{{ boardValue.title }}</a>
-			</li>
+					<li class="list_item list_note"
+						ng-repeat="(noteKey, noteValue) in notes"
+						ng-class=""
+						ng-if="!noteValue.parent"
+						data-id="{{noteValue.id}}"
+					>
+					<a href="#/note/{{noteKey}}">{{ noteValue.title }}</a>
+					<span class="killNote gfx-cross" ng-click="killNote(noteValue.id)"></span>
+					</li>
+				</div>
+
+				<div class="board_list">
+
+					<li class="list_item list_board"
+						ng-repeat="(boardKey, boardValue) in boards"
+					>
+					<a href="#/board/{{boardKey}}">{{ boardValue.title }}</a>
+					</li>
+				</div>
+			</div>
 		</div>
+
 	</div>
 </div>
