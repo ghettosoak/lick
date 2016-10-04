@@ -1,0 +1,70 @@
+.history{
+	.history_list{
+		overflow: hidden;
+	}
+	
+	.clear_history{
+		width: 100%;
+		position: relative;
+		float: left;
+		margin: 20px 0 50px;
+		border-radius: 5px;
+		text-align: center;
+		background-color: @color-primary;
+		.directions_color;
+		cursor: pointer;
+		padding: 15px;
+
+		span{ 
+			font-size: 30px;
+			line-height: 40px;
+
+			&:before{
+				margin: 0;
+			}
+		}
+		p{
+			margin: 0;
+		}
+
+		.success{
+			background-color: green;
+		}
+
+		.error{
+			background-color: red;
+		}
+	}
+
+	.list_history{
+		float: left;
+		padding-top: 15px;
+		padding-bottom: 15px;
+		margin-bottom: 15px;
+
+		&.seen{
+			padding-left: 65px;
+
+			.gfx(check);
+
+			&:before{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 50px;
+				line-height: 50px;
+				height: 100%;
+				background-color: @color-primary;
+				.directions_color;
+			}
+		}
+
+		span{
+			width: 100%;
+			position: relative;
+			float: left;
+			font-size: 12px;
+			line-height: 14px;
+		}
+	}
+}

@@ -1,0 +1,35 @@
+<div 
+	class="portal portal_viewing_{{viewing}}"
+	ng-class="{ 'loading': loading }"
+	ng-keyup="enterWatch($event);"
+	>
+	<h1 class="portal_title appTitle">Lick</h1>
+	<h2 class="portal_subtitle">Notes so simple, your tongue can use it.</h2>
+
+	<div class="portal_input">
+		<div class="portal_signin" ng-form="signIn">
+			<h5>Sign in.</h5>
+			<input type="email" ng-model="signIn_input.email" placeholder="Email!">
+			<input type="password" ng-model="signIn_input.password" placeholder="Password!">
+			<button class="portal_button" ng-click="sign_in()">Let's go!</button>
+		</div>
+		<div class="portal_signup" ng-form="signUp">
+			<h5>Sign up.</h5>
+			<input type="email" ng-model="signUp_input.email" placeholder="What's your email?">
+			<input type="password" ng-model="signUp_input.password" placeholder="Pick a password.">
+			<button class="portal_button" ng-click="sign_up()">Let's go!</button>
+		</div>
+		<div class="portal_pwchange" ng-form="pwchange">
+			<h4>Hey, let's reset your password real quick.</h4>
+			<input type="password" ng-model="reset_input.password" placeholder="Pick a new password.">
+			<button class="portal_button" ng-click="newPW()">Okay!</button>
+		</div>
+	</div>
+
+	<div class="portal_switcher">
+		<p ng-show="viewing === 'signIn'" ng-click="viewing = 'signUp'">Sign up.</p>	
+		<p ng-show="viewing === 'signUp'" ng-click="viewing = 'signIn'">Sign in.</p>
+		<p class="pwReset" ng-show="viewing === 'signIn'" ng-click="pwReset();">Forgot your password?</p>
+		<p><a href="#/colophon" class="link">What is this?</a></p>
+	</div>
+</div>

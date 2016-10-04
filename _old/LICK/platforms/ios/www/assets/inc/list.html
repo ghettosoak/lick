@@ -1,0 +1,65 @@
+<div class="list">
+
+	<div class="header list_menu">
+
+		<div class="gfx-note-new newNote" ng-click="newNote()" title="New Note"></div>
+		<div class="gfx-board-new newBoard" ng-click="newBoard()" title="New Board"></div>
+
+		<div class="gfx-menu mobile menu_opener" ng-click="openMenu();"></div>
+		<div class="gfx-concentric concentric" ng-click="concentric()" title="Where are you going?
+Where did you come from? 
+Where are you now?"></div>
+		<a class="gfx-question colophon" href="#/colophon" ng-click="closeMenu()" title="Colophon"></a>
+		<div class="gfx-logout logout" ng-click="logout()" title="Log out"></div>
+		
+	</div>
+
+	<div class="list_interior interior lookingAt_{{lookingAt}}">
+
+		<div class="list_switcher">
+			<span class="gfx-note" ng-click="lookingAt = 'notes'"></span>
+			<span class="gfx-board" ng-click="lookingAt = 'boards'"></span>
+		</div>
+
+		<div 
+			class="list_carousel"
+			ng-swipe-left="lookingAt = 'boards'"
+			ng-swipe-right="lookingAt = 'notes'"
+		>
+			<div class="list_slide">
+				<div class="note_list">
+					<li class="list_item list_note list_shared_note"
+						ng-repeat="(noteKey, noteValue) in sharedFilter(sharednotes)"
+						ng-class=""
+						ng-if="!noteValue.parent"
+						data-id="{{noteValue.id}}"
+					>
+					<a href="#/sharednote/{{noteKey}}">{{ noteValue.title }}</a>
+					<span class="killNote gfx-cross" ng-click="killNote(noteValue.id)"></span>
+					<span class="shared_marker gfx-shared"></span>
+					</li>
+
+					<li class="list_item list_note"
+						ng-repeat="(noteKey, noteValue) in notes"
+						ng-class=""
+						ng-if="!noteValue.parent"
+						data-id="{{noteValue.id}}"
+					>
+					<a href="#/note/{{noteKey}}">{{ noteValue.title }}</a>
+					<span class="killNote gfx-cross" ng-click="killNote(noteValue.id)"></span>
+					</li>
+				</div>
+
+				<div class="board_list">
+
+					<li class="list_item list_board"
+						ng-repeat="(boardKey, boardValue) in boards"
+					>
+					<a href="#/board/{{boardKey}}">{{ boardValue.title }}</a>
+					</li>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

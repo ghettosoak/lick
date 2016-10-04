@@ -1,0 +1,79 @@
+.background{
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	z-index: -5;
+	opacity: 0;
+	.transition(all .5s ease);
+
+	.ready &{ opacity: 1; }
+
+	div{
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		top: 0;
+		left: 0;
+	}
+
+	.north{
+		background-color: @color-north;
+		.transform(translateY(-100%));
+		[data-direction="east"] &,
+		[data-direction="north"] &{ 
+			.transform(translateY(0)); 
+		}
+		[data-direction="north"] &{ 
+			z-index: 1;
+			.ready&{
+				.transition(all 1s ease);
+			}
+		}
+	}
+	.east{
+		background-color: @color-east; 
+		.transform(translateX(100%));
+		[data-direction="south"] &,
+		[data-direction="east"] &{ 
+			.transform(translateX(0)); 
+		}
+		[data-direction="east"] &{ 
+			z-index: 1;
+			.ready&{
+				.transition(all 1s ease);
+			}
+		}
+	}
+	.south{
+		background-color: @color-south;
+		.transform(translateY(100%));
+		[data-direction="west"] &,
+		[data-direction="south"] &{ 
+			.transform(translateY(0)); 
+		}
+		[data-direction="south"] &{ 
+			z-index: 1;
+			.ready&{
+				.transition(all 1s ease);
+			}
+		}
+	}
+	.west{
+		background-color: @color-west; 
+		.transform(translateX(-100%));
+		[data-direction="north"] &,
+		[data-direction="west"] &{ 
+			.transform(translateX(0)); 
+		}
+		[data-direction="west"] &{ 
+			z-index: 1;
+			.ready&{
+				.transition(all 1s ease);
+			}
+		}
+	}
+}
+

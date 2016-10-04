@@ -1,0 +1,67 @@
+.share{
+	.share_add,
+	.share_sharedWith{
+		width: 50%;
+		position: relative;
+		float: left;
+		padding: 20px 10px;
+
+		@media @mobile-max{
+			width: 100%;
+			padding: 0;
+			margin-bottom: 20px;
+		}
+	}
+
+	ul{
+		list-style: none;
+		padding: 0;
+		margin: 0;
+
+		li{
+			margin-bottom: 5px;
+		}
+	}
+
+	.sharedUsers{
+		margin-top: 25px;
+		border-top: 1px solid white;
+		padding-top: 25px;
+		li{
+			border-radius: 5px;
+			padding: 10px;
+			border: 1px solid white;
+			cursor: pointer;
+		}
+	}
+
+	.share_sharedWith li {
+		padding: 10px 10px 10px 40px;
+		position: relative;
+		float: left;
+		width: 100%;
+
+		span{
+			position: absolute;
+			top: 0;
+			left: 0;
+			font-size: 30px;
+			display: inline;
+			margin-top: 10px;
+		}
+	}
+
+	.share_confirm{
+		line-height: 40px;
+		height: 41px;
+		background-color: @color-primary;
+		text-align: center;
+		border: 1px @color-primary solid;
+		border-radius: 5px;
+		cursor: pointer;
+		margin: 10px 0;
+		overflow: hidden;
+		outline: 0 !important;
+		.directions_color;
+	}
+}

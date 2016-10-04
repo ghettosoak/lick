@@ -1,0 +1,153 @@
+.info{
+	
+	*{
+		outline: 0 !important;
+	}
+
+	.slick-slider{
+		max-width: 500px;
+		padding: 0 50px;
+		width: 100%;
+		margin: 0 auto;
+
+		img{
+			width: 100%;
+			height: auto; 
+		}
+
+		p{
+			text-align: center;
+		}
+	}
+
+	button{
+		-webkit-appearance: none;
+		-moz-appearance:    none;
+		appearance:         none;
+		background: none;
+		border: none;
+
+		&:active{
+			outline: 0; 
+		}
+	}
+
+	.slick-arrow{
+		position: absolute;
+		top: 50%;
+		margin-top: -25px;
+		height: 50px;
+		width: 50px;
+		overflow: hidden;
+		padding: 0;
+		.directions_color;
+
+		&:before{
+			margin: 0;
+			font-size: 40px;
+			line-height: 40px;
+			color: @color-primary;
+		}
+	}
+
+	.slick-prev{ 
+		left: 0;
+		.gfx(arrow_large_left); 
+		
+		.firstSlide&{ display: none !important; }
+	}
+	.slick-next{
+		right: 0;
+		.gfx(arrow_large_right); 
+
+		.lastSlide&{ display: none !important; }
+	}
+
+	.slick-dots{
+		padding: 0;
+		margin: 0;
+		text-align: center;
+
+		li{
+			position: relative;
+			display: inline-block;
+			width: 30px;
+			height: 30px;
+			list-style: none;
+
+			&:before{
+				content: '';
+				height: 10px;
+				width: 10px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin: -5px 0 0 -5px;
+				border: 1px solid @color-primary;
+				border-radius: 10px;
+			}
+
+			button{
+				padding: 0;
+				overflow: hidden;
+				text-indent: -200%;
+			}
+		}
+
+		.slick-active:after{
+			content: '';
+			height: 10px;
+			width: 10px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin: -5px 0 0 -5px;
+			background-color: @color-primary;
+			border-radius: 10px;
+		}
+	}
+
+	.skip{
+		line-height: 40px;
+		height: 41px;
+		background-color: @color-primary;
+		text-align: center;
+		border: 1px @color-primary solid;
+		border-radius: 5px;
+		cursor: pointer;
+		margin: 10px 0;
+		overflow: hidden;
+		display: block;
+		outline: 0 !important; 
+		.directions_color;
+		margin-top: 30px;
+		opacity: 0;
+		visibility: hidden;
+		.transition(all .25s ease);
+
+		&:hover, &:active{
+			text-decoration: none;
+		}
+
+		.firstSlide&.first,
+		.lastSlide&.last{
+			opacity: 1;
+			visibility: visible;
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

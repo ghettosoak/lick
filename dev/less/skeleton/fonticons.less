@@ -1,0 +1,161 @@
+@font-face {
+  font-family: "fonticons";
+  src: url('../fonts/fonticons.eot');
+  src: url('../fonts/fonticons.eot?#iefix') format('eot'),
+    url('../fonts/fonticons.woff') format('woff'),
+    url('../fonts/fonticons.ttf') format('truetype'),
+    url('../fonts/fonticons.svg#fonticons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-styling(){
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-family: "fonticons";
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  speak: none;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  vertical-align: top;
+  line-height: inherit;
+}
+
+[class^="gfx-"], [class*=" gfx-"]{
+  &:before, &.after:after{
+    .font-styling();
+  }
+  &:before{margin-right: 0.5em;}
+  &.after {
+    &:before{display: none;}
+    &:after {margin-left: 0.5em;}
+  }
+}
+
+.gfx(@class, @element: before){
+  & when(@element = before){
+    &:before{
+      .glyphmap();
+    }
+  }
+  
+  & when(@element = after){
+    &:after{
+      .glyphmap();
+    }
+  }
+
+  .glyphmap(){
+    .font-styling();
+    & when (@class = loupe){ content: "\E001" }
+    & when (@class = cross){ content: "\E002" }
+    & when (@class = check){ content: "\E003" }
+    & when (@class = arrow_small_right){ content: "\E004" }
+    & when (@class = plus){ content: "\E005" }
+    & when (@class = note-new){ content: "\E006" }
+    & when (@class = note){ content: "\E007" }
+    & when (@class = logout){ content: "\E008" }
+    & when (@class = transfer){ content: "\E009" }
+    & when (@class = board-new){ content: "\E00A" }
+    & when (@class = board){ content: "\E00B" }
+    & when (@class = eye){ content: "\E00C" }
+    & when (@class = question){ content: "\E00D" }
+    & when (@class = concentric){ content: "\E00E" }
+    & when (@class = keyboard){ content: "\E00F" }
+    & when (@class = menu){ content: "\E010" }
+    & when (@class = move){ content: "\E011" }
+    & when (@class = cut){ content: "\E012" }
+    & when (@class = paste){ content: "\E013" }
+    & when (@class = share){ content: "\E014" }
+    & when (@class = shared){ content: "\E015" }
+    & when (@class = arrow_small_left){ content: "\E016" }
+    & when (@class = history){ content: "\E017" }
+    & when (@class = keylock){ content: "\E018" }
+    & when (@class = text){ content: "\E019" }
+    & when (@class = pilcrow){ content: "\E01A" }
+    & when (@class = spacer){ content: "\E01B" }
+    & when (@class = arrow_large_left){ content: "\E01C" }
+    & when (@class = arrow_large_right){ content: "\E01D" }
+    & when (@class = info){ content: "\E01E" }
+    & when (@class = licklogo){ content: "\E01F" }
+    & when (@class = filter){ content: "\E020" }
+    & when (@class = star-outline){ content: "\E021" }
+    & when (@class = star-fill){ content: "\E022" }
+    
+  }
+}
+
+.gfx-loupe:before { content: "\E001" }
+.gfx-cross:before { content: "\E002" }
+.gfx-check:before { content: "\E003" }
+.gfx-arrow_small_right:before { content: "\E004" }
+.gfx-plus:before { content: "\E005" }
+.gfx-note-new:before { content: "\E006" }
+.gfx-note:before { content: "\E007" }
+.gfx-logout:before { content: "\E008" }
+.gfx-transfer:before { content: "\E009" }
+.gfx-board-new:before { content: "\E00A" }
+.gfx-board:before { content: "\E00B" }
+.gfx-eye:before { content: "\E00C" }
+.gfx-question:before { content: "\E00D" }
+.gfx-concentric:before { content: "\E00E" }
+.gfx-keyboard:before { content: "\E00F" }
+.gfx-menu:before { content: "\E010" }
+.gfx-move:before { content: "\E011" }
+.gfx-cut:before { content: "\E012" }
+.gfx-paste:before { content: "\E013" }
+.gfx-share:before { content: "\E014" }
+.gfx-shared:before { content: "\E015" }
+.gfx-arrow_small_left:before { content: "\E016" }
+.gfx-history:before { content: "\E017" }
+.gfx-keylock:before { content: "\E018" }
+.gfx-text:before { content: "\E019" }
+.gfx-pilcrow:before { content: "\E01A" }
+.gfx-spacer:before { content: "\E01B" }
+.gfx-arrow_large_left:before { content: "\E01C" }
+.gfx-arrow_large_right:before { content: "\E01D" }
+.gfx-info:before { content: "\E01E" }
+.gfx-licklogo:before { content: "\E01F" }
+.gfx-filter:before { content: "\E020" }
+.gfx-star-outline:before { content: "\E021" }
+.gfx-star-fill:before { content: "\E022" }
+
+
+.after.gfx-loupe:after { content: "\E001" }
+.after.gfx-cross:after { content: "\E002" }
+.after.gfx-check:after { content: "\E003" }
+.after.gfx-arrow_small_right:after { content: "\E004" }
+.after.gfx-plus:after { content: "\E005" }
+.after.gfx-note-new:after { content: "\E006" }
+.after.gfx-note:after { content: "\E007" }
+.after.gfx-logout:after { content: "\E008" }
+.after.gfx-transfer:after { content: "\E009" }
+.after.gfx-board-new:after { content: "\E00A" }
+.after.gfx-board:after { content: "\E00B" }
+.after.gfx-eye:after { content: "\E00C" }
+.after.gfx-question:after { content: "\E00D" }
+.after.gfx-concentric:after { content: "\E00E" }
+.after.gfx-keyboard:after { content: "\E00F" }
+.after.gfx-menu:after { content: "\E010" }
+.after.gfx-move:after { content: "\E011" }
+.after.gfx-cut:after { content: "\E012" }
+.after.gfx-paste:after { content: "\E013" }
+.after.gfx-share:after { content: "\E014" }
+.after.gfx-shared:after { content: "\E015" }
+.after.gfx-arrow_small_left:after { content: "\E016" }
+.after.gfx-history:after { content: "\E017" }
+.after.gfx-keylock:after { content: "\E018" }
+.after.gfx-text:after { content: "\E019" }
+.after.gfx-pilcrow:after { content: "\E01A" }
+.after.gfx-spacer:after { content: "\E01B" }
+.after.gfx-arrow_large_left:after { content: "\E01C" }
+.after.gfx-arrow_large_right:after { content: "\E01D" }
+.after.gfx-info:after { content: "\E01E" }
+.after.gfx-licklogo:after { content: "\E01F" }
+.after.gfx-filter:after { content: "\E020" }
+.after.gfx-star-outline:after { content: "\E021" }
+.after.gfx-star-fill:after { content: "\E022" }

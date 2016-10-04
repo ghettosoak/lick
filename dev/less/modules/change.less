@@ -1,0 +1,40 @@
+.change{
+
+	.change_interior{
+		overflow: hidden;
+		padding-bottom: 50px;
+	}
+
+	.new_board,
+	.no_board{
+		width: 49%;
+		position: relative;
+		float: left;
+		margin-top: 20px;
+		border-radius: 5px;
+		text-align: center;
+		background-color: @color-primary;
+		.directions_color;
+		cursor: pointer;
+		padding: 15px;
+
+		span{
+			font-size: 30px;
+			line-height: 40px;
+			
+			&:before{
+				margin: 0;
+			}
+		}
+		p{
+			margin: 0;
+		}
+	}
+
+	.new_board{
+		margin-right: 1%;
+	}
+	.no_board{
+		margin-left: 1%;
+	}
+}

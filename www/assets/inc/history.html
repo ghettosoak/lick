@@ -1,0 +1,45 @@
+<div 
+	class="history" 
+>
+
+	<div class="header history_menu">
+		<div class="gfx-cross close" ng-click="goBack()"></div>
+	</div>
+
+	<div class="history_interior interior">
+		<div class="history_list" ng-model="meta.history">
+
+			<div class="clear_history" ng-click="clearHistory()">
+				<span class="gfx-cross"></span>
+				<p>Clear History</p>
+			</div>
+
+			<li class="list_item list_history"
+				ng-repeat="note in historySorter(history) | orderBy : '-time'"
+				ng-class="{'seen': note.seen}"
+				data-time="{{note.time}}"
+			>
+				<a 
+					href="#/sharednote/{{note.id}}" 
+					ng-click="note.seen = true;" 
+					ng-if="note.shared"
+				>
+					<p ng-bind="note.title"><i class="gfx-shared"></i></p>
+					<span>last edited on {{ editedOn(note.time) }}</span>
+					<span>@ {{ note.device }}</span>
+					<span>by {{ editedBy(note.editor) }}</span>
+				</a>
+				<a 
+					href="#/note/{{note.id}}" 
+					ng-click="note.seen = true;" 
+					ng-if="!note.shared"
+				>
+					<p ng-bind="note.title"></p>
+					<span>last edited on {{ editedOn(note.time) }}</span>
+					<span>@ {{ note.device }}</span>
+				</a>
+			</li>
+
+		</div>
+	</div>
+</div>

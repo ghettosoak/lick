@@ -1,0 +1,84 @@
+<div 
+	class="board" 
+	ng-model="board"
+	ng-class="{
+		board_marked: board.mark
+	}"
+>
+
+	<div class="header board_menu">
+
+		<a class="gfx-cross close" ng-click="closeMenu()" href="#/list"></a>
+
+		<div class="gfx-note-new newNote" title="New note" ng-click="newNote(board.id)"></div>
+		<div class="gfx-board-new newBoard" title="New board" ng-click="newBoard()"></div>
+		<div class="gfx-cross kill" 
+			title="Delete board"
+			ng-click="killBoard(board.id)"
+			ng-class="{
+				prevent: !boardIsEmpty,
+				warn: killWarn
+			}"
+		>
+			<span>You can only delete a board when it's empty. :)</span>
+		</div>
+		<div class="gfx-check mark" ng-click="board.mark = !board.mark" title="Mark this board"></div>
+
+		<div class="gfx-menu mobile menu_opener" ng-click="openMenu();"></div>
+		<div class="gfx-concentric concentric" ng-click="concentric()" title="Where are you going?
+Where did you come from? 
+Where are you now?"></div>
+		<a class="gfx-question colophon"  href="#/colophon" ng-click="closeMenu()" title="Colophon"></a>
+		<div class="gfx-logout logout" ng-click="logout()" title="Log out"></div>
+
+	</div>
+
+	<div class="board_interior">			
+
+		<div class="textarea-container board_title">			
+			<textarea ng-model="board.title" placeholder="Give your new board a title!"></textarea>
+			<div class="textarea-autosize">{{board.title}}</div>
+		</div>
+
+		<div 
+			class="board_body" 
+			ng-model="notes"
+			gridster="boardGridOpts"
+		>
+			<ul>
+				<li 
+					ng-repeat="note in notes"
+					ng-if="note.parent === board.id"
+					class="board_note"
+					ng-class="{marked: note.mark}"
+					gridster-item="boardItemOpts_private"
+					data-id="{{note.id}}"
+				>
+					<a class="gfx-eye open" href="#/note/{{note.id}}" ng-click="$event.stopPropogation();"></a>	
+					<a class="title" href="#/note/{{note.id}}" ng-click="$event.stopPropogation();"><span class="gfx-check" ng-if="note.mark"></span>{{note.title}}</a>
+					<div class="grabber mobile gfx-move"></div>
+					<a class="gfx-transfer change" href="#/change/{{note.id}}"></a>	
+					<div class="gfx-check mark" ng-click="note.mark = !note.mark"></div>
+					<div class="gfx-cross kill" ng-click="killNote(note.id, board.id)"></div>
+
+				</li>
+
+				<li 
+					ng-repeat="note in sharedFilter(sharednotes)"
+					class="board_note"
+					ng-class="{marked: note.mark}"
+					gridster-item="boardItemOpts_shared"
+					data-id="{{note.id}}"
+				>
+					<a class="gfx-eye open" href="#/sharednote/{{note.id}}"></a>	
+					<a class="title" href="#/sharednote/{{note.id}}"><span class="gfx-check" ng-if="note.mark"></span>{{note.title}}<span class="gfx-shared"></span></a>
+					<div class="grabber mobile gfx-move"></div>
+					<a class="gfx-transfer change" href="#/change/{{note.id}}"></a>	
+					<div class="gfx-check mark" ng-click="note.mark = !note.mark"></div>
+					<div class="gfx-cross kill" ng-click="killNote(note.id, board.id)"></div>
+
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

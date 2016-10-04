@@ -1,0 +1,47 @@
+<div 
+	class="share" 
+	ng-model="share"
+>
+
+	<div class="header share_menu" data-role="header" data-position="fixed" data-tap-toggle="false" data-update-page-padding="false">
+
+		<div class="gfx-cross close" ng-click="goBack()"></div>
+
+	</div>
+
+	<div class="interior share_interior">
+
+		<div class="share_add">
+			<p>Enter the email address of the LICK user with whom you'd like to share this note! :)</p>
+			<input val="test5@test.com" type="email" ng-model="shareTarget">
+			<div class="share_confirm" ng-click="shareUser(shareTarget)">Share it!</div>
+
+			<div class="sharedUsers">
+				<p>Or share this note with someone you've already shared with!</p>
+				<ul>
+					<li
+						ng-repeat="(user, object) in sharedUserFilter"
+						ng-click="shareUser(object)"
+						ng-bind="object"
+					>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="share_sharedWith">
+			<p>This note is currently shared with:</p>
+			<ul>
+				<li
+					ng-repeat="(participant, parent) in noteParticipants"
+					ng-bind="participant"
+				>
+					<span class="gfx-cross" ng-click="removeUser(participant)"></span>
+				</li>
+			</ul>
+		</div>
+
+	</div>
+
+</div>
+

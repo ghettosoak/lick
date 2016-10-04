@@ -1,0 +1,75 @@
+<div class="list lookingAt_{{lookingAt}}">
+
+	<div class="header list_menu" data-role="header" data-position="fixed" data-tap-toggle="false" data-update-page-padding="false">
+
+		<div class="gfx-note-new newNote" ng-click="newNote()" title="New Note"></div>
+		<div class="gfx-board-new newBoard" ng-click="newBoard()" title="New Board"></div>
+
+		<div class="gfx-menu mobile menu_opener" ng-click="openMenu();"></div>
+
+		<span class="list_switcher">
+			<i class="gfx-note" ng-click="lookingAt = 'notes'"></i>
+			<i class="gfx-board" ng-click="lookingAt = 'boards'"></i>
+		</span>
+
+		<a class="gfx-history history" href="#/history" title="View recently edited notes" ng-if="historyCounter()"><span>{{historyCounter()}}</span></a>
+		<a class="gfx-info info" href="#/info" ng-click="closeMenu()" title="View a quick tutorial"></a>
+		<div class="gfx-concentric concentric" ng-click="concentric()" title="Where are you going?
+Where did you come from? 
+Where are you now?"></div>
+		<a class="gfx-licklogo colophon" href="#/colophon" ng-click="closeMenu()" title="Colophon"></a>
+		<div class="gfx-logout logout" ng-click="logout()" title="Log out"></div>
+		
+	</div>
+
+	<div class="list_interior interior">
+		
+		<div 
+			class="list_carousel"
+			ng-swipe-left="lookingAt = 'boards'" 
+			ng-swipe-right="lookingAt = 'notes'"
+		>
+			<div class="list_slide">
+				<div 
+					class="note_list"
+					ng-class="{ containsShared: sharedCount }"
+				>
+					<div class="note_list_shared">
+						<p class="note_list_title">Shared Notes</p>
+						<li class="list_item list_note list_shared_note"
+							ng-repeat="note in sharedFilter(sharednotes) | orderBy: '-lastEdited'"
+							ng-class="{'danger': note.kill}"
+							ng-if="!note.parent"
+						>
+						<a href="#/sharednote/{{note.id}}" ng-if="note.title" ng-bind="note.title"></a>
+						<a href="#/sharednote/{{note.id}}" ng-if="!note.title" class="blank">Untitled Note</a>
+						<span class="shared_marker gfx-shared"></span>
+						</li>
+					</div>
+					<div class="note_list_private">
+						<p class="note_list_title">Private Notes</p>
+						<li class="list_item list_note"
+							ng-repeat="note in privateFilter(notes) | orderBy: '-lastEdited'"
+							ng-class="{'danger': note.kill}"
+							ng-if="!note.parent"
+						>
+						<a href="#/note/{{note.id}}" ng-if="note.title" ng-bind="note.title"></a>
+						<a href="#/note/{{note.id}}" ng-if="!note.title" class="blank">Untitled Note</a>
+						</li>
+					</div>
+				</div>
+
+				<div class="board_list">
+
+					<li class="list_item list_board"
+						ng-repeat="board in boardsFilter(boards) | orderBy: '-lastEdited'"
+					>
+					<a href="#/board/{{board.id}}" ng-if="board.title" ng-bind="board.title"></a>
+					<a href="#/board/{{board.id}}" ng-if="!board.title" class="blank">Untitled Board</a>
+					</li>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

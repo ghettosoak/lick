@@ -78,7 +78,7 @@ user authentication
 	//first note!
 	logout buttons :)
 
-about / colophon
+//about / colophon
 
 design
 	//bit
@@ -100,7 +100,7 @@ design
 		//notes
 		//new title
 		//marked
-		kill board confirmation / tell user that board must be empty to kill
+		//kill board confirmation / tell user that board must be empty to kill
 		//icons
 			//mark
 			//kill
@@ -113,20 +113,31 @@ design
 
 	//change screen
 
-	cheat sheet
+	//cheat sheet
 
-	front screen
+	//animating between routes!
 
-	about / colophon
+	//front screen
+
+	//about / colophon
 
 	++keyboard shortcuts @ boards / list?
-
-	animating between routes!
 
 	images in left column on larger screens? :D
 		http://www.splashbase.co/api
 		30 / 70
 		title
+
+mobile
+	//header menu
+		//flyout
+	//notes
+		//swipe to indent / outdent
+		//press dot to open menu 'into' bit
+	//boards
+		//just tap to view, remove other buttons
+
+
 
 bugs :c
 	//after adding a new bit, the model appears to refresh itself, generating a brand new ng-repeat. this kicks the users' focus from the bit.

@@ -1,0 +1,120 @@
+<div 
+	class="note" 
+	ng-model="note"
+	ng-class="{
+		note_marked: note.mark,
+		share_prompting: sharePrompt
+	}"
+	ng-click="note.kill = false; unselector();"
+>
+
+	<div class="header note_menu">
+
+		<a class="gfx-cross close" href="#/board/{{note.parent}}" ng-click="closeMenu()" ng-if="note.parent"></a>
+		<a class="gfx-cross close" href="#/list" ng-click="closeMenu()" ng-if="!note.parent"></a>
+
+		<div class="gfx-note-new newNote" ng-click="newNote()" title="New Note"></div>
+		<div class="gfx-cross kill" 
+			title="Kill Note"
+			ng-class="{danger: note.kill}" 
+			ng-click="note.kill && killNote(); note.kill = !note.kill; $event.stopPropagation();"
+		></div>
+		<div class="gfx-check mark" ng-click="note.mark = !note.mark" title="Mark this note"></div>
+		<a class="gfx-transfer transfer" href="#/change/{{note.id}}" ng-click="closeMenu()" title="Send to board"></a>
+		<div class="gfx-share share" ng-class="{share_active: shareActive()}" ng-click="sharePrompt = true" title="Share this note"></div>
+		<div class="gfx-cut cut" ng-show="commandIsPressed" ng-click="cut();" title="Cut selected bits"></div>
+		<div class="gfx-paste paste" ng-show="clipboarded" ng-click="paste();" title="Paste cut bits"></div>
+
+		<div class="gfx-menu mobile menu_opener" ng-click="openMenu();"></div>
+		<div class="gfx-keyboard showCheatSheet" ng-click="showCheatSheet()" title="Show keyboard shortcuts"></div>
+		<div class="gfx-concentric concentric" ng-click="concentric()" title="Where are you going?
+Where did you come from? 
+Where are you now?"></div>
+		<a class="gfx-question colophon" href="#/colophon" ng-click="closeMenu()" title="Colophon"></a>
+		<div class="gfx-logout logout" ng-click="logout()" title="Log out"></div>
+
+	</div>
+
+	<div class="interior">
+
+		<div class="textarea-container note_title">
+			<textarea ng-model="note.title" placeholder="Give your new note a title!"></textarea>
+			<div class="textarea-autosize">{{note.title}}</div>
+		</div>
+
+		<div class="note_body" 
+			ng-model="note.body" 
+			ui-sortable="sortableOptions_note"
+			ng-class="{'menuing' : menuing }"
+		>
+			
+			<div 
+				ng-repeat="bit in note.body track by $index" 
+				class="note_bit indent_{{bit.tabCount}} menuOpen_{{bit.menu_open}} bitMarked_{{bit.mark}} bitSelected_{{bit.selected}}"
+				ng-class="{
+					'bit_link': bit.isLink,
+					'alt': altIsPressed,
+					'gap' : bit.gap
+				}"
+				ng-swipe-left="mark($index, true)"
+				ng-swipe-right="mark($index, true)"
+				ng-click="selector($index, $event)"
+				nv-file-over
+				uploader="uploader"
+			>
+
+				<div 
+					class="bit_anchor" 
+					ng-click="
+						toggleBitMenu($index, $event);
+					"
+				></div>
+
+				<div class="bit_menu">
+					<button class="bit_menu_point kill" ng-click="killBit($index)">
+						<span class="gfx-cross"></span>
+					</button>
+					<button class="bit_menu_point mark" ng-click="mark($index, false)">
+						<span class="gfx-check"></span>
+					</button>
+					<button class="bit_menu_point search" ng-click="search(bit.content)">
+						<span class="gfx-loupe"></span>
+					</button>
+				</div>
+
+				<div class="textarea-container bit_content">			
+					<textarea
+						class="mousetrap"
+						ng-model="bit.content"
+						ng-keyup="caretTracker($index)"
+						ng-click="caretTracker($index); openLink(bit)"
+					></textarea>
+					<div class="textarea-autosize" ng-bind-html="bit.contentCaret"></div>
+				</div>
+
+			</div>
+
+			<div 
+				class="new_bit gfx-plus" 
+				ng-click="addBit(note.body.length - 1)"
+			></div>
+
+		</div>
+
+	</div>
+
+	<div class="share_dialogue">
+		<div class="share_dialogue_floater">
+			<div class="gfx-cross share_dialogue_close" ng-click="sharePrompt = false;"></div>
+			<div
+				class="share_dialogue_interior" 
+			>
+				<h3>Enter the email address of the user you'd like to share this note with! :)</h3>
+				<input val="test5@test.com" type="email" ng-model="shareTarget" ng-keyup="enterWatch($event);">
+				<div class="share_confirm" ng-click="shareConfirm($event)">Share it!</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+

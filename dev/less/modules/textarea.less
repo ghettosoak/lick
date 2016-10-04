@@ -1,0 +1,60 @@
+.textarea-container{
+	position: relative;
+	padding: 0;
+	margin: 0 0 10px;
+	font-size: 20px;
+	line-height: 27px;
+
+	.iPhone &,
+	.iPad &{
+		margin-left: -3px;
+	}
+
+	textarea,
+	.textarea-autosize{
+		min-height: 27px;
+		white-space: pre-wrap;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		-webkit-line-break: normal;
+		-webkit-nbsp-mode: normal;
+		flex-direction: column;
+		-webkit-font-smoothing: subpixel-antialiased;
+	}
+
+	textarea{
+		position: absolute;
+		top: 0px;
+		background:none;
+		left: 0px;
+		height: 100%;
+		width: 100%;
+		padding: 0;
+		border: none;
+		z-index: 1;
+		resize: none;
+		overflow: hidden;
+		-webkit-transform: translateZ(0px);
+
+		.iPhone &,
+		.iPad &{
+			// margin: 0 0 0 -3px;
+			// width: ~'calc(100% + 3px)';
+		}
+		
+		&:focus{
+			outline:0;
+		}
+	}
+
+	.textarea-autosize{
+		opacity: 0;
+		z-index: -1;
+		-webkit-appearance: textarea;
+
+		.iPhone &,
+		.iPad &{
+			padding: 0 3px;
+		}
+	}
+}

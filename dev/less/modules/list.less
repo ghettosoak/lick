@@ -1,0 +1,154 @@
+.list{
+	// height: ~'calc(100% - (@{height_header}))';
+}
+
+.list_interior{
+	height: 100%;
+	min-height: 100vh;
+	position: relative; 
+}
+
+.list_switcher{
+	position: absolute;
+	z-index: 1;
+	left: 50%;
+	width: 102px;
+	overflow: hidden;
+	margin-left: -51px;
+	top: 0;	
+
+	i{
+		position: relative;
+		float: left;
+		height: 49px;
+		width: 50px;
+		line-height: 50px;
+		cursor: pointer;
+		color: @color-primary;
+		.directions_background;
+		.transition(all .25s ease);
+
+		@media @mobile-max {
+			width: 50%;
+		}
+		
+
+		&:before{
+			margin: 0;
+			height: 100%;
+			width: 100%;
+			text-align: center;
+		}
+	}
+
+	.lookingAt_notes & .gfx-note,
+	.lookingAt_boards & .gfx-board{
+		background-color: white !important;
+		.transition(color .5s ease);
+		.directions_color;
+	}
+}
+
+.list_carousel{
+	height: ~'calc(100% - (@{height_header} - 60px))';
+	position: relative;
+	padding-top: 50px;
+	overflow: hidden;
+	margin-bottom: @height_header * 2;
+
+	@media @mobile-max {
+		padding-top: 20px;
+	}
+
+	.list_slide{
+		position: relative;
+		width: 200%;
+		overflow: hidden;
+		.transition(all .25s ease);
+		.lookingAt_notes &{ left: 0; }
+		.lookingAt_boards &{ left: -100%; }
+	}
+
+	.note_list,
+	.board_list{	
+		height: 100%;
+		width: 50%;
+		position: relative;
+	}
+
+	.note_list{ float: left; }
+
+	.board_list{ float: right; }
+
+	.containsShared .note_list_shared{
+		margin-bottom: 60px;
+	}
+}
+
+
+.note_list_title{
+	height: 60px;
+	margin: 0;
+	line-height: 60px;
+	font-size: 20px;
+	padding: 0 10px;
+	background-color: @color-primary;
+	display: none;
+	.directions_color;
+
+	.containsShared &{
+		display: block;
+	}
+
+	&:before{
+		position: absolute;
+		right: 10px;
+		line-height: 60px;
+		font-size: 35px;
+	}
+	.note_list_shared &{.gfx(shared);}
+}
+
+.list_item{
+	list-style: none;
+	position: relative;
+	width: 100%;
+	border-bottom: 1px @color-primary solid;
+	font-size: 20px;
+	padding: 0 10px;
+	line-height: 20px;
+	min-height: 60px;
+	cursor: pointer;
+
+	a{
+		display: block;
+		color: @color-primary;
+
+		&:hover{ text-decoration: none; }
+	}
+
+	.shared_marker{
+		position: absolute;
+		top: 23px;
+		right: 10px;
+		font-size: 35px;
+
+		&:before{
+			margin: 0;
+		}
+	}
+}
+
+.list_note{
+	a{
+		padding: 20px 0;
+		.transition(all .5s ease);
+	}
+}
+
+.list_board{
+	a, p{
+		padding: 20px 0px;
+		margin: 0;
+	}
+}

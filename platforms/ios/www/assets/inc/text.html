@@ -1,0 +1,62 @@
+<div 
+	class="text"
+	ng-class="{'paragraphing': paragrapher}"
+>
+
+	<div class="header text_menu" data-role="header" data-position="fixed" data-tap-toggle="false" data-update-page-padding="false">
+
+		<div class="gfx-cross close" ng-click="closeText()"></div>
+		<div class="gfx-pilcrow paragraph" ng-click="paragrapher = !paragrapher" title="View as paragraph blocks instead of as a list"></div>
+
+	</div>
+
+	<div class="interior text_interior">
+
+		<div class="text_helper"></div>
+
+		<div class="textarea-container text_title">
+			<h1 ng-bind="note.title"></h1>
+		</div>
+
+		<div class="text_body" 
+			ng-model="note.body" 
+		>
+			
+			<ul 
+				ng-if="!paragrapher"
+				ng-repeat="bit in note.body track by $index" 
+				class="text_bit indent_{{bit.tabCount}}"
+			>
+				<li ng-if="bit.tabCount === 0">
+					{{bit.content}} <span class="link" ng-if="bit.isLink">[ {{bit.address}} ]</span>
+				</li>
+				<ul ng-if="bit.tabCount === 1">
+					<li>{{bit.content}} <span class="link" ng-if="bit.isLink">[ {{bit.address}} ]</span></li>
+				</ul>
+				<ul ng-if="bit.tabCount === 2">
+					<ul>
+						<li>{{bit.content}} <span class="link" ng-if="bit.isLink">[ {{bit.address}} ]</span></li>
+					</ul>
+				</ul>
+				<ul ng-if="bit.tabCount === 3">
+					<ul><ul>
+						<li>{{bit.content}} <span class="link" ng-if="bit.isLink">[ {{bit.address}} ]</span></li>
+					</ul></ul>
+				</ul>
+
+			</ul>
+
+			<p
+				ng-if="paragrapher"
+				ng-repeat="bit in note.body track by $index" 
+				class="text_bit"
+			>
+				{{bit.content}} <span class="link" ng-if="bit.isLink">[ {{bit.address}} ]</span>
+			</p>
+
+		</div>
+
+	</div>
+
+</div>
+

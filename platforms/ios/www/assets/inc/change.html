@@ -1,0 +1,28 @@
+<div 
+	class="change" 
+>
+
+	<div class="header change_menu">
+		<div class="gfx-cross close" ng-click="goBack()"></div>
+	</div>
+
+	<div class="change_interior interior">
+		<div class="board_list" ng-model="boards" ui-sortable="sortableOptions_list">
+			<li class="list_item list_board"
+				ng-repeat="(boardKey, boardValue) in boards"
+				ng-click="changeBoard(boardKey)"
+			>
+				<p ng-bind="boardValue.title"></p>
+			</li>
+
+			<div class="new_board" ng-click="newBoard()">
+				<span class="gfx-plus"></span>
+				<p>Add this note to new board</p>
+			</div>
+			<div class="no_board" ng-click="noBoard()">
+				<span class="gfx-cross"></span>
+				<p>Remove this note from this board</p>
+			</div>
+		</div>
+	</div>
+</div>

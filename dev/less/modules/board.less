@@ -1,0 +1,207 @@
+.board{
+
+}
+
+.board_title{
+	padding: 10px;
+	padding-top: 30px;
+
+	textarea{
+		padding: 30px 10px 10px;
+		font-size: 50px;
+		line-height: 50px;
+		
+		@media @mobile-max{
+			font-size: 25px;
+			line-height: 25px;
+		}
+	}
+
+	.textarea-autosize{ 
+		min-height: 50px;
+		font-size: 50px;
+		line-height: 50px;
+		
+		@media @mobile-max{
+			font-size: 25px;
+			line-height: 25px;
+		}
+	}
+}
+
+.board_body{
+	position: relative;
+	width: 100%;
+	display: block;
+}
+
+.board_note{
+	border: 1px @color-primary solid;
+	border-radius: 5px;
+	background-color: transparent;
+	cursor: move;
+	position: absolute;
+	.directions_background();
+	color: white;
+	.transition(~'background-color .25s ease, color .25s ease');
+
+	&.starred{
+		background-color: @color-primary !important;
+		.directions_color;
+	}
+
+	a{
+		color: @color-primary;
+
+		.starred&{
+			.directions_color;
+		}
+	}
+
+	.open{
+		position: absolute;
+		top: 10px;
+		left: 50%;
+		height: 30px;
+		width: 30px;
+		margin-left: -15px;
+		font-size: 30px;
+		line-height: 30px;
+		cursor: pointer;
+
+		@media @mobile-max {
+			display: none;
+		}		
+
+		&:hover{
+			text-decoration: none;
+		}
+
+		&:before{
+			margin: 0;
+		}
+	}
+
+	.title{
+		position: absolute;
+		width: 100%;
+		height: 20px;
+		top: 50%;
+		left: 0;
+		margin-top: -10px;
+		padding: 0 5px;
+		text-align: center;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+
+		@media @mobile-max {
+			display: -webkit-box;
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;  
+			white-space: normal;
+			top: 0;
+			padding: 10px 5px 40px;
+			height: 100%;
+			margin: 0;
+			overflow: visible;
+		}
+
+		&:hover{
+			text-decoration: none;
+		}
+
+		.gfx-check{
+			@media @mobile-max {
+				display: block;
+				&:before{
+					margin: 0;
+				}
+			}
+		}
+
+		.gfx-shared{
+		    font-size: 30px;
+		    line-height: 12px;
+			&:before{
+				margin: 4px 0 0 6px;
+			}
+			@media @mobile-max {
+				display: block;
+				&:before{
+					margin: 0;
+				}
+			}
+		}
+	}	
+
+	.change,
+	.mark,
+	.star{
+		position: absolute;
+		font-size: 20px;
+		line-height: 30px;
+		bottom: 5px;
+		height: 30px;
+		width: 30px;
+		cursor: pointer;
+
+		&:before{
+			margin: 0;
+			width: 100%;
+			text-align: center;
+		}
+
+		@media @mobile-max{
+			display: none;
+		}
+
+	}
+
+	.change{
+		left: 5px;
+	}
+
+	.mark{
+		left: 50%;
+		margin-left: -10px;
+		background-color: transparent;
+		border-radius: 30px;
+		.transition(all .25s ease);
+
+		.marked&{
+			background-color: @color-primary;
+			.directions_color;
+		}
+	}
+
+	.star{
+		right: 5px;
+	}
+
+	.grabber{
+		position: absolute;
+		font-size: 20px;
+		line-height: 30px;
+		top: 5px;
+		height: 30px;
+		left: 50%;
+		margin-left: -10px;
+		z-index: 1;
+
+		@media @mobile-max{
+			top: auto;
+			bottom: 5px;
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,83 @@
+html,
+body{
+	height:100%;
+	position: relative;
+	color: @color-primary;
+	font-family: @standard;
+	font-weight: @light;
+	font-size: @base-font-size;
+	line-height: @base-line-height;	
+
+	@media only screen and (-webkit-min-device-pixel-ratio: 1.3) and (min-width: @screen-sm),
+		only screen and (-o-min-device-pixel-ratio: 13/10) and (min-width: @screen-sm),
+		only screen and (min-resolution: 120dpi) and (min-width: @screen-sm)
+		{
+			font-family: @medium;
+		}
+}
+
+body{
+	width: 100%;
+	overflow-x: hidden;
+
+	&.phoneGap{
+		// overflow: hidden;
+		height: 100%;
+		position: relative;
+		&.ready[data-direction="north"]{ background-color: @color-north; }
+		&.ready[data-direction="south"]{ background-color: @color-south; }
+		&.ready[data-direction="east"]{ background-color: @color-east; }
+		&.ready[data-direction="west"]{ background-color: @color-west; }
+	}
+}
+
+::selection {
+	background-color: rgba(255, 255, 255, 1);
+	.directions_color;
+}
+::-moz-selection {
+	background-color: rgba(255, 255, 255, 1);
+	.directions_color;
+}
+
+#main{	
+	width: 100%;
+	// min-height: 100%;
+
+	.phoneGap &{
+		position: absolute;
+		// padding-top: 20px;
+		height: 100%;
+	}
+
+	.iPad [data-entering="list"] &{
+		overflow: scroll;
+	    -webkit-overflow-scrolling: touch;
+	}
+}
+
+.home{
+	padding: 0 0 50px !important;
+}
+
+.colophon{
+	padding-bottom: 50px !important;
+}
+
+.interior{
+	max-width: @interior_width;
+	padding: 0 20px;
+	margin: 0 auto;
+
+// 	overflow: scroll;
+// -webkit-overflow-scrolling: touch;
+
+	.mobileMenuOpen &{
+		position: relative;
+		z-index: 0;
+	}
+}
+
+.interior_large{
+	max-width: @interior_width * 1.25;
+}

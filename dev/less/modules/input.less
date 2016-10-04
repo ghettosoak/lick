@@ -1,0 +1,43 @@
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+input[type="time"],
+input[type="url"],
+input[type="week"]{
+
+	position: relative;
+	width: 100%;
+	padding:10px;
+	margin: 10px 0; 
+	color: @color-primary;
+	border:1px @color-primary solid;
+	background-color: transparent;
+	-webkit-appearance:none;
+	border-radius: 5px;
+
+	&:focus{
+		outline:0;
+	}
+}
+
+::-webkit-input-placeholder {
+   color: rgba(255, 255, 255, .5);
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: rgba(255, 255, 255, .5);  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: rgba(255, 255, 255, .5);  
+}
+
+:-ms-input-placeholder {  
+   color: rgba(255, 255, 255, .5);  
+}

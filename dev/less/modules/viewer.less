@@ -1,0 +1,196 @@
+// @scale_05: ~'scale(0.5) translate3d(0,0,0)';
+// @scale_10: ~'scale(1.0) translate3d(0,0,0)';
+// @scale_15: ~'scale(1.5) translate3d(0,0,0)';
+
+@scale_05: ~'scale(0.5)';
+@scale_10: ~'scale(1.0)';
+@scale_15: ~'scale(1.5)';
+
+.enter-from-above(){
+	&.ng-enter{
+		.transform(@scale_15);
+		opacity: 0;
+		visibility: hidden;		
+	}
+
+	&.ng-enter-active{
+		.transform(@scale_10);
+		opacity: 1;
+		visibility: visible;
+	}	
+}
+
+.leave-to-above(){
+	&.ng-leave{
+		.transform(@scale_10);
+		opacity: 1;
+		visibility: visible;
+	}
+
+	&.ng-leave-active{
+		.transform(@scale_15);
+		opacity: 0;
+		visibility: hidden;	
+	}
+}
+
+.enter-from-below(){
+	&.ng-enter{
+		.transform(@scale_05);
+		opacity: 0;
+		visibility: hidden;		
+	}
+
+	&.ng-enter-active{
+		.transform(@scale_10);
+		opacity: 1;
+		visibility: visible;
+	}	
+}
+
+.leave-to-below(){
+	&.ng-leave{
+		.transform(@scale_10);
+		opacity: 1;
+		visibility: visible;
+	}
+
+	&.ng-leave-active{
+		.transform(@scale_05);
+		opacity: 0;
+		visibility: hidden;	
+	}
+}
+
+.viewer{
+	// min-height: ~'calc(100% - @{height_header})';
+	// .transform(translate3d(0,0,0));
+
+	&.ng-enter,
+	&.ng-leave{
+		.transition(all .5s ease);
+		.transform-origin(50% 50%);
+
+		& > div{
+			position: absolute;
+			width: 100%;
+		}
+	}
+
+	& > div{
+		padding-top: @height_header;
+	}
+}
+
+// VIEWS
+// =========
+// (nothing)
+// hello!
+// portal!
+// info
+// note!
+// text*
+// change*
+// board!
+// list!
+// history!
+// share*
+// colophon!
+
+.ready{
+	&[data-leaving=""][data-entering="list"]       		 { .view_list     {  .enter-from-above; } }
+	&[data-leaving=""][data-entering="board"]      		 { .view_board    {  .enter-from-above; } }
+	&[data-leaving=""][data-entering="note"]       		 { .view_note     {  .enter-from-above; } }
+	&[data-leaving=""][data-entering="change"]     		 { .view_change   {  .enter-from-above; } }
+	&[data-leaving=""][data-entering="colophon"]   		 { .view_colophon {  .enter-from-above; } }
+	&[data-leaving=""][data-entering="history"]    		 { .view_history  {  .enter-from-above; } }
+
+	&[data-leaving="hello"][data-entering="list"]        { .view_hello{      .leave-to-above; }  .view_list     { .enter-from-below; } }
+	&[data-leaving="hello"][data-entering="board"]       { .view_hello{      .leave-to-above; }  .view_board    { .enter-from-below; } }
+	&[data-leaving="hello"][data-entering="note"]        { .view_hello{      .leave-to-above; }  .view_note     { .enter-from-below; } }
+	&[data-leaving="hello"][data-entering="change"]      { .view_hello{      .leave-to-above; }  .view_change   { .enter-from-below; } }
+	&[data-leaving="hello"][data-entering="colophon"]    { .view_hello{      .leave-to-above; }  .view_colophon { .enter-from-below; } }
+	&[data-leaving="hello"][data-entering="history"]     { .view_hello{      .leave-to-above; }  .view_history  { .enter-from-below; } }
+
+	&[data-leaving="portal"][data-entering="list"]       { .view_portal{     .leave-to-above; }  .view_list     { .enter-from-below; } }
+	&[data-leaving="portal"][data-entering="board"]      { .view_portal{     .leave-to-above; }  .view_board    { .enter-from-below; } }
+	&[data-leaving="portal"][data-entering="note"]       { .view_portal{     .leave-to-above; }  .view_note     { .enter-from-below; } }
+	&[data-leaving="portal"][data-entering="change"]     { .view_portal{     .leave-to-above; }  .view_change   { .enter-from-below; } }
+	&[data-leaving="portal"][data-entering="colophon"]   { .view_portal{     .leave-to-below; }  .view_colophon { .enter-from-above; } }
+	&[data-leaving="portal"][data-entering="history"]    { .view_portal{     .leave-to-above; }  .view_history  { .enter-from-below; } }
+	
+	&[data-leaving="info"][data-entering="portal"]       { .view_info{       .leave-to-above; }  .view_portal   { .enter-from-below; } }
+	&[data-leaving="info"][data-entering="note"]         { .view_info{       .leave-to-above; }  .view_note     { .enter-from-below; } }
+	&[data-leaving="info"][data-entering="list"]         { .view_info{       .leave-to-above; }  .view_list     { .enter-from-below; } }
+	&[data-leaving="info"][data-entering="board"]        { .view_info{       .leave-to-above; }  .view_board    { .enter-from-below; } }
+	&[data-leaving="info"][data-entering="change"]       { .view_info{       .leave-to-above; }  .view_change   { .enter-from-below; } }
+	&[data-leaving="info"][data-entering="text"]         { .view_info{       .leave-to-above; }  .view_text     { .enter-from-below; } }
+	&[data-leaving="info"][data-entering="colophon"]     { .view_info{       .leave-to-above; }  .view_colophon { .enter-from-below; } }
+	&[data-leaving="info"][data-entering="history"]      { .view_info{       .leave-to-above; }  .view_history  { .enter-from-below; } }
+	&[data-leaving="info"][data-entering="share"]        { .view_info{       .leave-to-above; }  .view_share    { .enter-from-below; } }
+	
+	&[data-leaving="note"][data-entering="portal"]       { .view_note{       .leave-to-below; }  .view_portal   { .enter-from-above; } }
+	&[data-leaving="note"][data-entering="list"]         { .view_note{       .leave-to-below; }  .view_list     { .enter-from-above; } }
+	&[data-leaving="note"][data-entering="board"]        { .view_note{       .leave-to-below; }  .view_board    { .enter-from-above; } }
+	&[data-leaving="note"][data-entering="change"]       { .view_note{       .leave-to-above; }  .view_change   { .enter-from-below; } }
+	&[data-leaving="note"][data-entering="text"]         { .view_note{       .leave-to-above; }  .view_text     { .enter-from-below; } }
+	&[data-leaving="note"][data-entering="colophon"]     { .view_note{       .leave-to-below; }  .view_colophon { .enter-from-above; } }
+	&[data-leaving="note"][data-entering="history"]      { .view_note{       .leave-to-below; }  .view_history  { .enter-from-above; } }
+	&[data-leaving="note"][data-entering="share"]        { .view_note{       .leave-to-above; }  .view_share    { .enter-from-below; } }
+	&[data-leaving="note"][data-entering="info"]        { .view_note{       .leave-to-below; }  .view_info    { .enter-from-above; } }
+
+	&[data-leaving="text"][data-entering="note"]         { .view_text{       .leave-to-below; }  .view_note     { .enter-from-above; } }
+	
+	&[data-leaving="change"][data-entering="board"]       { .view_change{      .leave-to-below; }  .view_board    { .enter-from-above; } }
+	&[data-leaving="change"][data-entering="note"]        { .view_change{      .leave-to-below; }  .view_note     { .enter-from-above; } }
+	
+	&[data-leaving="board"][data-entering="portal"]      { .view_board{      .leave-to-below; }  .view_portal   { .enter-from-above; } }
+	&[data-leaving="board"][data-entering="list"]        { .view_board{      .leave-to-below; }  .view_list     { .enter-from-above; } }
+	&[data-leaving="board"][data-entering="note"]        { .view_board{      .leave-to-above; }  .view_note     { .enter-from-below; } }
+	&[data-leaving="board"][data-entering="change"]      { .view_board{      .leave-to-above; }  .view_change   { .enter-from-below; } }
+	&[data-leaving="board"][data-entering="colophon"]    { .view_board{      .leave-to-below; }  .view_colophon { .enter-from-above; } }
+	&[data-leaving="board"][data-entering="history"]     { .view_board{      .leave-to-below; }  .view_history  { .enter-from-above; } }
+	&[data-leaving="board"][data-entering="share"]       { .view_board{      .leave-to-above; }  .view_share    { .enter-from-below; } }
+	&[data-leaving="board"][data-entering="info"]       { .view_board{      .leave-to-below; }  .view_info    { .enter-from-above; } }
+	
+	&[data-leaving="list"][data-entering="portal"]       { .view_list{       .leave-to-below; }  .view_portal   { .enter-from-above; } }
+	&[data-leaving="list"][data-entering="board"]        { .view_list{       .leave-to-above; }  .view_board    { .enter-from-below; } }
+	&[data-leaving="list"][data-entering="note"]         { .view_list{       .leave-to-above; }  .view_note     { .enter-from-below; } }
+	&[data-leaving="list"][data-entering="change"]       { .view_list{       .leave-to-above; }  .view_change   { .enter-from-below; } }
+	&[data-leaving="list"][data-entering="colophon"]     { .view_list{       .leave-to-below; }  .view_colophon { .enter-from-above; } }
+	&[data-leaving="list"][data-entering="history"]      { .view_list{       .leave-to-below; }  .view_history  { .enter-from-above; } }
+	&[data-leaving="list"][data-entering="info"]      { .view_list{       .leave-to-below; }  .view_info  { .enter-from-above; } }
+
+	&[data-leaving="history"][data-entering="list"]      { .view_history {   .leave-to-above; }  .view_list     { .enter-from-below; } }
+	&[data-leaving="history"][data-entering="board"]     { .view_history {   .leave-to-above; }  .view_board    { .enter-from-below; } }
+	&[data-leaving="history"][data-entering="note"]      { .view_history {   .leave-to-above; }  .view_note     { .enter-from-below; } }
+	&[data-leaving="history"][data-entering="colophon"]  { .view_history {   .leave-to-above; }  .view_colophon { .enter-from-below; } }
+
+	&[data-leaving="share"][data-entering="board"]       { .view_share{     .leave-to-below; }  .view_board     { .enter-from-above; } }
+	&[data-leaving="share"][data-entering="note"]        { .view_share{     .leave-to-below; }  .view_note      { .enter-from-above; } }
+
+	&[data-leaving="colophon"][data-entering="portal"]   { .view_colophon{   .leave-to-above; }  .view_portal   { .enter-from-below; } }
+	&[data-leaving="colophon"][data-entering="list"]     { .view_colophon{   .leave-to-above; }  .view_list     { .enter-from-below; } }
+	&[data-leaving="colophon"][data-entering="board"]    { .view_colophon{   .leave-to-above; }  .view_board    { .enter-from-below; } }
+	&[data-leaving="colophon"][data-entering="note"]     { .view_colophon{   .leave-to-above; }  .view_note     { .enter-from-below; } }
+	&[data-leaving="colophon"][data-entering="change"]   { .view_colophon{   .leave-to-above; }  .view_change   { .enter-from-below; } }
+	&[data-leaving="colophon"][data-entering="history"]  { .view_colophon{   .leave-to-above; }  .view_history  { .enter-from-above; } }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
