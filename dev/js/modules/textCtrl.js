@@ -16,6 +16,8 @@ module.exports = function(
 
 	$scope.$on('$destroy', window.unbindAll)
 
+	window.document.title = 'Text viewer for' + $scope.note.title + ' – LICK';
+
 	if (window.historical[window.historical.length - 2].indexOf('shared') > 0)
 		sharedNote($routeParams.id).$bindTo($scope, 'note');
 	else
@@ -40,4 +42,8 @@ module.exports = function(
 			$location.path('/note/' + $routeParams.id);
 		}
 	}
+
+	$scope.openMenu = function(){
+		$('#main').toggleClass('menuOpen');	
+	};
 }

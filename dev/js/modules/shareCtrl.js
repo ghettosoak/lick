@@ -17,7 +17,9 @@ module.exports = function(
 	
     $scope.pageClass = 'share';
 
-    $scope.$on('$destroy', window.unbindAll)
+    $scope.$on('$destroy', window.unbindAll);
+
+    window.document.title = 'Share note – LICK';
 
 	Meta().$bindTo($scope, 'meta')
 		.then(function(unbinder){

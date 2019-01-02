@@ -11,6 +11,8 @@ module.exports = function(
 	
 	$scope.pageClass = 'colophon';
 
+	window.document.title = 'Colophon – LICK';
+
 	hotkeys.bindTo($scope)
 		.add({
 			combo: 'esc',

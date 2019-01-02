@@ -4,7 +4,9 @@ module.exports = function(
 ) {
 	$timeout(function() {
 		$scope.$digest();
-	})
+	});
+
+	window.document.title = 'LICK';
 	
 	$scope.pageClass = 'hello';
 }

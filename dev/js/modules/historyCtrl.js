@@ -17,7 +17,9 @@ module.exports = function(
 
     $scope.pageClass = 'history';
 
-    $scope.$on('$destroy', window.unbindAll)
+    $scope.$on('$destroy', window.unbindAll);
+
+    window.document.title = 'Recently edited notes – LICK';
 
 	History().$bindTo($scope, 'history')
 		.then(function(unbinder){

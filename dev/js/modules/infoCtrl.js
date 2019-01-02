@@ -10,6 +10,8 @@ module.exports = function(
 	
 	$scope.pageClass = 'info';
 
+	window.document.title = 'How to – LICK';
+
 	hotkeys.bindTo($scope)
 		.add({
 			combo: 'esc',

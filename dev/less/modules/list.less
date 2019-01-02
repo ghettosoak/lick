@@ -1,100 +1,66 @@
 .list{
-	// height: ~'calc(100% - (@{height_header}))';
+	// height: ~'calc(100% - (@{height_navigation}))';
 }
 
 .list_interior{
+	// height: 100%;
+	max-width: 1000px;
+	padding-bottom: 50px;
+	// min-height: ~'calc(100vh - 20px)';
+
+	// @media @mobile-min{
+	// 	min-height: ~'calc(100vh - 40px)';
+	// }
+	// position: relative; 
+	// padding-top: 50px;
+	overflow: hidden;
+}
+
+.note_list,
+.board_list{	
 	height: 100%;
-	min-height: 100vh;
-	position: relative; 
-}
-
-.list_switcher{
-	position: absolute;
-	z-index: 1;
-	left: 50%;
-	width: 102px;
-	overflow: hidden;
-	margin-left: -51px;
-	top: 0;	
-
-	i{
-		position: relative;
-		float: left;
-		height: 49px;
-		width: 50px;
-		line-height: 50px;
-		cursor: pointer;
-		color: @color-primary;
-		.directions_background;
-		.transition(all .25s ease);
-
-		@media @mobile-max {
-			width: 50%;
-		}
-		
-
-		&:before{
-			margin: 0;
-			height: 100%;
-			width: 100%;
-			text-align: center;
-		}
-	}
-
-	.lookingAt_notes & .gfx-note,
-	.lookingAt_boards & .gfx-board{
-		background-color: white !important;
-		.transition(color .5s ease);
-		.directions_color;
-	}
-}
-
-.list_carousel{
-	height: ~'calc(100% - (@{height_header} - 60px))';
+	width: 100%;
 	position: relative;
-	padding-top: 50px;
-	overflow: hidden;
-	margin-bottom: @height_header * 2;
+	float: left;
 
-	@media @mobile-max {
-		padding-top: 20px;
-	}
-
-	.list_slide{
-		position: relative;
-		width: 200%;
-		overflow: hidden;
-		.transition(all .25s ease);
-		.lookingAt_notes &{ left: 0; }
-		.lookingAt_boards &{ left: -100%; }
-	}
-
-	.note_list,
-	.board_list{	
-		height: 100%;
+	@media @mobile-min{
 		width: 50%;
-		position: relative;
+		padding: 0 25px;
 	}
+	@media @tablet-min{
 
-	.note_list{ float: left; }
+	}
+	@media @desktop-min{
 
-	.board_list{ float: right; }
-
-	.containsShared .note_list_shared{
-		margin-bottom: 60px;
+	}
+}
+.note_list{ 
+	@media @mobile-min{
+		// padding-right: 25px;
+	}
+}
+.board_list{ 
+	@media @mobile-min{
+		// padding-left: 25px;
 	}
 }
 
 
-.note_list_title{
-	height: 60px;
-	margin: 0;
+.list_lists{
+
+}
+
+
+.list_title{
+	height: 70px;
+	margin: 50px 0 5px;
 	line-height: 60px;
 	font-size: 20px;
-	padding: 0 10px;
-	background-color: @color-primary;
-	display: none;
-	.directions_color;
+	// padding: 0 10px;
+	// background-color: @color-primary;
+	// display: none;
+	// .directions_color;
+	border-bottom: 10px white solid;
 
 	.containsShared &{
 		display: block;
@@ -102,22 +68,33 @@
 
 	&:before{
 		position: absolute;
-		right: 10px;
 		line-height: 60px;
 		font-size: 35px;
+		right: 0;
+
+		@media @mobile-min{
+			right: 25px;
+		}
 	}
 	.note_list_shared &{.gfx(shared);}
+	.board_list &{
+		.gfx(board);
+
+		&:before{
+			font-size: 18px;
+		}
+	}
 }
 
 .list_item{
 	list-style: none;
 	position: relative;
 	width: 100%;
-	border-bottom: 1px @color-primary solid;
+	border-bottom: 1px @color-primary dotted;
 	font-size: 20px;
-	padding: 0 10px;
-	line-height: 20px;
-	min-height: 60px;
+	// padding: 0 10px;
+	line-height: 25px;
+	min-height: 45px;
 	cursor: pointer;
 
 	a{
@@ -130,7 +107,7 @@
 	.shared_marker{
 		position: absolute;
 		top: 23px;
-		right: 10px;
+		right: 0;
 		font-size: 35px;
 
 		&:before{
@@ -141,14 +118,14 @@
 
 .list_note{
 	a{
-		padding: 20px 0;
+		padding: 15px 40px 15px 0;
 		.transition(all .5s ease);
 	}
 }
 
 .list_board{
 	a, p{
-		padding: 20px 0px;
+		padding: 15px 0px;
 		margin: 0;
 	}
 }

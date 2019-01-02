@@ -7,27 +7,41 @@ body{
 	font-weight: @light;
 	font-size: @base-font-size;
 	line-height: @base-line-height;	
+	
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	// background-color: white;
 
-	@media only screen and (-webkit-min-device-pixel-ratio: 1.3) and (min-width: @screen-sm),
-		only screen and (-o-min-device-pixel-ratio: 13/10) and (min-width: @screen-sm),
-		only screen and (min-resolution: 120dpi) and (min-width: @screen-sm)
-		{
-			font-family: @medium;
-		}
+	// padding: 5px;
+
+
+	// @media only screen and (-webkit-min-device-pixel-ratio: 1.3) and (min-width: @screen-sm),
+	// 	only screen and (-o-min-device-pixel-ratio: 13/10) and (min-width: @screen-sm),
+	// 	only screen and (min-resolution: 120dpi) and (min-width: @screen-sm)
+	// 	{
+	// 		font-family: @medium;
+	// 	}
+}
+
+html{
+
 }
 
 body{
 	width: 100%;
 	overflow-x: hidden;
+	
+	// padding: 5px;
 
+	// &.ready[data-direction="north"]{ background-color: @color-north; }
+	// &.ready[data-direction="south"]{ background-color: @color-south; }
+	// &.ready[data-direction="east"]{ background-color: @color-east; }
+	// &.ready[data-direction="west"]{ background-color: @color-west; }
+	
 	&.phoneGap{
 		// overflow: hidden;
 		height: 100%;
 		position: relative;
-		&.ready[data-direction="north"]{ background-color: @color-north; }
-		&.ready[data-direction="south"]{ background-color: @color-south; }
-		&.ready[data-direction="east"]{ background-color: @color-east; }
-		&.ready[data-direction="west"]{ background-color: @color-west; }
 	}
 }
 
@@ -42,7 +56,18 @@ body{
 
 #main{	
 	width: 100%;
-	// min-height: 100%;
+	// height: 100%;
+	position: relative;
+	// overflow: hidden;
+	min-height: 100%;
+
+
+	
+
+	// &.menuOpen{
+
+	// 	border: 20px white solid;
+	// }
 
 	.phoneGap &{
 		position: absolute;
@@ -66,13 +91,25 @@ body{
 
 .interior{
 	max-width: @interior_width;
-	padding: 0 20px;
+	padding: 0 10px;
 	margin: 0 auto;
+	width: 100%;
+	position: relative; 
+
+	@media @mobile-min{
+		padding: 0 40px;
+	}
+
+	@media @tablet-min{
+		padding: 0 20px;
+	}
+
+	.transition(all .3s ease);
 
 // 	overflow: scroll;
 // -webkit-overflow-scrolling: touch;
 
-	.mobileMenuOpen &{
+	.menuOpen &{
 		position: relative;
 		z-index: 0;
 	}

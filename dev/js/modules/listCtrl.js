@@ -21,7 +21,9 @@ module.exports = function(
 
     $scope.pageClass = 'list';
 
-    $scope.$on('$destroy', window.unbindAll)
+    $scope.$on('$destroy', window.unbindAll);
+
+    window.document.title = 'Home – LICK';
 
 	Notes().$bindTo($scope, 'notes').then(function(unbinder) {
 
@@ -143,10 +145,10 @@ module.exports = function(
 	}
 
 	$scope.openMenu = function(){
-		$('#main').toggleClass('mobileMenuOpen');	
+		$('#main').toggleClass('menuOpen');	
 	};
 
 	$scope.closeMenu = function(){
-		$('#main').removeClass('mobileMenuOpen');	
+		$('#main').removeClass('menuOpen');	
 	};
 }

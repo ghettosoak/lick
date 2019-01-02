@@ -3,11 +3,18 @@
 	ng-class="{'paragraphing': paragrapher}"
 >
 
-	<div class="header text_menu" data-role="header" data-position="fixed" data-tap-toggle="false" data-update-page-padding="false">
+	<div class="navigation_left text_menu" data-role="header" data-position="fixed" data-tap-toggle="false" data-update-page-padding="false">
 
-		<div class="gfx-cross close" ng-click="closeText()"></div>
-		<div class="gfx-pilcrow paragraph" ng-click="paragrapher = !paragrapher" title="View as paragraph blocks instead of as a list"></div>
+		<div class="navigation_close close" ng-click="closeText()"></div>
 
+	</div>
+
+	<div class="navigation_toggle" ng-click="openMenu();"></div>
+
+	<div class="navigation_right note_menu" data-role="navigation" data-position="fixed" data-tap-toggle="false" data-update-page-padding="false">
+		<div class="navigation_interior">
+			<div class="gfx-pilcrow paragraph" ng-click="paragrapher = !paragrapher" title="Toggle list formatting"></div>
+		</div>
 	</div>
 
 	<div class="interior text_interior">

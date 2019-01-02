@@ -11,35 +11,46 @@
 	ng-click="note.kill = false; unselector();"
 >
 
-	<div class="header note_menu" data-role="header" data-position="fixed" data-tap-toggle="false" data-update-page-padding="false">
+<!-- <div class="background">
+	<div class="north"></div>
+	<div class="south"></div>
+	<div class="east"></div>
+	<div class="west"></div>
+</div> -->
 
-		<div class="gfx-cross close" ng-click="closeNote()"></div>
 
-		<div class="gfx-note-new newNote" ng-click="newNote()" title="New Note"></div>
-		<div class="gfx-cross kill" 
-			title="Kill Note"
-			ng-class="{danger: note.kill}" 
-			ng-click="note.kill && killNote(); note.kill = !note.kill; $event.stopPropagation();"
-		></div>
-		<div class="gfx-check mark" ng-click="note.mark = !note.mark" title="Mark this note"></div>
-		<a class="gfx-transfer transfer" href="#/change/{{note.id}}" ng-click="closeMenu()" title="Send to board"></a>
-		<a class="gfx-share share" href="#/share/{{note.id}}" ng-click="closeMenu()" title="Share this note"></a>
-		<a class="gfx-text text" href="#/text/{{note.id}}" ng-click="closeMenu();" title="Show note in plain text"></a>
-		<div class="gfx-filter filter" ng-click="filtered = !filtered;" title="Checked bits float to bottom"></div>
+	<div class="navigation_left">
+		<div class="navigation_close" ng-click="closeNote()"></div>
+		
+
 		<div class="gfx-cut cut" ng-show="commandIsPressed" ng-click="cut();" title="Cut selected bits"></div>
 		<div class="gfx-paste paste" ng-show="clipboarded" ng-click="paste();" title="Paste cut bits"></div>
-		<div class="gfx-keylock noEdit mobile" ng-click="noEdit = !noEdit;" title="Swipe-only mode"></div>
+	</div>
+	
+	<div class="navigation_toggle" ng-click="openMenu();"></div>
 
-		<div class="gfx-menu mobile menu_opener" ng-click="openMenu();"></div>
-		<a class="gfx-history history" href="#/history" title="View recently edited notes" ng-if="historyCounter()"><span ng-bind="historyCounter()"></span></a>
-		<a class="gfx-info info" href="#/info" ng-click="closeMenu()" title="View a quick tutorial"></a>
-		<div class="gfx-keyboard showCheatSheet" ng-click="showCheatSheet()" title="Show keyboard shortcuts"></div>
-		<div class="gfx-concentric concentric" ng-click="concentric()" title="Where are you going?
-Where did you come from? 
-Where are you now?"></div>
-		<a class="gfx-licklogo colophon" href="#/colophon" ng-click="closeMenu()" title="Colophon"></a>
-		<div class="gfx-logout logout" ng-click="logout()" title="Log out"></div>
+	<div class="navigation_right note_menu" data-role="navigation" data-position="fixed" data-tap-toggle="false" data-update-page-padding="false">
+		<div class="navigation_interior">
+			
+			<div class="gfx-note-new newNote" ng-click="newNote()">New Note</div>
+			<div class="gfx-cross kill" 
+				ng-class="{danger: note.kill}" 
+				ng-click="note.kill && killNote(); note.kill = !note.kill; $event.stopPropagation();"
+			>Kill Note</div>
+			<div class="gfx-check mark" ng-click="note.mark = !note.mark">Mark this note</div>
+			<a class="gfx-transfer transfer" href="#/change/{{note.id}}" ng-click="closeMenu()">Send to board</a>
+			<a class="gfx-share share" href="#/share/{{note.id}}" ng-click="closeMenu()">Share this note</a>
+			<a class="gfx-text text" href="#/text/{{note.id}}" ng-click="closeMenu();">Open in plain text</a>
+			<div class="gfx-filter filter" ng-click="filtered = !filtered;">Filter checked bits</div>
+			
+			<a class="gfx-history history" href="#/history" ng-if="historyCounter()" ng-click="closeMenu()">Recently edited notes (<span ng-bind="historyCounter()"></span>)</a>
+			<!-- <a class="gfx-info info" href="#/info" ng-click="closeMenu()">Help</a> -->
+			<div class="gfx-keyboard showCheatSheet" ng-click="showCheatSheet()">Keyboard shortcuts</div>
+			<div class="gfx-concentric concentric" ng-click="concentric()" title=""></div>
+			<a class="gfx-licklogo colophon" href="#/colophon" ng-click="closeMenu()">Colophon</a>
+			<div class="gfx-logout logout" ng-click="logout()">Log out</div>
 
+		</div>
 	</div>
 
 	<div class="interior note_interior">
@@ -50,7 +61,7 @@ Where are you now?"></div>
 			<textarea 
 				ng-model="note.title"
 				ng-model-options="{ debounce: 250 }"
-				placeholder="Give your note a title!"
+				placeholder="Untitled note"
 				ng-keyup="historical_trigger();"
 			></textarea>
 			<div class="textarea-autosize" ng-bind="note.title"></div>
@@ -60,119 +71,53 @@ Where are you now?"></div>
 			ng-model="note.body" 
 			ui-sortable="sortableOptions_note"
 			ng-class="{'menuing' : menuing }"
-		>
+		>			
 			<div 
-				class="touchable noteBody_mobile"
-				ng-if="touchy()"
+				ng-repeat="bit in note.body track by $index" 				
+				class="note_bit indent_{{bit.tabCount}} menuOpen_{{bit.menu_open}} bitMarked_{{bit.mark}} bitSelected_{{bit.selected}}"
+				ng-class="{
+					'bit_link': bit.isLink,
+					'alt': altIsPressed,
+					'gap' : bit.gap
+				}"
+				ng-click="selector($index, $event);"
+				ng-swipe-left="swipe($index, 'left')"
+				ng-swipe-right="swipe($index, 'right')"
 			>
 				<div 
-					ng-repeat="bit in note.body track by $index" 
-					class="note_bit indent_{{bit.tabCount}} menuOpen_{{bit.menu_open}} bitMarked_{{bit.mark}} bitSelected_{{bit.selected}}"
-					ng-class="{
-						'bit_link': bit.isLink,
-						'alt': altIsPressed,
-						'gap' : bit.gap
-					}"
-					ng-swipe-left="swipe($index, 'left')"
-					ng-swipe-right="swipe($index, 'right')"
-					ng-click="selector($index, $event)"
-				>
+					class="bit_anchor" 
+					ng-click="
+						toggleBitMenu($index, $event);
+					"
+				></div>
 
-					<div 
-						class="bit_anchor" 
-						ng-click="
-							toggleBitMenu($index, $event);
-						"
-					></div>
-
-					<div class="bit_menu">
-						<button class="bit_menu_point kill" ng-click="killBit($index)">
-							<span class="gfx-cross"></span>
-						</button>
-						<button class="bit_menu_point mark" ng-click="mark($index, false)">
-							<span class="gfx-check"></span>
-						</button>
-						<button class="bit_menu_point search" ng-click="search(bit.content, bit.tabCount, $index)">
-							<span class="gfx-loupe"></span>
-						</button>
-						<button class="bit_menu_point spacer" ng-click="bit.gap = !bit.gap">
-							<span class="gfx-spacer"></span>
-						</button>
-					</div>
-
-					<div class="textarea-container bit_content">
-						<textarea
-							class="mousetrap"
-							ng-model="bit.content"
-							ng-model-options="{ debounce: 250 }"
-							ng-keyup="caretTracker($index, $event); historical_trigger();"
-							ng-click="caretTracker($index, $event); openLink(bit, $event)"
-							ng-focus="isFocused(true)"
-							ng-blur="isFocused(false)"
-						></textarea>
-						<div class="textarea-autosize" ng-bind-html="bit.contentCaret"></div>
-					</div>
-
+				<div class="bit_menu">
+					<!-- <div class="bit_menu_interior"> -->
+						<button class="bit_menu_point gfx-cross kill" ng-click="killBit($index)"></button>
+						<button class="bit_menu_point gfx-check mark" ng-click="mark($index, false)"></button>
+						<button class="bit_menu_point gfx-loupe search" ng-click="search(bit.content, bit.tabCount, $index)"></button>
+						<button class="bit_menu_point gfx-spacer spacer" ng-click="bit.gap = !bit.gap"></button>
+					<!-- </div> -->
 				</div>
+
+				<div class="textarea-container bit_content">
+					<textarea
+						class="mousetrap"
+						ng-model="bit.content"
+						ng-model-options="{ debounce: 250 }"
+						ng-keyup="autoSizer($index, $event, bit.content); historical_trigger();"
+						ng-click="caretTracker($index); openLink(bit, $event);"
+						ng-focus="isFocused(true)"
+						ng-blur="isFocused(false)"
+					></textarea>
+					<div class="textarea-autosize" ng-bind-html="bit.contentCaret"></div>
+				</div>
+
 			</div>
 			
 
 			<div 
-				class="untouchable noteBody_desktop"
-				ng-if="!touchy()"
-			>				
-				<div 
-					ng-repeat="bit in note.body track by $index" 				
-					class="note_bit indent_{{bit.tabCount}} menuOpen_{{bit.menu_open}} bitMarked_{{bit.mark}} bitSelected_{{bit.selected}}"
-					ng-class="{
-						'bit_link': bit.isLink,
-						'alt': altIsPressed,
-						'gap' : bit.gap
-					}"
-					ng-click="selector($index, $event)"
-				>
-
-					<div 
-						class="bit_anchor" 
-						ng-click="
-							toggleBitMenu($index, $event);
-						"
-					></div>
-
-					<div class="bit_menu">
-						<button class="bit_menu_point kill" ng-click="killBit($index)">
-							<span class="gfx-cross"></span>
-						</button>
-						<button class="bit_menu_point mark" ng-click="mark($index, false)">
-							<span class="gfx-check"></span>
-						</button>
-						<button class="bit_menu_point search" ng-click="search(bit.content, bit.tabCount, $index)">
-							<span class="gfx-loupe"></span>
-						</button>
-						<button class="bit_menu_point spacer" ng-click="bit.gap = !bit.gap">
-							<span class="gfx-spacer"></span>
-						</button>
-					</div>
-
-					<div class="textarea-container bit_content">
-						<textarea
-							class="mousetrap"
-							ng-model="bit.content"
-							ng-model-options="{ debounce: 250 }"
-							ng-keyup="autoSizer($index, $event, bit.content); historical_trigger();"
-							ng-click="caretTracker($index); openLink(bit, $event)"
-							ng-focus="isFocused(true)"
-							ng-blur="isFocused(false)"
-						></textarea>
-						<div class="textarea-autosize" ng-bind-html="bit.contentCaret"></div>
-					</div>
-
-				</div>
-			</div>
-			
-
-			<div 
-				class="new_bit gfx-plus" 
+				class="new_bit" 
 				ng-click="addBit(note.body.length - 1)"
 			></div>
 
@@ -186,8 +131,7 @@ Where are you now?"></div>
 				ng-repeat="bit in note.body track by $index" 
 				ng-if="bit.mark"
 				ng-click="bit.mark = false;"
-				ng-swipe-left="bit.mark = false;"
-				ng-swipe-right="bit.mark = false;"
+				hm-swipe="bit.mark = false;"
 				class="note_bit bitMarked_true"
 			>
 				<div class="bit_anchor"></div>

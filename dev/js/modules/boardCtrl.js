@@ -25,6 +25,14 @@ module.exports = function(
 
     $scope.$on('$destroy', window.unbindAll)
 
+    $scope.$watch('board.title', function(newValue, oldValue) {
+		if (newValue){
+			window.document.title = newValue + ' – (board) – LICK';
+		}else{
+			window.document.title = 'Untitled Board – LICK';
+		}
+	});
+
 	Board($routeParams.id).$bindTo($scope, 'board')
 		.then(function(unbinder){
 
@@ -201,7 +209,7 @@ module.exports = function(
 	};
 
 	$scope.boardGridOpts = {
-	    columns: 4,
+	    columns: 5,
 	    mobileModeEnabled: false,
 	    minColumns: 4,
 	    floating: false,
@@ -211,12 +219,13 @@ module.exports = function(
 	    maxRows: 10,
 	    defaultSizeX: 1,
 	    defaultSizeY: window.innerWidth < 768 ? 2 : 1,
+	    margins: [5, 5],
 	    resizable: {
 	       enabled: false,
 	    },
 		draggable: {
 			// handle: window.innerWidth < 768 ? '.grabber' : null
-			handle: '.grabber'
+			// handle: '.grabber'
 		}
 	};
 
@@ -227,14 +236,15 @@ module.exports = function(
 	})
 
 	$scope.logout = function(){
+		$scope.closeMenu();
 		Logout();
 	}
 
 	$scope.openMenu = function(){
-		$('#main').toggleClass('mobileMenuOpen');	
+		$('#main').toggleClass('menuOpen');	
 	};
 
 	$scope.closeMenu = function(){
-		$('#main').removeClass('mobileMenuOpen');	
+		$('#main').removeClass('menuOpen');	
 	};
 }

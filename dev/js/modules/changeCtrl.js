@@ -22,6 +22,8 @@ module.exports = function(
 
 	Boards().$bindTo($scope, 'boards');
 
+	window.document.title = 'Send note to board – LICK';
+
 	if (window.historical[window.historical.length - 2].indexOf('shared') > 0){
 		console.log('SHARED')
 		sharedNote($routeParams.id).$bindTo($scope, 'note')

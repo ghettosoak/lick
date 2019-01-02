@@ -89,6 +89,25 @@ function deviceReady(){
 	StatusBar.hide();
 }
 
+$(window).on('scroll', function(e){
+	var $that = $(this),
+		_st = $that.scrollTop();
+
+	if (window.innerWidth < 768){
+		if (_st > 10){
+			$body.addClass('topNavigation')
+		}else{
+			$body.removeClass('topNavigation')			
+		}
+	}else{
+		if (_st > 20){
+			$body.addClass('topNavigation')
+		}else{
+			$body.removeClass('topNavigation')			
+		}
+	}
+})
+
 // define our app and dependencies (remember to include firebase!)
 var app = angular.module(
 	'lick', 
@@ -102,6 +121,7 @@ var app = angular.module(
 		'gridster',
 		'ngAnimate',
 		'ngTouch',
+		// 'hmTouchEvents',
 		'slickCarousel'
 	]
 );
@@ -370,11 +390,9 @@ app.factory("Login", ['$rootScope', "$firebaseAuth", "$cookies", '$timeout', 'Au
 					console.error("Authentication failed:", error);
 					$cookies.email = '';
 					$cookies.pass = '';
-					alert('Oh no! Your login didn\'t work. Try again? :)');
+					alert('Oh no! Your login didn\'t work. Try again!');
 				});
-			}
-
-			
+			}			
 		}
 	}
 ]);

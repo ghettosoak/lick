@@ -2,6 +2,7 @@
 
 	.portal_subtitle{
 		text-align: center;
+		padding: 0 10px;
 	}
 
 	.portal_input{
@@ -9,10 +10,12 @@
 		max-width: 300px;
 		height: 233px;
 		margin: 50px auto;
+
 		h5{
-			border-bottom: 1px @color-primary solid;
+			// border-bottom: 1px @color-primary solid;
 			text-align: center;
-			padding-bottom: 15px;
+			margin-bottom: 5px;
+			// padding-bottom: 15px;
 		}
 	}
 
@@ -23,6 +26,7 @@
 		width: 100%;
 		top: 0;
 		left: 0;
+		padding: 0 10px;
 
 		* {
 			@portalTransition: ~'opacity 0.5s ease, visibility 0.5s ease, transform 0.5s ease';
@@ -176,7 +180,6 @@
 		background-color: @color-primary;
 		text-align: center;
 		border: 1px @color-primary solid;
-		border-radius: 5px;
 		cursor: pointer;
 		margin: 10px 0;
 		line-height: 40px;

@@ -39,7 +39,15 @@ module.exports = function(
 
     $scope.filtered = false;
 
-    $scope.$on('$destroy', window.unbindAll)
+    $scope.$on('$destroy', window.unbindAll);
+
+    $scope.$watch('note.title', function(newValue, oldValue) {
+		if (newValue){
+			window.document.title = newValue + ' – (note) – LICK';
+		}else{
+			window.document.title = 'Untitled Note – LICK';
+		}
+	});
 
     var keysUp = function(){
 		$scope.commandIsPressed = false;
@@ -165,15 +173,17 @@ module.exports = function(
 					event.preventDefault();
 
 					if (_isBit()){
-						if ($scope.note.body[_bitIndex()].content !== '')
+						if ($scope.note.body[_bitIndex()].content !== ''){
 							$scope.addBit( _bitIndex() );
+						}
 						else if (_bitIndex() !== 0){
 							$scope.note.body[_bitIndex()].gap = true;
 							$scope.note.body[_bitIndex()].tabCount = 0;
 						}
 					}
-					else
+					else{
 						_focusMe(0);
+					}
 				}
 			}
 		})
@@ -196,12 +206,15 @@ module.exports = function(
 					_isTextarea() && 
 					($scope.note.body[_bitIndex()].content === '')
 				){
-					if ($scope.note.body[_bitIndex()].tabCount > 0)
+					if ($scope.note.body[_bitIndex()].tabCount > 0){
 						$scope.note.body[_bitIndex()].tabCount--;
-					else if ($scope.note.body[_bitIndex()].gap)
+					}
+					else if ($scope.note.body[_bitIndex()].gap){
 						$scope.note.body[_bitIndex()].gap = false;
-					else
+					}
+					else{
 						$scope.killBit( _bitIndex() );
+					}
 					event.preventDefault();
 				}
 			}
@@ -234,11 +247,13 @@ module.exports = function(
 				if ( _isTextarea() && _isBit() ){
 					if ($scope.selectedBits){
 						angular.forEach($scope.note.body, function(e, k){
-							if (e.selected)
+							if (e.selected){
 								$scope.tabIn(k);
+							}
 						})
-					}else
+					}else{
 						$scope.tabIn(_bitIndex());						
+					}
 					event.preventDefault();
 				}else if ( _isTextarea() )
 					_focusMe(0);
@@ -252,11 +267,13 @@ module.exports = function(
 				if ( _isTextarea() && _isBit() ){
 					if ($scope.selectedBits){
 						angular.forEach($scope.note.body, function(e, k){
-							if (e.selected)
+							if (e.selected){
 								$scope.tabOut(k);
+							}
 						})
-					}else
+					}else{
 						$scope.tabOut(_bitIndex());
+					}
 					event.preventDefault();
 				}
 			}
@@ -279,10 +296,10 @@ module.exports = function(
 			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function(event) {
 				if ( _isTextarea()){
-					// console.log(event)
+					console.log(event, event.keyCode)
 					$scope.unselector();
 					$scope.caretTracker(_bitIndex(), function(){
-						$scope.jumpAround(_bitIndex(), event.keyIdentifier, false);
+						$scope.jumpAround(_bitIndex(), event.keyCode, false);
 					})
 				}
 			}
@@ -315,7 +332,7 @@ module.exports = function(
 			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
 			callback: function(event) {
 				if ( _isTextarea()){
-					$scope.jumpAround(_bitIndex(), event.keyIdentifier, true);
+					$scope.jumpAround(_bitIndex(), event.keyCode, true);
 					event.preventDefault();
 				}
 			}
@@ -336,6 +353,29 @@ module.exports = function(
 			callback: function(event) {
 				$scope.moveDown(_bitIndex());
 				event.preventDefault();
+			}
+		})
+		.add({
+			combo: ['shift + '],
+			description: 'New note',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			callback: function(event) {
+				$location.path('/note/' + newNote());
+				event.preventDefault();
+			}
+		})
+		.add({
+			combo: ['command+shift+a', 'ctrl+shift+a'],
+			description: 'Select all bits',
+			allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+			callback: function(event, hotkey) {
+				event.preventDefault();
+				angular.forEach($scope.note.body, function(e, k){
+					$scope.note.body[k].selected = true;
+					$scope.selectedBits = true;
+				})
+				// if ( !_isTextSelected($(event.target)[0]) ){
+				// }
 			}
 		})
 		.add({
@@ -383,8 +423,9 @@ module.exports = function(
 					// $scope.unselector();
 					if ($scope.selectedBits){
 						angular.forEach($scope.note.body, function(e, k){
-							if (e.selected)
+							if (e.selected){
 								$scope.mark(k);
+							}
 						})
 					}else{
 						$scope.mark(_bitIndex())
@@ -615,7 +656,7 @@ module.exports = function(
 	}
 
 	$scope.tabIn = function(index){
-		if ($scope.note.body[index].tabCount < 3){
+		if ($scope.note.body[index].tabCount < 4){
 			$scope.note.body[index].tabCount++;
 		}else{
 			_focusMe(index + 1);
@@ -671,21 +712,33 @@ module.exports = function(
 
 
 	$scope.jumpAround = function(index, key, justgo){
+
+		// console.log(index, key, justgo)
 		// console.log(index, key, justgo)
 		var $theBit = $(document.activeElement),
 			$theCaret = $theBit.siblings('.textarea-autosize').find('.hiddenCaret'),
 			theCaretPos = $theCaret.position().top,
-			theCaretHeight = 27;
+			theCaretHeight = 23;
+
+		// console.log(theCaretPos, theCaretHeight, theCaretPos < theCaretHeight - 1)
+		console.log(
+			   'CARETPOS + 4', theCaretPos + 4,
+			'// CARETHEIGHT', theCaretHeight,
+			'// OUTERHEIGHT', $theCaret.parent().outerHeight(true),
+			'// CARETHEIGHT - OUTERHEIGHT', ($theCaret.parent().outerHeight(true) - (theCaretHeight)),
+			'// CARETPOS >= CARETHEIGHT - OUTERHEIGHT', theCaretPos + 4 >= ($theCaret.parent().outerHeight(true) - (theCaretHeight))
+		);
 
 		if ( 
 			(
-				(key === 'Up') && 
+				(key === 38) && 
 				(theCaretPos < theCaretHeight - 1) 
 			)||(
-				(key === 'Up') && 
+				(key === 38) && 
 				justgo
 			)
 		){
+			console.log('UP')
 			$theBit.parents('.note_bit')
 				.prev('.note_bit').find('textarea')
 				.focus()
@@ -693,20 +746,21 @@ module.exports = function(
 
 		if (
 			(
-				(key === 'Down') && 
-				(theCaretPos >= ($theCaret.parent().height() - (theCaretHeight))) 
+				(key === 40) && 
+				((theCaretPos + 4) >= ($theCaret.parent().outerHeight(true) - theCaretHeight)) 
 			)||(
-				(key === 'Down') && 
+				(key === 40) && 
 				justgo
 			)
 		){
+			console.log('DOWN')
 			$theBit.parents('.note_bit')
 				.next('.note_bit').find('textarea')
 				.focus()
 		}
 
 		if (
-			(key === 'Down') &&
+			(key === 40) &&
 			(index === $scope.note.body.length - 1)
 		){
 			$scope.addBit(index);
@@ -824,14 +878,16 @@ module.exports = function(
 	}
 
 	$scope.swipe = function(index, direction){
-		console.log($scope.noEdit)
 		if ($scope.noEdit){
 			$scope.mark(index, true);
+		}else if (!_isTextSelected($(event.target)[0])){
+			if (direction === 'left'){
+				$scope.tabOut(index);	
+			}
+			else if (direction === 'right'){
+				$scope.tabIn(index);
+			}
 		}
-		else if (direction === 'left')
-			$scope.tabOut(index);	
-		else if (direction === 'right')
-			$scope.tabIn(index);
 
 	}
 
@@ -864,11 +920,11 @@ module.exports = function(
 	};
 
 	$scope.openMenu = function(){
-		$('#main').toggleClass('mobileMenuOpen');	
+		$('#main').toggleClass('menuOpen');	
 	};
 
 	$scope.closeMenu = function(){
-		$('#main').removeClass('mobileMenuOpen');	
+		$('#main').removeClass('menuOpen');	
 	};
 
 	$scope.closeNote = function(){
@@ -955,6 +1011,7 @@ module.exports = function(
 	})
 
 	$scope.logout = function(){
+		$scope.closeMenu();
 		Logout();
 	}
 }

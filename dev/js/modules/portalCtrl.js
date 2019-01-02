@@ -29,6 +29,8 @@ module.exports = function(
     if (window.loggedIn)
 	    $location.path('/list');
 
+	window.document.title = 'Welcome – LICK';
+
     $scope.sign_up = function(){
     	if (!$scope.signIn.$pristine)
 	    	$scope.loading = true;
@@ -47,7 +49,7 @@ module.exports = function(
 			$timeout(function(){
 				Login($scope.signUp_input.email, $scope.signUp_input.password, function(){
 					firstNote();
-					$location.path('/list/');
+					$location.path('/list');
 				})
 			})
 
@@ -63,7 +65,7 @@ module.exports = function(
     		function(){
 	    		$scope.loading = false;
 	    		if (!window.resettingPassword)
-		    		$location.path('/list/');
+		    		$location.path('/list');
 		    	else{
 		    		$scope.viewing = 'pwchange';
 		    	}
@@ -87,8 +89,8 @@ module.exports = function(
 		}).then(function() {
 			$scope.loading = false;
 			window.resettingPassword = false;
-			$location.path('/list/');
-			alert('Alright, your password has been reset!\n\nDon\'t worry, it happens to everyone! :)')
+			$location.path('/list');
+			alert('Your password has been reset.\n\nDon\'t worry, it happens to everyone! :)')
 		}).catch(function(error) {
 			console.error("Error: ", error);
 		});
@@ -104,13 +106,13 @@ module.exports = function(
 			}).then(function() {
 				$scope.loading = false;
 				window.resettingPassword = true;
-				alert('Awesome!\n\nGo check your email, we just sent you a temporary password. \n\nGo get it there, login with that, and we\'ll change your password when you get back!');
+				alert('Okay!\n\nGo check your email, we just sent you a temporary password. \n\nGo get it there, login with that, and we\'ll change your password when you get back!');
 				console.log('Password reset email sent successfully!');
 			}).catch(function(error) {
 				console.error("Error: ", error);
 			});
     	}else{
-    		alert('Ah man, I hate it when that happens.\n\nHere, put your email in, and click the \'Forgot your password?\' button again.')
+    		alert('Ou nei!\n\nPut your email in, and click the \'Forgot your password?\' button again.')
     	}
     }
 

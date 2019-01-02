@@ -75,6 +75,14 @@
 	[data-direction="west"].ready&{ background-color: @color-west; }
 }
 
+.directions_border_color(){
+	border-color: @color-primary;
+	[data-direction="north"].ready &{ border-color: @color-north; }
+	[data-direction="south"].ready &{ border-color: @color-south; }
+	[data-direction="east"].ready &{ border-color: @color-east; }
+	[data-direction="west"].ready &{ border-color: @color-west; }
+}
+
 .noHover(){
 	&:hover{
 		text-decoration: none;

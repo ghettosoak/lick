@@ -6,29 +6,37 @@
 	}"
 >
 
-	<div class="header board_menu">
+	<div class="navigation_left">
+		<a class="navigation_close" href="#/list"></a>
+		
 
-		<a class="gfx-cross close" ng-click="closeMenu()" href="#/list"></a>
+		<!-- <div class="gfx-cut cut" ng-show="commandIsPressed" ng-click="cut();" title="Cut selected bits"></div>
+		<div class="gfx-paste paste" ng-show="clipboarded" ng-click="paste();" title="Paste cut bits"></div> -->
+	</div>
 
-		<div class="gfx-note-new newNote" title="New note in this board" ng-click="newNote(board.id)"></div>
-		<div class="gfx-cross kill" 
-			title="Delete board"
-			ng-click="killBoard(board.id)"
-			ng-class="{
-				prevent: !boardIsEmpty,
-				warn: killWarn
-			}"
-		>
-			<span>You can only delete a board when it's empty. :)</span>
+	<div class="navigation_toggle" ng-click="openMenu();"></div>
+
+	<div class="navigation_right board_menu">
+		<div class="navigation_interior">
+			<!-- <a class="gfx-cross close" ng-click="closeMenu()" href="#/list"></a> -->
+
+			<div class="gfx-note-new newNote" title="" ng-click="newNote(board.id)">New note in this board</div>
+			<!-- <div class="gfx-cross kill" 
+				title="Delete board"
+				ng-click="killBoard(board.id)"
+				ng-class="{
+					prevent: !boardIsEmpty,
+					warn: killWarn
+				}"
+			>
+				<span>You can only delete a board when it's empty. :)</span>
+			</div> -->
+			<a class="gfx-history history" href="#/history" title="" ng-if="historyCounter()">Recently edited notes (<span ng-bind="historyCounter()"></span>)</a>
+			<!-- <a class="gfx-info info" href="#/info" ng-click="closeMenu()" title="">View a quick tutorial</a> -->
+			<div class="gfx-concentric concentric" ng-click="concentric()" title=""></div>
+			<a class="gfx-licklogo colophon"  href="#/colophon" ng-click="closeMenu()" title="">Colophon</a>
+			<div class="gfx-logout logout" ng-click="logout();" title="Log out">Log out</div>
 		</div>
-		<a class="gfx-history history" href="#/history" title="View recently edited notes" ng-if="historyCounter()"><span ng-bind="historyCounter()"></span></a>
-		<a class="gfx-info info" href="#/info" ng-click="closeMenu()" title="View a quick tutorial"></a>
-		<div class="gfx-menu mobile menu_opener" ng-click="openMenu();"></div>
-		<div class="gfx-concentric concentric" ng-click="concentric()" title="Where are you going?
-Where did you come from? 
-Where are you now?"></div>
-		<a class="gfx-licklogo colophon"  href="#/colophon" ng-click="closeMenu()" title="Colophon"></a>
-		<div class="gfx-logout logout" ng-click="logout()" title="Log out"></div>
 
 	</div>
 
@@ -38,7 +46,7 @@ Where are you now?"></div>
 			<textarea 
 				ng-model="board.title" 
 				ng-model-options="{ debounce: 250 }"
-				placeholder="Give your board a title!"
+				placeholder="Untitled board"
 			></textarea>
 			<div class="textarea-autosize" ng-bind="board.title"></div>
 		</div>
@@ -59,7 +67,7 @@ Where are you now?"></div>
 				>
 					<a class="title" href="#/note/{{note.id}}" ng-click="$event.stopPropogation();" ng-if="note.title" ng-bind="note.title"><span class="gfx-check" ng-if="note.mark"></span></a>
 					<a class="title blank" href="#/note/{{note.id}}" ng-click="$event.stopPropogation();" ng-if="!note.title"><span class="gfx-check" ng-if="note.mark"></span>Untitled Note</a>
-					<div class="grabber gfx-move"></div>
+					<!-- <div class="grabber gfx-move"></div> -->
 					<a class="gfx-transfer change" href="#/change/{{note.id}}"></a>	
 					<div class="gfx-check mark" ng-click="note.mark = !note.mark"></div>
 					<div class="star gfx-star-outline" ng-if="note.id !== board.starred" ng-click="starNote(note.id)"></div>
@@ -76,7 +84,7 @@ Where are you now?"></div>
 				>
 					<a class="title" href="#/sharednote/{{note.id}}" ng-if="note.title"><span class="gfx-check" ng-if="note.mark" ng-bind="note.title"></span><span class="gfx-shared"></span></a>
 					<a class="title blank" href="#/sharednote/{{note.id}}" ng-if="!note.title"><span class="gfx-check" ng-if="note.mark"></span>Untitled Note<span class="gfx-shared"></span></a>
-					<div class="grabber gfx-move"></div>
+					<!-- <div class="grabber gfx-move"></div> -->
 					<a class="gfx-transfer change" href="#/change/{{note.id}}"></a>	
 					<div class="gfx-check mark" ng-click="note.mark = !note.mark"></div>
 					<div class="star gfx-star-outline" ng-if="note.id !== board.starred" ng-click="starNote(note.id)"></div>

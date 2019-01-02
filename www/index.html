@@ -18,7 +18,6 @@
 
     <style type="text/css">
 
-
 		.tongue{
 			position: fixed;
 			z-index: -5;
@@ -37,6 +36,10 @@
 
 		.tongue.invert path{ fill: #fff !important; }
 
+		.hello .tongue{
+			position: absolute;
+		}
+
 		[data-direction="north"] .tongue path{ fill: #8adcb3; }
 		[data-direction="south"] .tongue path{ fill: #80c0ff; }
 		[data-direction="east"] .tongue path{ fill: #ff9494; }
@@ -49,7 +52,7 @@
 	data-direction="" 
 	data-leaving=""
 	data-entering="" 
-	class=""
+	class="äuä"
 >
 
 	<div id="main">
@@ -81,6 +84,8 @@
 	<script src="assets/js/vendor/jquery-ui.min.js"></script>
 	<script src="assets/js/vendor/jquery.ui.touch-punch.min.js"></script>
 
+	<script src="assets/js/vendor/hammer.min.js"></script>
+
 	<script src="assets/js/vendor/angular_1.2.16/angular.min.js"></script>
 	<script src="assets/js/vendor/angular_1.2.16/angular-route.min.js"></script>
 	<script src="assets/js/vendor/angular_1.2.16/angular-sanitize.min.js"></script>
@@ -88,6 +93,7 @@
 	<script src="assets/js/vendor/angular_1.2.16/angular-animate.min.js"></script>
 	<script src="assets/js/vendor/angular_1.2.16/angular-touch.min.js"></script>
 
+	<!-- <script src="assets/js/vendor/angular.hammer.js"></script> -->
 	<script src="assets/js/vendor/hotkeys.min.js"></script>
 	<script src="assets/js/vendor/sortable.js"></script>
 	<script src="assets/js/vendor/firebase.js"></script>
@@ -101,7 +107,7 @@
 	<script src="assets/js/main.js?v=3_0_0"></script>
 	
 
-	<script type="text/javascript" src="cordova.js"></script>
+	<!-- <script type="text/javascript" src="cordova.js"></script> -->
 	
 
 </body>
