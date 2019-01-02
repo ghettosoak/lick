@@ -20,6 +20,7 @@ var $body = $('#ng-app')
 window._Firebase = new Firebase( 'https://lick.firebaseio.com' );
 window.listLookingAt = 'notes';
 window.directions = ['north', 'east', 'south', 'west'];
+window.layers = ['land', 'sky'];
 window.loggedIn = false;
 window.loggingIn = false;
 window.isMobileApp = false;
@@ -298,6 +299,14 @@ app.config( function($routeProvider) {
 			return window.directions[$cookies.direction];
 		}
 	}) 
+	
+	if ($cookies.layer){
+		$rootScope.layer = $cookies.layer;
+	}
+	else{
+		$cookies.layer = 'sky';
+		$rootScope.layer = $cookies.layer;
+	}
 });
 
                                                                                                   
@@ -1083,6 +1092,23 @@ app.factory('concentricity', ['$cookies',
 	}
 ]);
 
+app.factory('layering', ['$rootScope', '$cookies',
+	function($rootScope, $cookies) {
+		return function() {
+
+			console.log($rootScope.layer)
+
+			if ($cookies.layer === 'land'){
+				$cookies.layer = 'sky';
+				$rootScope.layer = 'sky';
+			}else{
+				$cookies.layer = 'land';
+				$rootScope.layer = 'land';
+			}
+		};
+	}
+]);
+
 
                                                                         
 // 88888888888 88 88     888888888888 88888888888 88888888ba   ad88888ba   
@@ -1171,6 +1197,7 @@ app.controller('noteCtrl',
 		'$cookies',
 		'Logout',
 		'concentricity',
+		'layering',
 		'Meta',
 		'historyCount',
 		'historical',
@@ -1253,6 +1280,7 @@ app.controller('boardCtrl',
 		'$cookies',
 		'Logout',
 		'concentricity',
+		'layering',
 		'historyCount',
 		boardCtrl
 	]
@@ -1274,6 +1302,7 @@ app.controller('listCtrl',
 		'$timeout',
 		'Logout',
 		'concentricity',
+		'layering',
 		'historyCount',
 		listCtrl
 	]

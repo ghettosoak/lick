@@ -13,6 +13,7 @@ module.exports = function(
 	$timeout,
 	Logout,
 	concentricity,
+	layering,
 	historyCount
 ) {
 	$timeout(function() {
@@ -107,6 +108,10 @@ module.exports = function(
 
     $scope.concentric = function(){
     	concentricity();
+    };
+
+    $scope.lightbulb = function(){
+    	layering();
     };
 
 	if (window.historical.length > 2 && window.historical[window.historical.length - 2].indexOf('board') > 0)

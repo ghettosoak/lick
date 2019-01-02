@@ -16,6 +16,7 @@ module.exports = function(
 	$cookies,
 	Logout,
 	concentricity,
+	layering,
 	Meta,
 	historyCount,
 	historical
@@ -62,6 +63,10 @@ module.exports = function(
 
     $scope.concentric = function(){
     	concentricity();
+    };
+
+    $scope.lightbulb = function(){
+    	layering();
     };
 
     if ($location.path().indexOf('shared') > 0){

@@ -20,7 +20,9 @@
 	}
 
 	.north{
-		background-color: @color-north;
+		[data-layer="sky"] & { background-color: @color-north-sky;}
+		[data-layer="land"] & { background-color: @color-north-land;}
+
 		.transform(translateY(-100%));
 		[data-direction="east"] &,
 		[data-direction="north"] &{ 
@@ -34,7 +36,9 @@
 		}
 	}
 	.east{
-		background-color: @color-east; 
+		[data-layer="sky"] & { background-color: @color-east-sky; }
+		[data-layer="land"] & { background-color: @color-east-land; }
+
 		.transform(translateX(100%));
 		[data-direction="south"] &,
 		[data-direction="east"] &{ 
@@ -48,7 +52,9 @@
 		}
 	}
 	.south{
-		background-color: @color-south;
+		[data-layer="sky"] & { background-color: @color-south-sky;}
+		[data-layer="land"] & { background-color: @color-south-land;}
+
 		.transform(translateY(100%));
 		[data-direction="west"] &,
 		[data-direction="south"] &{ 
@@ -62,7 +68,9 @@
 		}
 	}
 	.west{
-		background-color: @color-west; 
+		[data-layer="sky"] & { background-color: @color-west-sky; }
+		[data-layer="land"] & { background-color: @color-west-land; }
+
 		.transform(translateX(-100%));
 		[data-direction="north"] &,
 		[data-direction="west"] &{ 

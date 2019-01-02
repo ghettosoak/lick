@@ -15,6 +15,7 @@ module.exports = function(
 	$cookies,
 	Logout,
 	concentricity,
+	layering,
 	historyCount
 ) {
 	$timeout(function() {
@@ -102,6 +103,10 @@ module.exports = function(
 
     $scope.concentric = function(){
     	concentricity();
+    };
+
+    $scope.lightbulb = function(){
+    	layering();
     };
 
 	hotkeys.bindTo($scope)

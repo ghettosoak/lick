@@ -165,36 +165,42 @@
 		cursor: ns-resize;
 	}
 
-	.gfx(check);
+	.gfx(check_thick);
+
+	// @media @mobile-min{
+	// 	.gfx(check);
+	// }
 
 	&:before{
 		position: absolute;
 		height: 24px;
 		width: 24px;
-		font-size: 24px;
+		font-size: 18px;
 		line-height: 24px;
 		top: 50%;
 		left: 0;
 		margin: -15px 0 0;
 		z-index: 1;
-		// left: -53px;
-		// top: 3px;
 		opacity: 0;
 		visibility: hidden;
 		transition: all @microanimations ease;
-		.directions_color;
+		// .directions_color;
+		// color: white;
 
 		.bitMarked_true &{
 			opacity: 1;
-			visibility: hidden;
+			visibility: visible;
 		}
 
 		@media @mobile-min{
-			color: white;
-			height: 100%;
-			width: 50px;
-			left: -63px;
-			top: 3px;
+			color: white !important;
+			// height: 100%;
+			// width: 0px;
+			// margin: 0;
+			// margin-top: -10px;
+			left: -24px;
+			// top: 10px;
+			font-size: 24px;
 		}
 	}
 
@@ -208,7 +214,17 @@
 		margin: -15px 0 0;
 		background-color: white;
 		border-radius: 50%;
-		transition: all @microanimations ease;		
+		transition: all @microanimations ease;
+
+		.bitMarked_true &{
+			background-color: transparent;
+			border: 1px solid white;
+
+			@media @mobile-min{
+				background-color: white;
+				border: 0;
+			}
+		}		
 
 		@media @mobile-min{
 			height: 6px;
@@ -241,7 +257,7 @@
 	left: 0;
 	// background-color: white;
 	transition: @microanimations ease width;
-	z-index: 1;
+	z-index: 2;
 	overflow: hidden;
 	// display: none;
 	// opacity: 0;

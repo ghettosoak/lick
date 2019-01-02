@@ -53,34 +53,54 @@
 
 .directions_color(){
 	color: @color-primary;
-	[data-direction="north"].ready &{ color: @color-north; }
-	[data-direction="south"].ready &{ color: @color-south; }
-	[data-direction="east"].ready &{ color: @color-east; }
-	[data-direction="west"].ready &{ color: @color-west; }
+	[data-layer="sky"][data-direction="north"].ready &{ color: @color-north-sky; }
+	[data-layer="sky"][data-direction="south"].ready &{ color: @color-south-sky; }
+	[data-layer="sky"][data-direction="east"].ready &{ color: @color-east-sky; }
+	[data-layer="sky"][data-direction="west"].ready &{ color: @color-west-sky; }
+
+	[data-layer="land"][data-direction="north"].ready &{ color: @color-north-land; }
+	[data-layer="land"][data-direction="south"].ready &{ color: @color-south-land; }
+	[data-layer="land"][data-direction="east"].ready &{ color: @color-east-land; }
+	[data-layer="land"][data-direction="west"].ready &{ color: @color-west-land; }
 }
 
 .directions_background(){
 	background-color: @color-primary;
-	[data-direction="north"].ready &{ background-color: @color-north; }
-	[data-direction="south"].ready &{ background-color: @color-south; }
-	[data-direction="east"].ready &{ background-color: @color-east; }
-	[data-direction="west"].ready &{ background-color: @color-west; }
+	[data-layer="sky"][data-direction="north"].ready &{ background-color: @color-north-sky; }
+	[data-layer="sky"][data-direction="south"].ready &{ background-color: @color-south-sky; }
+	[data-layer="sky"][data-direction="east"].ready &{ background-color: @color-east-sky; }
+	[data-layer="sky"][data-direction="west"].ready &{ background-color: @color-west-sky; }
+
+	[data-layer="land"][data-direction="north"].ready &{ background-color: @color-north-land; }
+	[data-layer="land"][data-direction="south"].ready &{ background-color: @color-south-land; }
+	[data-layer="land"][data-direction="east"].ready &{ background-color: @color-east-land; }
+	[data-layer="land"][data-direction="west"].ready &{ background-color: @color-west-land; }
 }
 
 .directions_background_body(){
 	background-color: @color-primary;
-	[data-direction="north"].ready&{ background-color: @color-north; }
-	[data-direction="south"].ready&{ background-color: @color-south; }
-	[data-direction="east"].ready&{ background-color: @color-east; }
-	[data-direction="west"].ready&{ background-color: @color-west; }
+	[data-layer="sky"][data-direction="north"].ready&{ background-color: @color-north-sky; }
+	[data-layer="sky"][data-direction="south"].ready&{ background-color: @color-south-sky; }
+	[data-layer="sky"][data-direction="east"].ready&{ background-color: @color-east-sky; }
+	[data-layer="sky"][data-direction="west"].ready&{ background-color: @color-west-sky; }
+
+	[data-layer="land"][data-direction="north"].ready&{ background-color: @color-north-land; }
+	[data-layer="land"][data-direction="south"].ready&{ background-color: @color-south-land; }
+	[data-layer="land"][data-direction="east"].ready&{ background-color: @color-east-land; }
+	[data-layer="land"][data-direction="west"].ready&{ background-color: @color-west-land; }
 }
 
 .directions_border_color(){
 	border-color: @color-primary;
-	[data-direction="north"].ready &{ border-color: @color-north; }
-	[data-direction="south"].ready &{ border-color: @color-south; }
-	[data-direction="east"].ready &{ border-color: @color-east; }
-	[data-direction="west"].ready &{ border-color: @color-west; }
+	[data-layer="sky"][data-direction="north"].ready &{ border-color: @color-north-sky; }
+	[data-layer="sky"][data-direction="south"].ready &{ border-color: @color-south-sky; }
+	[data-layer="sky"][data-direction="east"].ready &{ border-color: @color-east-sky; }
+	[data-layer="sky"][data-direction="west"].ready &{ border-color: @color-west-sky; }
+
+	[data-layer="land"][data-direction="north"].ready &{ border-color: @color-north-land; }
+	[data-layer="land"][data-direction="south"].ready &{ border-color: @color-south-land; }
+	[data-layer="land"][data-direction="east"].ready &{ border-color: @color-east-land; }
+	[data-layer="land"][data-direction="west"].ready &{ border-color: @color-west-land; }
 }
 
 .noHover(){

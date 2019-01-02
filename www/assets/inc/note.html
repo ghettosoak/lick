@@ -10,15 +10,6 @@
 	}"
 	ng-click="note.kill = false; unselector();"
 >
-
-<!-- <div class="background">
-	<div class="north"></div>
-	<div class="south"></div>
-	<div class="east"></div>
-	<div class="west"></div>
-</div> -->
-
-
 	<div class="navigation_left">
 		<div class="navigation_close" ng-click="closeNote()"></div>
 		
@@ -41,12 +32,14 @@
 			<a class="gfx-transfer transfer" href="#/change/{{note.id}}" ng-click="closeMenu()">Send to board</a>
 			<a class="gfx-share share" href="#/share/{{note.id}}" ng-click="closeMenu()">Share this note</a>
 			<a class="gfx-text text" href="#/text/{{note.id}}" ng-click="closeMenu();">Open in plain text</a>
+			<div class="gfx-keylock noEdit mobile" ng-click="noEdit = !noEdit;">Shopping mode</div>
 			<div class="gfx-filter filter" ng-click="filtered = !filtered;">Filter checked bits</div>
 			
 			<a class="gfx-history history" href="#/history" ng-if="historyCounter()" ng-click="closeMenu()">Recently edited notes (<span ng-bind="historyCounter()"></span>)</a>
 			<!-- <a class="gfx-info info" href="#/info" ng-click="closeMenu()">Help</a> -->
 			<div class="gfx-keyboard showCheatSheet" ng-click="showCheatSheet()">Keyboard shortcuts</div>
-			<div class="gfx-concentric concentric" ng-click="concentric()" title=""></div>
+			<div class="gfx-concentric concentricity" ng-click="concentric()" title=""></div>
+			<div class="gfx-lightbulb lightbulb" ng-click="lightbulb()" title=""></div>
 			<a class="gfx-licklogo colophon" href="#/colophon" ng-click="closeMenu()">Colophon</a>
 			<div class="gfx-logout logout" ng-click="logout()">Log out</div>
 
@@ -94,7 +87,7 @@
 				<div class="bit_menu">
 					<!-- <div class="bit_menu_interior"> -->
 						<button class="bit_menu_point gfx-cross kill" ng-click="killBit($index)"></button>
-						<button class="bit_menu_point gfx-check mark" ng-click="mark($index, false)"></button>
+						<button class="bit_menu_point gfx-check_thick mark" ng-click="mark($index, false)"></button>
 						<button class="bit_menu_point gfx-loupe search" ng-click="search(bit.content, bit.tabCount, $index)"></button>
 						<button class="bit_menu_point gfx-spacer spacer" ng-click="bit.gap = !bit.gap"></button>
 					<!-- </div> -->

@@ -33,7 +33,8 @@
 			</div> -->
 			<a class="gfx-history history" href="#/history" title="" ng-if="historyCounter()">Recently edited notes (<span ng-bind="historyCounter()"></span>)</a>
 			<!-- <a class="gfx-info info" href="#/info" ng-click="closeMenu()" title="">View a quick tutorial</a> -->
-			<div class="gfx-concentric concentric" ng-click="concentric()" title=""></div>
+			<div class="gfx-concentric concentricity" ng-click="concentric()" title=""></div>
+			<div class="gfx-lightbulb lightbulb" ng-click="lightbulb()" title=""></div>
 			<a class="gfx-licklogo colophon"  href="#/colophon" ng-click="closeMenu()" title="">Colophon</a>
 			<div class="gfx-logout logout" ng-click="logout();" title="Log out">Log out</div>
 		</div>
@@ -64,34 +65,78 @@
 					ng-class="{marked: note.mark}"
 					gridster-item="boardItemOpts_private"
 					data-id="{{note.id}}"
-				>
-					<a class="title" href="#/note/{{note.id}}" ng-click="$event.stopPropogation();" ng-if="note.title" ng-bind="note.title"><span class="gfx-check" ng-if="note.mark"></span></a>
-					<a class="title blank" href="#/note/{{note.id}}" ng-click="$event.stopPropogation();" ng-if="!note.title"><span class="gfx-check" ng-if="note.mark"></span>Untitled Note</a>
-					<!-- <div class="grabber gfx-move"></div> -->
-					<a class="gfx-transfer change" href="#/change/{{note.id}}"></a>	
-					<div class="gfx-check mark" ng-click="note.mark = !note.mark"></div>
+				>					
+					<a 
+						class="title" 
+						href="#/note/{{note.id}}" 
+						ng-click="$event.stopPropogation();" 
+						ng-if="note.title">
+						<span class="title_check gfx-check_thick" ng-if="note.mark"></span>
+						{{ note.title }}
+					</a>
+					<a 
+						class="title blank" 
+						href="#/note/{{note.id}}" 
+						ng-click="$event.stopPropogation();" 
+						ng-if="!note.title">Untitled Note</a>
+
 					<div class="star gfx-star-outline" ng-if="note.id !== board.starred" ng-click="starNote(note.id)"></div>
 					<div class="star gfx-star-fill" ng-if="note.id === board.starred" ng-click="starNote(null)"></div>
+					<div class="gfx-check_thick mark" ng-click="note.mark = !note.mark"></div>
+					<a class="gfx-transfer change" href="#/change/{{note.id}}"></a>	
 
+					<div class="grabber gfx-move"></div>
 				</li>
 
 				<li 
 					ng-repeat="note in sharedFilter"
-					class="board_note id_{{note.id}}"
+					class="board_note shared_note id_{{note.id}}"
 					ng-class="{marked: note.mark}"
 					gridster-item="boardItemOpts_shared"
 					data-id="{{note.id}}"
 				>
-					<a class="title" href="#/sharednote/{{note.id}}" ng-if="note.title"><span class="gfx-check" ng-if="note.mark" ng-bind="note.title"></span><span class="gfx-shared"></span></a>
-					<a class="title blank" href="#/sharednote/{{note.id}}" ng-if="!note.title"><span class="gfx-check" ng-if="note.mark"></span>Untitled Note<span class="gfx-shared"></span></a>
-					<!-- <div class="grabber gfx-move"></div> -->
-					<a class="gfx-transfer change" href="#/change/{{note.id}}"></a>	
-					<div class="gfx-check mark" ng-click="note.mark = !note.mark"></div>
+					<a 
+						class="title" 
+						href="#/sharednote/{{note.id}}" 
+						ng-click="$event.stopPropogation();" 
+						ng-if="note.title">
+						<span class="shared gfx-shared"></span>
+						<span class="title_check gfx-check_thick" ng-if="note.mark"></span>
+						{{ note.title }}
+					</a>
+					<a 
+						class="title blank" 
+						href="#/sharednote/{{note.id}}" 
+						ng-click="$event.stopPropogation();" 
+						ng-if="!note.title">
+						<span class="shared gfx-shared"></span>
+						Untitled Shared Note
+					</a>
+
 					<div class="star gfx-star-outline" ng-if="note.id !== board.starred" ng-click="starNote(note.id)"></div>
 					<div class="star gfx-star-fill" ng-if="note.id === board.starred" ng-click="starNote(null)"></div>
+					<div class="gfx-check_thick mark" ng-click="note.mark = !note.mark"></div>
+					<a class="gfx-transfer change" href="#/change/{{note.id}}"></a>
 
+					<div class="grabber gfx-move"></div>
 				</li>
 			</ul>
 		</div>
 	</div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
