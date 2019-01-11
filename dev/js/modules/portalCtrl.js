@@ -19,8 +19,11 @@ module.exports = function(
 	$timeout(function() {
 		$scope.$digest();
 	})
+    console.log('$scope.auth')
 	
     $scope.auth = Auth;
+
+    console.log($scope.auth)
 
     $scope.pageClass = 'portal';
     $scope.viewing = 'signIn';
@@ -29,33 +32,33 @@ module.exports = function(
     if (window.loggedIn)
 	    $location.path('/list');
 
-	window.document.title = 'Welcome – LICK';
+		window.document.title = 'Welcome – LICK';
 
     $scope.sign_up = function(){
     	if (!$scope.signIn.$pristine)
 	    	$scope.loading = true;
 
-		$scope.auth.$createUser({
-			email    : $scope.signUp_input.email,
-			password : $scope.signUp_input.password
-		}).then(function(userData) {
+			$scope.auth.$createUserWithEmailAndPassword(
+				$scope.signUp_input.email,
+				$scope.signUp_input.password
+			).then(function(userData) {
 
-			$scope.loading = false;
+				$scope.loading = false;
 
-			console.log('new user "' + userData.uid + '" created!');
+				console.log('new user "' + userData.uid + '" created!');
 
-			window.uid = userData.uid;
+				window.uid = userData.uid;
 
-			$timeout(function(){
-				Login($scope.signUp_input.email, $scope.signUp_input.password, function(){
-					firstNote();
-					$location.path('/list');
+				$timeout(function(){
+					Login($scope.signUp_input.email, $scope.signUp_input.password, function(){
+						firstNote();
+						$location.path('/list');
+					})
 				})
-			})
 
-		}).catch(function(error) {
-			console.log(error);
-		});
+			}).catch(function(error) {
+				console.log(error);
+			});
     }
 
     $scope.sign_in = function(){
@@ -82,18 +85,22 @@ module.exports = function(
     	if (!$scope.signIn.$pristine)
 	    	$scope.loading = true;
 
-		$scope.auth.$changePassword({
-			email: $scope.signIn_input.email,
-			oldPassword: $scope.signIn_input.password,
-			newPassword: $scope.reset_input.password
-		}).then(function() {
-			$scope.loading = false;
-			window.resettingPassword = false;
-			$location.path('/list');
-			alert('Your password has been reset.\n\nDon\'t worry, it happens to everyone! :)')
-		}).catch(function(error) {
-			console.error("Error: ", error);
-		});
+			// $scope.auth.$changePassword({
+			// 	email: $scope.signIn_input.email,
+			// 	oldPassword: $scope.signIn_input.password,
+			// 	newPassword: $scope.reset_input.password
+			// })
+
+			$scope.auth.$changePassword(
+				$scope.reset_input.password
+			).then(function() {
+				$scope.loading = false;
+				window.resettingPassword = false;
+				$location.path('/list');
+				alert('Your password has been reset.\n\nDon\'t worry, it happens to everyone! :)')
+			}).catch(function(error) {
+				console.error("Error: ", error);
+			});
     }
 
     $scope.pwReset = function(){

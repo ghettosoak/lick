@@ -17,7 +17,19 @@ var helloCtrl = require('./modules/helloCtrl'),
 
 var $body = $('#ng-app')
 
-window._Firebase = new Firebase( 'https://lick.firebaseio.com' );
+var config = {
+  apiKey: "AIzaSyD7j2bkgZg3led-CR0rH8wXMgksY4sP2o8",
+  authDomain: "lick.firebaseapp.com",
+  databaseURL: "https://lick.firebaseio.com",
+  projectId: "firebase-lick",
+  storageBucket: "firebase-lick.appspot.com",
+  messagingSenderId: "330483292917"
+};
+
+firebase.initializeApp(config);
+
+window._Firebase = firebase.database().ref();
+
 window.listLookingAt = 'notes';
 window.directions = ['north', 'east', 'south', 'west'];
 window.layers = ['land', 'sky'];
@@ -36,24 +48,24 @@ window.emailUnescaper = function(email){
 };
 
 window.getObjectSize = function(obj) {
-    var size = 0, 
-    key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
+  var size = 0, 
+  key;
+  for (key in obj) {
+      if (obj.hasOwnProperty(key)) size++;
+  }
+  return size;
 };
 
 window.getObjectDeepSize = function(obj) {
-    var size = 0, 
-    	key;
-    for (key in obj) {
-        if (
-        	typeof(obj[key]) === 'object' 
-        	&& key.indexOf('$') < 0
-    	) size++;
-    }
-    return size;
+  var size = 0, 
+  	key;
+  for (key in obj) {
+      if (
+      	typeof(obj[key]) === 'object' 
+      	&& key.indexOf('$') < 0
+  	) size++;
+  }
+  return size;
 };
 
 window.is_touch_device = function() {
@@ -341,19 +353,19 @@ app.factory("Login", ['$rootScope', "$firebaseAuth", "$cookies", '$timeout', 'Au
 			if (!window.loggingIn){
 				window.loggingIn = true;
 
-				Auth.$authWithPassword({
-					email: theEmail,
-					password: thePass
-				}).then(function(authData) {
+				Auth.$signInWithEmailAndPassword(
+					theEmail,
+					thePass
+				).then(function(authData) {
 
-					console.log('logged in with ' + theEmail + ', ' + authData.uid)
+					console.log('logged in with ' + theEmail + ', ' + authData.user.uid)
 					window.loggingIn = false;
 
 					window.localStorage.email = $cookies.email = theEmail;
 					window.localStorage.email_escaped = $cookies.email_escaped = window.emailEscaper(theEmail);
 					window.localStorage.pass = $cookies.pass = thePass;
 
-					window.localStorage.uid = window.uid = authData.uid;
+					window.localStorage.uid = window.uid = authData.user.uid;
 
 					window.loggedIn = true;
 
@@ -386,7 +398,7 @@ app.factory("Login", ['$rootScope', "$firebaseAuth", "$cookies", '$timeout', 'Au
 								}
 							})
 						}
-					});
+					}); 
 
 				}).catch(function(error) {
 					if (typeof(errorCallback) === 'function'){
@@ -425,12 +437,23 @@ app.factory("Logout", ["$firebaseAuth", "$cookies", 'Auth', '$location', '$timeo
 			window.loggedIn = false;
 
 			$timeout(function () {
-				Auth.$unauth();
 				$cookies.email = '';
+				$cookies.email_escaped = '';
 				$cookies.pass = '';
 				window.localStorage.email = '';
+				window.localStorage.email_escaped = '';
 				window.localStorage.pass = '';
+				window.localStorage.uid = '';
 				window.uid = '';
+
+				// Auth.$unauth();
+				Auth.$signOut().then(function() {
+				  // Sign-out successful.
+				  console.log('sign out successful')
+				}).catch(function(error) {
+					console.log('logout failed :(')
+				  // An error happened.
+				});
 
 				$location.path('/portal');
 			});
@@ -451,9 +474,10 @@ app.factory("Logout", ["$firebaseAuth", "$cookies", 'Auth', '$location', '$timeo
                                             
                                             
 
-app.factory('Auth', ["$firebaseAuth",
-	function($firebaseAuth) {
-		return $firebaseAuth(window._Firebase);
+app.factory('Auth', ["$firebaseAuth", "$q",
+	function($firebaseAuth, $q) {
+		var $firebaseAuth = $firebaseAuth();
+		return $firebaseAuth;
 	}
 ]);
 
