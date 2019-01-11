@@ -17,6 +17,10 @@ module.exports = function(
 
     $scope.pageClass = 'history';
 
+    // $scope.meta = Meta;
+
+    $('#main').removeClass('menuOpen');	
+
     $scope.$on('$destroy', window.unbindAll);
 
     window.document.title = 'Recently edited notes – LICK';
@@ -72,7 +76,12 @@ module.exports = function(
 	}
 
 	$scope.clearHistory = function(){
-		$scope.meta.history = {};
+		// $scope.meta.history = {};
+
+		// Meta.
+		History().$remove().then(() => {
+			console.log('HISTORY CLEARED')
+		})
 	}
 
 	$scope.goBack = function(){

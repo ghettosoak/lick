@@ -16,12 +16,18 @@ module.exports = function(
 
 	$scope.$on('$destroy', window.unbindAll)
 
-	window.document.title = 'Text viewer for' + $scope.note.title + ' – LICK';
 
 	if (window.historical[window.historical.length - 2].indexOf('shared') > 0)
 		sharedNote($routeParams.id).$bindTo($scope, 'note');
-	else
-		Note($routeParams.id).$bindTo($scope, 'note');
+	else {
+		Note($routeParams.id).$bindTo($scope, 'note').then(function(unbinder) {
+			
+			console.log($scope.note)
+
+			window.document.title = 'Text viewer for' + $scope.note.title + ' – LICK';
+		});		
+	}
+
 	
 	hotkeys.bindTo($scope)
 		.add({

@@ -19,11 +19,8 @@ module.exports = function(
 	$timeout(function() {
 		$scope.$digest();
 	})
-    console.log('$scope.auth')
 	
     $scope.auth = Auth;
-
-    console.log($scope.auth)
 
     $scope.pageClass = 'portal';
     $scope.viewing = 'signIn';
@@ -75,7 +72,7 @@ module.exports = function(
 	    	},
 	    	function(){
 	    		$scope.loading = false;
-	    		$scope.signIn_input.email = '';
+	    		// $scope.signIn_input.email = '';
 	    		$scope.signIn_input.password = '';
 	    	}
     	);

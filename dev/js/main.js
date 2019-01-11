@@ -474,8 +474,8 @@ app.factory("Logout", ["$firebaseAuth", "$cookies", 'Auth', '$location', '$timeo
                                             
                                             
 
-app.factory('Auth', ["$firebaseAuth", "$q",
-	function($firebaseAuth, $q) {
+app.factory('Auth', ["$firebaseAuth",
+	function($firebaseAuth) {
 		var $firebaseAuth = $firebaseAuth();
 		return $firebaseAuth;
 	}
@@ -538,6 +538,7 @@ app.factory('SharedNotes', ['$firebaseObject',
 app.factory('Boards', ['$firebaseObject',
 	function($firebaseObject) {
 		return function(id) { 
+			console.log()
 			var ref = window._Firebase.child(window.uid + '/boards');
 			return $firebaseObject(ref);
 		};
@@ -1282,6 +1283,7 @@ app.controller('historyCtrl',
 		'$window',
 		'$cookies',
 		'History',
+		'Meta',
 		historyCtrl
 	]
 );

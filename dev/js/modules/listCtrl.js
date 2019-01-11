@@ -26,6 +26,8 @@ module.exports = function(
 
     window.document.title = 'Home – LICK';
 
+    console.log('LIST')
+
 	Notes().$bindTo($scope, 'notes').then(function(unbinder) {
 
 		window.unbinding.push(unbinder)

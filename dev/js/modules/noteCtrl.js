@@ -22,6 +22,8 @@ module.exports = function(
 	historical
 ) {
 
+	console.log('NOTE')
+
 	$scope.touchy = function(){
 		return window.is_touch_device();
 	}
