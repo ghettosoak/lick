@@ -29,7 +29,7 @@ module.exports = {
 		bundles: [
 			{
 				name: 'Main',
-				src: '../js/main.js' // Relative to gulpfile.js
+				src: '../js/totem.js' // Relative to gulpfile.js
 			}
 		],
 		suffix: '.min',

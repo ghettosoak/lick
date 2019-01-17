@@ -134,12 +134,16 @@ module.exports = function(
 
 	$scope.removeUser = function(target){
 		angular.forEach($scope.note.participants, function(v, k){
-			console.log(v, k)
+			console.log(v, k);
 			if (target === k)
 				delete $scope.note.participants[k];
 		})
 
 		participantsGenerator();
+	}
+
+	$scope.emailUnescaper = function(email) {
+		return email.replace(/[_]/g, ".");
 	}
 
 	hotkeys.bindTo($scope) 

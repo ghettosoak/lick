@@ -34,7 +34,7 @@
 			<ul>
 				<li
 					ng-repeat="(participant, parent) in noteParticipants"
-					ng-bind="participant"
+					ng-bind="emailUnescaper(participant)"
 				>
 					<span class="gfx-cross" ng-click="removeUser(participant)"></span>
 				</li>

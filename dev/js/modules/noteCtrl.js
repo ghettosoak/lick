@@ -80,15 +80,16 @@ module.exports = function(
 			});
 
     }else{
-		Note($routeParams.id).$bindTo($scope, 'note')
-			.then(function(unbinder) {
-				window.unbinding.push(unbinder)
+    	
+			Note($routeParams.id).$bindTo($scope, 'note')
+				.then(function(unbinder) {
+					window.unbinding.push(unbinder)
 
-				if (typeof($scope.note.body) === 'undefined'){
-					newNote('', $routeParams.id);
-				}
-				$scope.onNoteOpen();
-			});
+					if (typeof($scope.note.body) === 'undefined'){
+						newNote('', $routeParams.id);
+					}
+					$scope.onNoteOpen();
+				});
     }
 
     $scope.onNoteOpen = function(){

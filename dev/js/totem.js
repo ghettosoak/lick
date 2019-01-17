@@ -17,16 +17,9 @@ var helloCtrl = require('./modules/helloCtrl'),
 
 var $body = $('#ng-app')
 
-var config = {
-  apiKey: "AIzaSyD7j2bkgZg3led-CR0rH8wXMgksY4sP2o8",
-  authDomain: "lick.firebaseapp.com",
-  databaseURL: "https://lick.firebaseio.com",
-  projectId: "firebase-lick",
-  storageBucket: "firebase-lick.appspot.com",
-  messagingSenderId: "330483292917"
-};
+var firebaseConfig = require('./firebaseConfig')
 
-firebase.initializeApp(config);
+firebase.initializeApp(firebaseConfig);
 
 window._Firebase = firebase.database().ref();
 
@@ -98,8 +91,8 @@ if (
 }
 
 function deviceReady(){
-	App.initialize();
-	StatusBar.hide();
+	// App.initialize();
+	// StatusBar.hide();
 }
 
 $(window).on('scroll', function(e){
@@ -160,6 +153,8 @@ app.run(["$rootScope", "$location", function($rootScope, $location) {
 
 
 app.config( function($routeProvider) {
+
+	console.log('HELLO')
     $routeProvider
 
         // route for simply typing in the address
@@ -212,26 +207,26 @@ app.config( function($routeProvider) {
 
         // route for list
         .when('/list', { 
-			templateUrl : 'assets/inc/list.html',
-			controller  : 'listCtrl'
+					templateUrl : 'assets/inc/list.html',
+					controller  : 'listCtrl'
         })
 
         // route for history
         .when('/history', { 
-			templateUrl : 'assets/inc/history.html',
-			controller  : 'historyCtrl'
+					templateUrl : 'assets/inc/history.html',
+					controller  : 'historyCtrl'
         })
 
         // route for share
         .when('/share/:id', { 
-			templateUrl : 'assets/inc/share.html',
-			controller  : 'shareCtrl'
+					templateUrl : 'assets/inc/share.html',
+					controller  : 'shareCtrl'
         })
 
         // route for list
         .when('/colophon', { 
-			templateUrl : 'assets/inc/colophon.html',
-			controller  : 'colophonCtrl'
+					templateUrl : 'assets/inc/colophon.html',
+					controller  : 'colophonCtrl'
         });
 })
 .run( function($rootScope, $location, $cookies, Login, $route, $timeout, $animate) {
@@ -348,7 +343,7 @@ app.factory("Login", ['$rootScope', "$firebaseAuth", "$cookies", '$timeout', 'Au
 	function($rootScope, $firebaseAuth, $cookies, $timeout, Auth, $location, Notes) {
 		return function(theEmail, thePass, callback, errorCallback){
 
-			console.log(window.loggingIn, theEmail, thePass/*, callback, errorCallback*/)
+			console.log(window.loggingIn, theEmail/*, callback, errorCallback*/)
 
 			if (!window.loggingIn){
 				window.loggingIn = true;
@@ -386,6 +381,8 @@ app.factory("Login", ['$rootScope', "$firebaseAuth", "$cookies", '$timeout', 'Au
 					}
 
 					//UPDATE
+
+					console.log('META');
 
 					ref = window._Firebase.child(window.uid + '/meta');
 					ref.once('value', function(snapshot) {
@@ -560,6 +557,7 @@ app.factory('Boards', ['$firebaseObject',
 app.factory('Note', ['$firebaseObject',
 	function($firebaseObject) {
 		return function(id) {
+			console.log(window.uid)
 			var ref = window._Firebase.child(window.uid + '/notes/' + id);
 			return $firebaseObject(ref);
 		};
@@ -1359,7 +1357,6 @@ app.controller('colophonCtrl',
 		colophonCtrl
 	]
 );
-
 
 
 
