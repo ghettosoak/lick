@@ -558,6 +558,9 @@ app.factory('Note', ['$firebaseObject',
 	function($firebaseObject) {
 		return function(id) {
 			console.log(window.uid)
+			if (!window.uid) { 
+				return false;
+			}
 			var ref = window._Firebase.child(window.uid + '/notes/' + id);
 			return $firebaseObject(ref);
 		};

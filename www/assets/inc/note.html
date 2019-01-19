@@ -97,8 +97,7 @@
 					<textarea
 						class="mousetrap"
 						ng-model="bit.content"
-						ng-model-options="{ debounce: 250 }"
-						ng-keyup="autoSizer($index, $event, bit.content); historical_trigger();"
+						ng-keyup="autoSizer($index, $event, bit.content); historical_trigger(); noteTrigger();"
 						ng-click="caretTracker($index); openLink(bit, $event);"
 						ng-focus="isFocused(true)"
 						ng-blur="isFocused(false)"

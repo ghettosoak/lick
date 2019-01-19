@@ -37,14 +37,16 @@ module.exports = function(
 	$scope.commandIsPressed = false;
 	$scope.altIsPressed = false;
 	$scope.selectedBits = false;
-    $scope.sharePrompt = false;
-    $scope.pageClass = 'note';
+  $scope.sharePrompt = false;
+  $scope.pageClass = 'note';
 
-    $scope.filtered = false;
+  $scope.filtered = false;
 
-    $scope.$on('$destroy', window.unbindAll);
+  $scope.$on('$destroy', function() {
+  	window.unbindAll();
+  });
 
-    $scope.$watch('note.title', function(newValue, oldValue) {
+  $scope.$watch('note.title', function(newValue, oldValue) {
 		if (newValue){
 			window.document.title = newValue + ' – (note) – LICK';
 		}else{
@@ -52,65 +54,76 @@ module.exports = function(
 		}
 	});
 
-    var keysUp = function(){
+  var keysUp = function(){
 		$scope.commandIsPressed = false;
 		$scope.altIsPressed = false;
 		$scope.$digest();
-    }
+  }
 
-    $(window).on({
-    	blur: keysUp,
-    	focus: keysUp
-    });
+  $(window).on({
+  	blur: keysUp,
+  	focus: keysUp
+  });
 
-    $scope.concentric = function(){
-    	concentricity();
-    };
+  $scope.concentric = function(){
+  	concentricity();
+  };
 
-    $scope.lightbulb = function(){
-    	layering();
-    };
+  $scope.lightbulb = function(){
+  	layering();
+  };
 
-    if ($location.path().indexOf('shared') > 0){
+  if ($location.path().indexOf('shared') > 0){
 
-    	sharedNote($routeParams.id).$bindTo($scope, 'note')
+  	sharedNote($routeParams.id).$bindTo($scope, 'note')
 			.then(function(unbinder) {
 				window.unbinding.push(unbinder)
 				$scope.onNoteOpen();
 			});
 
-    }else{
-    	
-			Note($routeParams.id).$bindTo($scope, 'note')
-				.then(function(unbinder) {
-					window.unbinding.push(unbinder)
+  }else{
 
-					if (typeof($scope.note.body) === 'undefined'){
-						newNote('', $routeParams.id);
-					}
-					$scope.onNoteOpen();
-				});
-    }
+  	Note($routeParams.id).$bindTo($scope, '_note')
+			.then(function(unbinder) {
+				$scope._note.$priority = 99;
 
-    $scope.onNoteOpen = function(){
-    	$scope.closeBitMenus();
-    	$scope.unselector();
-    	$scope.note.kill = false;
+				$scope.note = angular.copy($scope._note)
 
-    	if ($scope.note.title === '')
-    		$('.note_title textarea').focus()
-    }
+				window.unbinding.push(unbinder)
 
-    Meta().$bindTo($scope, 'meta')
-    	.then(function(unbinder){
+				if (typeof($scope.note.body) === 'undefined'){
+					newNote('', $routeParams.id);
+				}
+				$scope.onNoteOpen();
+			});
+
+  }
+
+  $scope.debounceNote = _.debounce(function(){
+  	$scope._note = angular.copy($scope.note);
+  }, 250);
+
+  $scope.noteTrigger = $scope.debounceNote;
+
+  $scope.onNoteOpen = function(){
+  	$scope.closeBitMenus();
+  	$scope.unselector();
+  	$scope.note.kill = false;
+
+  	if ($scope.note.title === '')
+  		$('.note_title textarea').focus()
+  }
+
+  Meta().$bindTo($scope, 'meta')
+  	.then(function(unbinder){
 			window.unbinding.push(unbinder)
-    	})
+  	})
 
-    $scope.shareActive = function(){
-    	if ($location.path().indexOf('shared') > 0)
-    		return true
-    	else return false;
-    }
+  $scope.shareActive = function(){
+  	if ($location.path().indexOf('shared') > 0)
+  		return true
+  	else return false;
+  }
 
 
 
@@ -714,10 +727,9 @@ module.exports = function(
 				})
 			}
 		);
-	}, 5000)
+	}, 5000);
 
 	$scope.historical_trigger = $scope.debounceHistorical;
-
 
 	$scope.jumpAround = function(index, key, justgo){
 
