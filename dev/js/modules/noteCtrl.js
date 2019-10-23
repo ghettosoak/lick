@@ -75,9 +75,13 @@ module.exports = function(
 
   if ($location.path().indexOf('shared') > 0){
 
-  	sharedNote($routeParams.id).$bindTo($scope, 'note')
+  	sharedNote($routeParams.id).$bindTo($scope, '_note')
 			.then(function(unbinder) {
-				window.unbinding.push(unbinder)
+				$scope._note.$priority = 99;
+
+				$scope.note = angular.copy($scope._note);
+
+				window.unbinding.push(unbinder);
 				$scope.onNoteOpen();
 			});
 
@@ -87,9 +91,9 @@ module.exports = function(
 			.then(function(unbinder) {
 				$scope._note.$priority = 99;
 
-				$scope.note = angular.copy($scope._note)
+				$scope.note = angular.copy($scope._note);
 
-				window.unbinding.push(unbinder)
+				window.unbinding.push(unbinder);
 
 				if (typeof($scope.note.body) === 'undefined'){
 					newNote('', $routeParams.id);
@@ -100,6 +104,7 @@ module.exports = function(
   }
 
   $scope.debounceNote = _.debounce(function(){
+  	console.log('NOTE DEBOUNCE');
   	$scope._note = angular.copy($scope.note);
   }, 250);
 

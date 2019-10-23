@@ -72,7 +72,7 @@
 		// overflow: inherit;
 	}
 
-	.filtering & .note_bit.bitMarked_true{ display: none; }
+	.filtering &:not('.filtered_notes') .note_bit.bitMarked_true{ display: none; }
 }
 
 @microanimations: .2s;
@@ -100,11 +100,15 @@
 		transition: none;
 	}
 
-	
+	&.bitMarked_true {
 
-	&.bitMarked_true:before{
-		opacity: 1;
-		visibility: visible;
+		font-size: 20px;
+		line-height: 27px;
+
+		&:before{
+			opacity: 1;
+			visibility: visible;
+		}
 	}
 
 	&.menuOpen_true:before{
@@ -405,7 +409,8 @@
 	color: @color-primary;
 
 	.bit_link &{
-		border: 0;
+		// border: 0;
+		border-style: dashed;
 
 		&:hover{
 			.directions_color;
@@ -432,8 +437,8 @@
 
 	.mousetrap{
 		.bit_link &{
-			text-decoration: underline;
-			text-decoration-style: dotted;
+			// text-decoration: underline;
+			// text-decoration-style: dotted;
 		}
 
 		.bit_link.alt &{

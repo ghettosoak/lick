@@ -47,7 +47,7 @@
 					class="note_list"
 					ng-class="{ containsShared: sharedCount }"
 				>
-					<div class="note_list_shared">
+					<div class="note_list_shared" ng-show="sharedFilter(sharednotes).length">
 						<p class="list_title">Shared Notes</p>
 						<li class="list_item list_note list_shared_note"
 							ng-repeat="note in sharedFilter(sharednotes) | orderBy: '-lastEdited'"
@@ -60,7 +60,7 @@
 						</li>
 					</div>
 					<div class="note_list_private">
-						<p class="list_title">Private Notes</p>
+						<p class="list_title"><span ng-show="sharedFilter(sharednotes).length">Private </span>Notes</p>
 						<li class="list_item list_note"
 							ng-repeat="note in privateFilter(notes) | orderBy: '-lastEdited'"
 							ng-class="{'danger': note.kill}"

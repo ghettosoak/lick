@@ -32,7 +32,7 @@
 			<a class="gfx-transfer transfer" href="#/change/{{note.id}}" ng-click="closeMenu()">Send to board</a>
 			<a class="gfx-share share" href="#/share/{{note.id}}" ng-click="closeMenu()">Share this note</a>
 			<a class="gfx-text text" href="#/text/{{note.id}}" ng-click="closeMenu();">Open in plain text</a>
-			<div class="gfx-keylock noEdit mobile" ng-click="noEdit = !noEdit;">Shopping mode</div>
+			<div class="gfx-keylock noEdit mobile" ng-click="noEdit = !noEdit; closeMenu()">Shopping mode</div>
 			<div class="gfx-filter filter" ng-click="filtered = !filtered;">Filter checked bits</div>
 			
 			<a class="gfx-history history" href="#/history" ng-if="historyCounter()" ng-click="closeMenu()">Recently edited notes (<span ng-bind="historyCounter()"></span>)</a>
@@ -115,10 +115,9 @@
 
 		</div>
 
-		<div 
-			class="marked_filter"
-			ng-if="filtered"
-		>
+		<div class="note_body" 
+			ng-if="filtered">
+			
 			<div 
 				ng-repeat="bit in note.body track by $index" 
 				ng-if="bit.mark"
@@ -127,7 +126,7 @@
 				class="note_bit bitMarked_true"
 			>
 				<div class="bit_anchor"></div>
-				<p ng-bind="bit.content"></p>
+				<p ng-bind="bit.content" class="bit_content"></p>
 			</div>
 		</div>
 

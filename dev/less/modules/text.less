@@ -1,7 +1,32 @@
 .text{
-	h1{
-		font-size: 50px;
-		line-height: 50px;		
+
+	.text_title {
+		margin: 30px 0 20px;
+		padding: 30px 0 15px;
+		border-bottom: 1px white solid;
+
+		// padding: 30px 0 0 0;
+
+
+		@media @mobile-min{ 
+			font-family: rubiklight;
+			padding: 30px 0 20px;
+			margin: 0 0 30px;
+		}
+		h1{
+			// font-size: 50px;
+			// line-height: 50px;		
+
+			// min-height: 72px;
+			margin: 0;
+			font-size: 20px;
+			line-height: 27px;
+
+			@media @mobile-min{
+				font-size: 50px;
+				line-height: 60px;		
+			}
+		}
 	}
 
 	ul{

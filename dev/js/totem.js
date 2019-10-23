@@ -768,9 +768,6 @@ app.service('historical', ['Note', 'Meta', '$cookies',
 			callback();
 
 			console.log('HISTORICAL')
-
-			
-
 		};
 	}
 ]);
@@ -842,7 +839,7 @@ app.factory('firstNote', ['newBit', '$cookies',
 
 			var noteRef = window._Firebase.child(window.uid + '/notes/' + noteID );
 			noteRef.set({
-				title: 'Welcome to Lick! :) Click here to get started!',
+				title: 'Welcome to Lick! :P Click here to get started!',
 				parent: typeof(parent) === 'undefined' ? null : parent,
 				id: noteID,
 				body: [

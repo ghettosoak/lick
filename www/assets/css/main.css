@@ -6853,6 +6853,7 @@ input[type="week"]:focus {
     left: 5px;
     bottom: 5px;
     width: 20px;
+    cursor: pointer;
   }
 }
 .board_note .mark {
@@ -6865,6 +6866,7 @@ input[type="week"]:focus {
     left: 50%;
     margin-left: -13px;
     width: 26px;
+    cursor: pointer;
   }
 }
 .marked.board_note .mark {
@@ -6904,6 +6906,7 @@ input[type="week"]:focus {
     display: block;
     bottom: 5px;
     right: 5px;
+    cursor: pointer;
   }
 }
 .board_note .title {
@@ -6912,13 +6915,14 @@ input[type="week"]:focus {
   top: 0;
   left: 0;
   padding: 5px;
-  height: calc(100% - 30px);
+  height: 100%;
+  width: 100%;
   overflow: hidden;
 }
 @media screen and (min-width: 768px) {
   .board_note .title {
-    height: 50%;
-    width: 100%;
+    height: auto;
+    width: auto;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -7106,7 +7110,7 @@ input[type="week"]:focus {
     padding: 0;
   }
 }
-.filtering .note_body .note_bit.bitMarked_true {
+.filtering .note_body:not('.filtered_notes') .note_bit.bitMarked_true {
   display: none;
 }
 .note_bit {
@@ -7124,6 +7128,10 @@ input[type="week"]:focus {
 }
 .note_bit.ui-sortable-helper {
   transition: none;
+}
+.note_bit.bitMarked_true {
+  font-size: 20px;
+  line-height: 27px;
 }
 .note_bit.bitMarked_true:before {
   opacity: 1;
@@ -7442,7 +7450,7 @@ input[type="week"]:focus {
   color: #fff;
 }
 .bit_link .bit_content {
-  border: 0;
+  border-style: dashed;
 }
 .bit_link .bit_content:hover {
   color: #fff;
@@ -7508,10 +7516,6 @@ input[type="week"]:focus {
 }
 .bit_link.alt .bit_content:hover .mousetrap {
   cursor: text;
-}
-.bit_link .bit_content .mousetrap {
-  text-decoration: underline;
-  text-decoration-style: dotted;
 }
 .bit_link.alt .bit_content .mousetrap {
   text-decoration: none;
@@ -7595,19 +7599,45 @@ input[type="week"]:focus {
   padding-bottom: 10px;
   margin: 0;
 }
-.text h1 {
-  font-size: 50px;
-  line-height: 50px;
+.text .text_title {
+  margin: 30px 0 20px;
+  padding: 30px 0 15px;
+  border-bottom: 1px white solid;
+}
+@media screen and (min-width: 768px) {
+  .text .text_title {
+    font-family: rubiklight;
+    padding: 30px 0 20px;
+    margin: 0 0 30px;
+  }
+}
+.text .text_title h1 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 27px;
+}
+@media screen and (min-width: 768px) {
+  .text .text_title h1 {
+    font-size: 50px;
+    line-height: 60px;
+  }
 }
 .text ul {
   list-style-type: disc !important;
 }
 .change .change_interior {
-  overflow: hidden;
   padding-bottom: 50px;
+  overflow: hidden;
 }
 .change .change_interior .board_list {
   width: 100%;
+  overflow: hidden;
+  padding-top: 50px;
+}
+@media screen and (min-width: 768px) {
+  .change .change_interior .board_list {
+    padding-top: 50px;
+  }
 }
 .change .new_board,
 .change .no_board {

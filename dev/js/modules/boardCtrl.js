@@ -201,14 +201,17 @@ module.exports = function(
 
 	$scope.boardItemOpts_private = {
 	    sizeX: '1',
-	    sizeY: window.innerWidth < 768 ? 2 : 1,
-	    row: window.innerWidth < 768 ? 'note.y * 2' : 'note.y',
+	    // sizeY: window.innerWidth < 768 ? 2 : 1,
+	    sizeY: '1',
+	    // row: window.innerWidth < 768 ? 'note.y * 2' : 'note.y',
+	    row: 'note.y',
 	    col: 'note.x'
 	};
 
 	$scope.boardItemOpts_shared = {
 	    sizeX: '1',
-	    sizeY: window.innerWidth < 768 ? 2 : 1,
+	    // sizeY: window.innerWidth < 768 ? 2 : 1,
+	    sizeY: '1',
 	    row: window.innerWidth < 768 ? 'note.participants["' + $cookies.email_escaped + '"].y * 2' : 'note.participants["' + $cookies.email_escaped + '"].y',
 	    col: 'note.participants["' + $cookies.email_escaped + '"].x'
 	};
@@ -223,15 +226,44 @@ module.exports = function(
 	    minRows: 4,
 	    maxRows: 10,
 	    defaultSizeX: 1,
-	    defaultSizeY: window.innerWidth < 768 ? 2 : 1,
+	    // defaultSizeY: window.innerWidth < 768 ? 2 : 1,
+	    defaultSizeY: 1,
 	    margins: [5, 5],
 	    resizable: {
 	       enabled: false,
 	    },
-		draggable: {
-			// handle: window.innerWidth < 768 ? '.grabber' : null
-			// handle: '.grabber'
-		}
+			draggable: {
+				enabled: window.innerWidth > 768,
+				// enabled: false,
+				start: (event, uiWidget, $element) => {
+					// console.log('yeah!')
+					// var flag = false;
+
+					// $scope.boardGridOpts.draggable.enabled = false;
+					// // console.log('FLAG', flag)
+					// // $scope.$digest();
+					// setTimeout(() => {
+
+					// 	$scope.boardGridOpts.draggable.enabled = true;
+					// 	// flag = true;
+					// 	console.log('FLAG', flag)
+					// }, 400)
+
+					// $(uiWidget).addEventListener('click', preventClick, true);
+
+					// while(!flag) return false;
+				},
+				drag: (event, uiWidget, $element) => {
+					// return false;
+				},
+				stop: (event, uiWidget, $element) => {
+					console.log(event, uiWidget, $element)
+					console.log(uiWidget.row)
+					// $scope.$digest();
+				}
+				// handle: window.innerWidth < 768 ? '.grabber' : null
+				// handle: '.grabber'
+			}
 	};
 
 	historyCount(function(theNumber){
