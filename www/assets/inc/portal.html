@@ -27,9 +27,9 @@
 	</div>
 
 	<div class="portal_switcher">
-		<p ng-show="viewing === 'signIn'" ng-click="viewing = 'signUp'">Sign up.</p>	
-		<p ng-show="viewing === 'signUp'" ng-click="viewing = 'signIn'">Sign in.</p>
-		<p class="pwReset" ng-show="viewing === 'signIn'" ng-click="pwReset();">Forgot your password?</p>
+		<p ng-show="viewing === 'signIn'" ng-click="viewing = 'signUp'"><span class="link">Sign up.</span></p>	
+		<p ng-show="viewing === 'signUp'" ng-click="viewing = 'signIn'"><span class="link">Sign in.</span></p>
+		<p class="pwReset" ng-show="viewing === 'signIn'" ng-click="pwReset();"><span class="link">Forgot your password?</span></p>
 		<p><a href="#/colophon" class="link">What is this?</a></p>
 	</div>
 </div>

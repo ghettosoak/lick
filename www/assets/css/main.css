@@ -2496,37 +2496,37 @@ h6,
   margin: 50px 0 30px;
   font-weight: normal;
 }
-a.link {
+.link {
   color: #fff;
   text-decoration: none;
   border-bottom: 1px #fff dotted;
 }
-a.link:hover {
+.link:hover {
   color: #fff;
   background-color: #fff;
 }
-[data-layer="sky"][data-direction="north"].ready a.link:hover {
+[data-layer="sky"][data-direction="north"].ready .link:hover {
   color: #8adcb3;
 }
-[data-layer="sky"][data-direction="south"].ready a.link:hover {
+[data-layer="sky"][data-direction="south"].ready .link:hover {
   color: #80c0ff;
 }
-[data-layer="sky"][data-direction="east"].ready a.link:hover {
+[data-layer="sky"][data-direction="east"].ready .link:hover {
   color: #ff9494;
 }
-[data-layer="sky"][data-direction="west"].ready a.link:hover {
+[data-layer="sky"][data-direction="west"].ready .link:hover {
   color: #90dbe6;
 }
-[data-layer="land"][data-direction="north"].ready a.link:hover {
+[data-layer="land"][data-direction="north"].ready .link:hover {
   color: #6D6E70;
 }
-[data-layer="land"][data-direction="south"].ready a.link:hover {
+[data-layer="land"][data-direction="south"].ready .link:hover {
   color: #596D7F;
 }
-[data-layer="land"][data-direction="east"].ready a.link:hover {
+[data-layer="land"][data-direction="east"].ready .link:hover {
   color: #664B47;
 }
-[data-layer="land"][data-direction="west"].ready a.link:hover {
+[data-layer="land"][data-direction="west"].ready .link:hover {
   color: #5D6E63;
 }
 .copy {
@@ -3092,6 +3092,7 @@ body.phoneGap {
   position: relative;
   z-index: 1;
   text-align: center;
+  margin-bottom: 40px;
 }
 .portal .portal_switcher p {
   cursor: pointer;
@@ -5635,7 +5636,7 @@ input[type="week"]:focus {
 .navigation_right .navigation_interior a,
 .navigation_right .navigation_interior div {
   line-height: 50px;
-  padding: 0 5px;
+  padding: 0 5px 0 0;
   cursor: pointer;
   position: relative;
   float: left;
@@ -5721,6 +5722,7 @@ input[type="week"]:focus {
 }
 .navigation_right .navigation_interior a:before,
 .navigation_right .navigation_interior div:before {
+  width: 30px;
   font-size: 25px;
 }
 .navigation_right .menu_opener {
@@ -6576,7 +6578,7 @@ input[type="week"]:focus {
 }
 .list_item .shared_marker {
   position: absolute;
-  top: 23px;
+  top: 14px;
   right: 0;
   font-size: 35px;
 }
@@ -7116,8 +7118,10 @@ input[type="week"]:focus {
 .note_bit {
   position: relative;
   width: 100%;
-  left: 0;
+  left: 0 !important;
   margin: 0 0 15px;
+}
+.indenting .note_bit {
   transition: all .3s ease;
 }
 .note_bit.gap {
@@ -7128,6 +7132,7 @@ input[type="week"]:focus {
 }
 .note_bit.ui-sortable-helper {
   transition: none;
+  left: 35px !important;
 }
 .note_bit.bitMarked_true {
   font-size: 20px;
@@ -7148,20 +7153,40 @@ input[type="week"]:focus {
   border-style: solid;
 }
 .note_bit.indent_1 {
-  left: 20px;
+  left: 20px !important;
   width: calc(100% - 20px);
 }
 .note_bit.indent_2 {
-  left: 40px;
+  left: 40px !important;
   width: calc(100% - 40px);
 }
 .note_bit.indent_3 {
-  left: 60px;
+  left: 60px !important;
   width: calc(100% - 60px);
 }
 .note_bit.indent_4 {
-  left: 80px;
+  left: 80px !important;
   width: calc(100% - 80px);
+}
+@media screen and (max-width: 767px) {
+  .note_bit.indent_1.ui-sortable-helper {
+    left: 55px !important;
+  }
+}
+@media screen and (max-width: 767px) {
+  .note_bit.indent_2.ui-sortable-helper {
+    left: 75px !important;
+  }
+}
+@media screen and (max-width: 767px) {
+  .note_bit.indent_3.ui-sortable-helper {
+    left: 95px !important;
+  }
+}
+@media screen and (max-width: 767px) {
+  .note_bit.indent_4.ui-sortable-helper {
+    left: 115px !important;
+  }
 }
 .note_bit:hover:before {
   left: -68px;
@@ -7532,14 +7557,10 @@ input[type="week"]:focus {
   line-height: 27px;
 }
 .new_bit {
-  text-align: center;
   position: relative;
   width: 100%;
   height: 33px;
-  cursor: text;
-  border-width: 0 0 1px;
-  border-color: white;
-  border-style: dotted;
+  cursor: pointer;
   margin: 0 0 100px;
   -webkit-transition: color 0.5s ease;
   -moz-transition: color 0.5s ease;
@@ -7571,23 +7592,18 @@ input[type="week"]:focus {
 [data-layer="land"][data-direction="west"].ready .new_bit {
   color: #5D6E63;
 }
-.new_bit:before {
+.new_bit:before,
+.new_bit:after {
   content: '';
-  height: 24px;
-  width: 24px;
+  height: 1px;
+  width: 20px;
   background-color: white;
-  border-radius: 50%;
   position: absolute;
-  left: -35px;
-  top: 1px;
+  top: 50%;
+  right: 15px;
 }
-@media screen and (min-width: 768px) {
-  .new_bit:before {
-    height: 6px;
-    width: 6px;
-    left: -20px;
-    top: 11px;
-  }
+.new_bit:after {
+  transform: rotate(90deg);
 }
 .marked_filter .note_bit {
   opacity: .5;

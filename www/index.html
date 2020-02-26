@@ -11,7 +11,7 @@
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
 
     <meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="assets/css/main.css?=v3_0_4" />
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css?=v3_0_6" />
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -40,10 +40,15 @@
 			position: absolute;
 		}
 
-		[data-direction="north"] .tongue path{ fill: #8adcb3; }
-		[data-direction="south"] .tongue path{ fill: #80c0ff; }
-		[data-direction="east"] .tongue path{ fill: #ff9494; }
-		[data-direction="west"] .tongue path{ fill: #90dbe6; }
+		[data-direction="north"][data-layer="sky"] .tongue path{ fill: #8adcb3; }
+		[data-direction="south"][data-layer="sky"] .tongue path{ fill: #80c0ff; }
+		[data-direction="east"][data-layer="sky"] .tongue path{ fill: #ff9494; }
+		[data-direction="west"][data-layer="sky"] .tongue path{ fill: #90dbe6; }
+
+		[data-direction="north"][data-layer="land"] .tongue path{ fill: #6D6E70; }
+		[data-direction="south"][data-layer="land"] .tongue path{ fill: #596D7F; }
+		[data-direction="east"][data-layer="land"] .tongue path{ fill: #664B47; }
+		[data-direction="west"][data-layer="land"] .tongue path{ fill: #5D6E63; }
     </style>
 </head>
 
@@ -114,7 +119,7 @@
 	<script src="assets/js/vendor/slick.min.js"></script>
 	<script src="assets/js/vendor/angular-slick.min.js"></script>
 
-	<script src="assets/js/totem.js?v=3_1_4"></script>
+	<script src="assets/js/totem.js?v=3_1_6"></script>
 	
 
 	<!-- <script type="text/javascript" src="cordova.js"></script> -->

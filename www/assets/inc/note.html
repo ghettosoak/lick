@@ -63,7 +63,7 @@
 		<div class="note_body" 
 			ng-model="note.body" 
 			ui-sortable="sortableOptions_note"
-			ng-class="{'menuing' : menuing }"
+			ng-class="{'menuing' : menuing, 'indenting': indenting }"
 		>			
 			<div 
 				ng-repeat="bit in note.body track by $index" 				

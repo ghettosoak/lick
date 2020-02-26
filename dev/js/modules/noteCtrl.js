@@ -671,22 +671,32 @@ module.exports = function(
 	};
 
 	$scope.tabOut = function(index){
+		$scope.indenting = true;
 		if ($scope.note.body[index].tabCount > 0){
 			$scope.note.body[index].tabCount--;
 		}else{
 			_focusMe(index - 1);
 		}
 
+		setTimeout(() => {
+			$scope.indenting = false;
+		}, 300)
+
 		if (window.innerWidth < 768)
 			$scope.note.body[index].menu_open = false;
 	}
 
 	$scope.tabIn = function(index){
+		$scope.indenting = true;
 		if ($scope.note.body[index].tabCount < 4){
 			$scope.note.body[index].tabCount++;
 		}else{
 			_focusMe(index + 1);
 		}
+
+		setTimeout(() => {
+			$scope.indenting = false;
+		}, 300)
 
 		if (window.innerWidth < 768)
 			$scope.note.body[index].menu_open = false;
@@ -1018,7 +1028,7 @@ module.exports = function(
 		handle: '> .bit_anchor',
 		axis: 'y',
 		scroll: true,
-		helper: 'clone',
+		// helper: 'clone',
 		// start: function (event, ui) {
 		//    $(this).attr('startingScrollTop', window.pageYOffset);
 		// },

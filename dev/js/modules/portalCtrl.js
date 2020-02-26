@@ -88,7 +88,7 @@ module.exports = function(
 			// 	newPassword: $scope.reset_input.password
 			// })
 
-			$scope.auth.$changePassword(
+			$scope.auth.$updatePassword(
 				$scope.reset_input.password
 			).then(function() {
 				$scope.loading = false;
@@ -105,18 +105,17 @@ module.exports = function(
 	    	$scope.loading = true;
 
     	if (!$scope.signIn.$pristine && $scope.signIn.$valid){
-			$scope.auth.$resetPassword({
-				email: $scope.signIn_input.email
-			}).then(function() {
-				$scope.loading = false;
-				window.resettingPassword = true;
-				alert('Okay!\n\nGo check your email, we just sent you a temporary password. \n\nGo get it there, login with that, and we\'ll change your password when you get back!');
-				console.log('Password reset email sent successfully!');
-			}).catch(function(error) {
-				console.error("Error: ", error);
-			});
+				$scope.auth.$sendPasswordResetEmail($scope.signIn_input.email)
+				.then(function() {
+					$scope.loading = false;
+					window.resettingPassword = true;
+					alert('Okay!\n\nGo check your email, we just sent you a temporary password. \n\nGo get it there, login with that, and we\'ll change your password when you get back!');
+					console.log('Password reset email sent successfully!');
+				}).catch(function(error) {
+					console.error("Error: ", error);
+				});
     	}else{
-    		alert('Ou nei!\n\nPut your email in, and click the \'Forgot your password?\' button again.')
+    		alert('Ou nei!\n\nPut your email in, and click \'Forgot your password?\' again.')
     	}
     }
 
