@@ -127,6 +127,10 @@
 		border-style: solid;
 	}
 
+	&.bitSelected_true .bit_anchor:after{
+		box-shadow: 0 0 0 4px rgba(255, 255, 255, .4);
+	}
+
 	&.indent_1{ 
 		left: 20px !important;
 		width: ~'calc(100% - 20px)';
@@ -165,6 +169,9 @@
 }
 
 .bit_anchor{
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	user-select: none;
 	position: absolute;
 	width: 35px;
 	height: 100%;

@@ -110,7 +110,29 @@ module.exports = function(
 
   $scope.noteTrigger = $scope.debounceNote;
 
+  // Anything that changes the body (reordering, marking, indenting, gaps,
+  // killing...) must persist, not just typing. Compare a signature that
+  // ignores purely visual state.
+  var lastBodySignature = null;
+
+  var _bodySignature = function(){
+  	if (!$scope.note || !$scope.note.body) return null;
+  	return JSON.stringify($scope.note.body, function(key, value){
+  		if (key === 'selected' || key === 'menu_open' || key === 'contentCaret' || key === '$$hashKey')
+  			return undefined;
+  		return value;
+  	});
+  };
+
+  $scope.$watch(_bodySignature, function(signature){
+  	if (lastBodySignature === null || signature === lastBodySignature) return;
+  	lastBodySignature = signature;
+  	$scope.noteTrigger();
+  	$scope.historical_trigger();
+  });
+
   $scope.onNoteOpen = function(){
+  	lastBodySignature = _bodySignature();
   	$scope.closeBitMenus();
   	$scope.unselector();
   	$scope.note.kill = false;
@@ -517,12 +539,14 @@ module.exports = function(
 			incomingContent = content;
 
 		$timeout(function(){
+			var theTabCount = $scope.note.body[index] ? $scope.note.body[index].tabCount : 0;
+
 			$scope.note.body.splice(index + 1, 0, newBit(
-				$scope.note.body[index].tabCount,
+				theTabCount,
 				incomingContent
 			));
 
-			$scope.parseLink(index);
+			if ($scope.note.body[index]) $scope.parseLink(index);
 
 			_focusMe(index + 1);
 		}, 50);
@@ -607,7 +631,7 @@ module.exports = function(
 
 		console.log(index)
 
-		if (index)
+		if (typeof(index) !== 'undefined' && $scope.note.body[index])
 			$scope.note.body[index].selected = true;
 
 		var tempBody = [];
@@ -624,11 +648,18 @@ module.exports = function(
 			}
 		});
 
-		if ($scope.note.body.length > 0){
-			_focusMe(index - 1)
-		}else{
-			addBit(0);
-		}
+		$scope.selectedBits = false;
+
+		$timeout(function(){
+			if ($scope.note.body.length > 0){
+				// don't summon the mobile keyboard after a menu-driven delete
+				if (typeof(index) !== 'undefined' || !_isMobile())
+					_focusMe(typeof(index) !== 'undefined' ? Math.max(index - 1, 0) : 0);
+			}else{
+				$scope.note.body.push(newBit(0));
+				_focusMe(0);
+			}
+		});
 	};
 
 	$scope.moveUp = function(index){
@@ -834,7 +865,62 @@ module.exports = function(
 		});
 	};
 
+	var _isMobile = function(){
+		return window.innerWidth < 768;
+	};
+
+	// Bit handle: on mobile a tap selects the bit and a long press opens its
+	// menu (dragging reorders, see sortableOptions_note). Elsewhere a click
+	// opens the menu.
+	$scope.anchorClick = function(index, event){
+		// shopping mode: let the click bubble up to the bit, which toggles it
+		if ($scope.noEdit) return true;
+
+		if ($scope.longPressed){
+			event.stopPropagation();
+			return;
+		}
+
+		if (_isMobile() && !$scope.commandIsPressed){
+			event.stopPropagation();
+
+			if ($scope.note.body[index].menu_open){
+				$scope.closeBitMenus();
+				$scope.menuing = false;
+			}else{
+				$scope.toggleSelected(index);
+			}
+			return;
+		}
+
+		return $scope.toggleBitMenu(index, event);
+	};
+
+	$scope.anchorLongPress = function(index){
+		if ($scope.noEdit || !_isMobile()) return;
+		// don't pop a menu open in the middle of a drag
+		if ($('.note_body .ui-sortable-helper').length) return;
+
+		// the click that follows the release is swallowed in anchorClick
+		$scope.longPressed = true;
+
+		$scope.closeBitMenus($scope.note.body[index].bitID);
+		$scope.note.body[index].menu_open = true;
+		$scope.menuing = true;
+	};
+
+	$scope.anchorLongPressEnd = function(){
+		$timeout(function(){ $scope.longPressed = false; }, 400);
+	};
+
+	$scope.toggleSelected = function(index){
+		$scope.note.body[index].selected = !$scope.note.body[index].selected;
+		$scope.selectedBits = $scope.note.body.some(function(e){ return e.selected; });
+	};
+
 	$scope.toggleBitMenu = function(index, event){
+		if ($scope.noEdit) return true;
+
 		if (!$scope.commandIsPressed){
 			event.stopPropagation();
 		}else{
@@ -859,7 +945,11 @@ module.exports = function(
 
 	$scope.selector = function(index, event){
 		event.stopPropagation();
-		if ($scope.commandIsPressed){
+		// shopping mode: a tap checks the bit off
+		if ($scope.noEdit){
+			$scope.mark(index);
+		}
+		else if ($scope.commandIsPressed){
 			$scope.note.body[index].selected = !$scope.note.body[index].selected;
 			$scope.selectedBits = true;
 		}
@@ -876,6 +966,42 @@ module.exports = function(
 	};
 
 
+	$scope.clearSelected = function(){
+		$scope.unselector();
+		$scope.closeMenu();
+	};
+
+	$scope.deleteSelected = function(){
+		if (!$scope.deleteArmed){
+			$scope.deleteArmed = true;
+			return;
+		}
+
+		$scope.deleteArmed = false;
+		$scope.killBit();
+		$scope.closeMenu();
+	};
+
+	$scope.clearAllBits = function(){
+		if (!$scope.clearArmed){
+			$scope.clearArmed = true;
+			return;
+		}
+
+		$scope.clearArmed = false;
+		$scope.unselector();
+		$scope.note.body = [newBit(0)];
+		$scope.closeMenu();
+		_focusMe(0);
+	};
+
+	$scope.toggleShoppingMode = function(){
+		$scope.noEdit = !$scope.noEdit;
+		$scope.unselector();
+		$scope.sortableOptions_note.disabled = $scope.noEdit;
+		$scope.closeMenu();
+	};
+
 	$scope.cut = function(kill){
 		window.clipboard = [];
 
@@ -885,21 +1011,29 @@ module.exports = function(
 			}
 		});
 
+		window.clipboarded = true; 
+		$scope.clipboarded = true;
+
 		if (kill)
 			$scope.killBit();
 
-		window.clipboarded = true; 
 	};
 
 	$scope.paste = function(){
 		console.log(window.clipboard)
 		angular.forEach(window.clipboard, function(e, k){
-			$scope.note.body.splice((insertIndex + k) + 1, 0, e)
+			// paste copies, so a copied bit doesn't stay linked to its original
+			var pasted = angular.copy(e);
+			pasted.bitID = $$_.randomize();
+			pasted.selected = false;
+			pasted.menu_open = false;
+			$scope.note.body.splice((insertIndex + k) + 1, 0, pasted)
 		});
 
 		$scope.unselector();
 		window.clipboard = [];
 		window.clipboarded = false;
+		$scope.clipboarded = false;
 	};
 
 	$scope.isFocused = function(decision){
@@ -912,10 +1046,10 @@ module.exports = function(
 		}
 	}
 
-	$scope.swipe = function(index, direction){
+	$scope.swipe = function(index, direction, event){
 		if ($scope.noEdit){
-			$scope.mark(index, true);
-		}else if (!_isTextSelected($(event.target)[0])){
+			return;
+		}else if (!event || !_isTextSelected($(event.target)[0])){
 			if (direction === 'left'){
 				$scope.tabOut(index);	
 			}
@@ -959,6 +1093,8 @@ module.exports = function(
 	};
 
 	$scope.closeMenu = function(){
+		$scope.clearArmed = false;
+		$scope.deleteArmed = false;
 		$('#main').removeClass('menuOpen');	
 	};
 
@@ -1012,6 +1148,7 @@ module.exports = function(
 	},
 
 	_isTextSelected = function(input){
+		if (!input || typeof(input.selectionStart) !== 'number') return false;
 		var startPos = input.selectionStart;
 		var endPos = input.selectionEnd;
 		var doc = document.selection;
@@ -1027,6 +1164,8 @@ module.exports = function(
 	$scope.sortableOptions_note = {
 		handle: '> .bit_anchor',
 		axis: 'y',
+		distance: 8,
+		disabled: false,
 		scroll: true,
 		// helper: 'clone',
 		// start: function (event, ui) {

@@ -29,6 +29,7 @@ window.layers = ['land', 'sky'];
 window.loggedIn = false;
 window.loggingIn = false;
 window.isMobileApp = false;
+window.templateVersion = '3_1_8';
 window.historical = [];
 window.unbinding = [];
 
@@ -131,6 +132,19 @@ var app = angular.module(
 		'slickCarousel'
 	]
 );
+
+// templates are fetched without a version, so Safari / home-screen apps can keep serving old ones
+app.config(['$httpProvider', function($httpProvider) {
+	$httpProvider.interceptors.push(function() {
+		return {
+			request: function(config) {
+				if (config.method === 'GET' && config.url.indexOf('assets/inc/') === 0 && config.url.indexOf('?') < 0)
+					config.url += '?v=' + window.templateVersion;
+				return config;
+			}
+		};
+	});
+}]);
 
 app.run(["$rootScope", "$location", function($rootScope, $location) {
 	$rootScope.$on("$routeChangeError", function(event, next, previous, error) {
@@ -1144,6 +1158,67 @@ app.factory('layering', ['$rootScope', '$cookies',
 // 88          88 88888888888 88      88888888888 88      `8b  "Y88888P"   
                                                                         
 
+
+// fires an expression when an element is held down (without moving) on a touch screen
+app.directive('longPress', ['$timeout', function($timeout){
+	return {
+		restrict: 'A',
+		link: function(scope, element, attrs){
+			var DELAY = 500,
+				SLOP = 8,
+				timer = null,
+				startX = 0,
+				startY = 0,
+				fired = false;
+
+			var touchOf = function(event){
+				var e = event.originalEvent || event;
+				return (e.touches && e.touches[0]) || null;
+			};
+
+			var cancel = function(){
+				if (timer){
+					$timeout.cancel(timer);
+					timer = null;
+				}
+			};
+
+			element.on('touchstart', function(event){
+				var touch = touchOf(event);
+				if (!touch) return;
+
+				cancel();
+				fired = false;
+				startX = touch.clientX;
+				startY = touch.clientY;
+
+				timer = $timeout(function(){
+					timer = null;
+					fired = true;
+					scope.$eval(attrs.longPress);
+				}, DELAY);
+			});
+
+			element.on('touchmove', function(event){
+				var touch = touchOf(event);
+				if (
+					touch && timer &&
+					(Math.abs(touch.clientX - startX) > SLOP || Math.abs(touch.clientY - startY) > SLOP)
+				) cancel();
+			});
+
+			element.on('touchend touchcancel', function(){
+				cancel();
+				if (fired){
+					fired = false;
+					scope.$eval(attrs.longPressEnd);
+				}
+			});
+
+			scope.$on('$destroy', cancel);
+		}
+	};
+}]);
 
 app.filter('orderObjectBy', function() {
 	return function(items, field, reverse) {

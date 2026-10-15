@@ -8,19 +8,19 @@
 		noEditing: noEdit,
 		filtering: filtered
 	}"
-	ng-click="note.kill = false; unselector();"
+	ng-click="note.kill = false; clearArmed = false; deleteArmed = false; unselector();"
 >
 	<div class="navigation_left">
 		<div class="navigation_close" ng-click="closeNote()"></div>
 		
 
-		<div class="gfx-cut cut" ng-show="commandIsPressed" ng-click="cut();" title="Cut selected bits"></div>
+		<div class="gfx-cut cut" ng-show="commandIsPressed || selectedBits" ng-click="cut(true); $event.stopPropagation();" title="Cut selected bits"></div>
 		<div class="gfx-paste paste" ng-show="clipboarded" ng-click="paste();" title="Paste cut bits"></div>
 	</div>
 	
-	<div class="navigation_toggle" ng-click="openMenu();"></div>
+	<div class="navigation_toggle" ng-click="openMenu(); $event.stopPropagation();"></div>
 
-	<div class="navigation_right note_menu" data-role="navigation" data-position="fixed" data-tap-toggle="false" data-update-page-padding="false">
+	<div class="navigation_right note_menu" data-role="navigation" data-position="fixed" data-tap-toggle="false" data-update-page-padding="false" ng-click="$event.stopPropagation()">
 		<div class="navigation_interior">
 			
 			<div class="gfx-note-new newNote" ng-click="newNote()">New Note</div>
@@ -32,8 +32,18 @@
 			<a class="gfx-transfer transfer" href="#/change/{{note.id}}" ng-click="closeMenu()">Send to board</a>
 			<a class="gfx-share share" href="#/share/{{note.id}}" ng-click="closeMenu()">Share this note</a>
 			<a class="gfx-text text" href="#/text/{{note.id}}" ng-click="closeMenu();">Open in plain text</a>
-			<div class="gfx-keylock noEdit mobile" ng-click="noEdit = !noEdit; closeMenu()">Shopping mode</div>
+			<div class="gfx-keylock noEdit mobile" ng-click="toggleShoppingMode()">Shopping mode</div>
 			<div class="gfx-filter filter" ng-click="filtered = !filtered;">Filter checked bits</div>
+			<div class="gfx-cross clearSelected" ng-show="selectedBits" ng-click="clearSelected()">Clear selected bits</div>
+			<div class="gfx-cross kill deleteSelected" 
+				ng-show="selectedBits"
+				ng-class="{danger: deleteArmed}" 
+				ng-click="deleteSelected(); $event.stopPropagation();"
+			>Delete selected bits</div>
+			<div class="gfx-cut kill clearBits" 
+				ng-class="{danger: clearArmed}" 
+				ng-click="clearAllBits(); $event.stopPropagation();"
+			>Clear all bits</div>
 			
 			<a class="gfx-history history" href="#/history" ng-if="historyCounter()" ng-click="closeMenu()">Recently edited notes (<span ng-bind="historyCounter()"></span>)</a>
 			<!-- <a class="gfx-info info" href="#/info" ng-click="closeMenu()">Help</a> -->
@@ -74,14 +84,14 @@
 					'gap' : bit.gap
 				}"
 				ng-click="selector($index, $event);"
-				ng-swipe-left="swipe($index, 'left')"
-				ng-swipe-right="swipe($index, 'right')"
+				ng-swipe-left="swipe($index, 'left', $event)"
+				ng-swipe-right="swipe($index, 'right', $event)"
 			>
 				<div 
 					class="bit_anchor" 
-					ng-click="
-						toggleBitMenu($index, $event);
-					"
+					long-press="anchorLongPress($index)"
+					long-press-end="anchorLongPressEnd()"
+					ng-click="anchorClick($index, $event)"
 				></div>
 
 				<div class="bit_menu">
