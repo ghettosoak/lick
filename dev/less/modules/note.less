@@ -7,6 +7,31 @@
 	min-height: 100%;
 }
 
+// zero-height line just under the title's underline, so the chip doesn't push content around
+.note_update{
+	position: relative;
+	height: 0;
+	z-index: 2;
+}
+
+.note_update_chip{
+	position: absolute;
+	right: 0;
+	top: -17px;
+	border: 0;
+	border-radius: 9px;
+	padding: 0 10px;
+	font-size: 12px;
+	line-height: 18px;
+	background-color: @color-primary;
+	.directions_color;
+	cursor: pointer;
+
+	@media @mobile-min{
+		top: -26px;
+	}
+}
+
 .note_title{
 	margin: 30px 0 20px;
 	padding: 30px 0 15px;
@@ -153,6 +178,10 @@
 	&.indent_3.ui-sortable-helper{ @media @mobile-max{ left: 95px !important; } }
 	&.indent_4.ui-sortable-helper{ @media @mobile-max{ left: 115px !important; } }
 
+	&.bit_held{
+		box-shadow: 0 0 0 4px rgba(255, 255, 255, .4);
+	}
+
 	&:hover{
 		&:before{
 			left: -68px;
@@ -174,11 +203,18 @@
 	user-select: none;
 	position: absolute;
 	width: 35px;
-	height: 100%;
+	// the hit area is bigger than the dot: it reaches into the gaps above and below,
+	// and (on mobile) 10px further left via a transparent border, which leaves the dot where it was
+	height: ~'calc(100% + 14px)';
 	left: -35px;
-	top: 0;
+	top: -7px;
 	z-index: 2;
 	cursor: row-resize;
+
+	@media @mobile-max{
+		border-left: 10px solid transparent;
+		left: -45px;
+	}
 
 	.ui-sortable-helper &{
 		cursor: ns-resize;

@@ -8,7 +8,7 @@
 		noEditing: noEdit,
 		filtering: filtered
 	}"
-	ng-click="note.kill = false; clearArmed = false; deleteArmed = false; unselector();"
+	ng-click="note.kill = false; clearArmed = false; unselector();"
 >
 	<div class="navigation_left">
 		<div class="navigation_close" ng-click="closeNote()"></div>
@@ -34,12 +34,7 @@
 			<a class="gfx-text text" href="#/text/{{note.id}}" ng-click="closeMenu();">Open in plain text</a>
 			<div class="gfx-keylock noEdit mobile" ng-click="toggleShoppingMode()">Shopping mode</div>
 			<div class="gfx-filter filter" ng-click="filtered = !filtered;">Filter checked bits</div>
-			<div class="gfx-cross clearSelected" ng-show="selectedBits" ng-click="clearSelected()">Clear selected bits</div>
-			<div class="gfx-cross kill deleteSelected" 
-				ng-show="selectedBits"
-				ng-class="{danger: deleteArmed}" 
-				ng-click="deleteSelected(); $event.stopPropagation();"
-			>Delete selected bits</div>
+			<div class="gfx-cross clearChecked" ng-click="clearChecked()">Clear checked bits</div>
 			<div class="gfx-cut kill clearBits" 
 				ng-class="{danger: clearArmed}" 
 				ng-click="clearAllBits(); $event.stopPropagation();"
@@ -70,6 +65,10 @@
 			<div class="textarea-autosize" ng-bind="note.title"></div>
 		</div>
 
+		<div class="note_update" ng-show="updateAvailable">
+			<button class="note_update_chip" ng-click="refreshNote(); $event.stopPropagation();">Newer version available – refresh</button>
+		</div>
+
 		<div class="note_body" 
 			ng-model="note.body" 
 			ui-sortable="sortableOptions_note"
@@ -83,15 +82,14 @@
 					'alt': altIsPressed,
 					'gap' : bit.gap
 				}"
+				hold-to-sort
 				ng-click="selector($index, $event);"
 				ng-swipe-left="swipe($index, 'left', $event)"
 				ng-swipe-right="swipe($index, 'right', $event)"
 			>
 				<div 
 					class="bit_anchor" 
-					long-press="anchorLongPress($index)"
-					long-press-end="anchorLongPressEnd()"
-					ng-click="anchorClick($index, $event)"
+					ng-click="toggleBitMenu($index, $event)"
 				></div>
 
 				<div class="bit_menu">
@@ -108,6 +106,7 @@
 						class="mousetrap"
 						ng-model="bit.content"
 						ng-keyup="autoSizer($index, $event, bit.content); historical_trigger(); noteTrigger();"
+						ng-change="inputSync($index, bit.content)"
 						ng-click="caretTracker($index); openLink(bit, $event);"
 						ng-focus="isFocused(true)"
 						ng-blur="isFocused(false)"

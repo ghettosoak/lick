@@ -1,4 +1,4 @@
-<div class="list lookingAt_{{lookingAt}}">
+<div class="list lookingAt_{{lookingAt}} tab_{{activeTab()}}">
 
 	<div class="navigation_left">
 		<!-- <div class="list_switcher">
@@ -25,6 +25,12 @@
 	</div>
 
 	<div class="list_interior interior">
+
+		<div class="list_tabs list_tabs_all">
+			<button class="list_tab" ng-class="{active: activeTab() === 'private'}" ng-click="setTab('private')">Notes</button>
+			<button class="list_tab" ng-class="{active: activeTab() === 'shared'}" ng-click="setTab('shared')" ng-show="sharedCount">Shared</button>
+			<button class="list_tab" ng-class="{active: activeTab() === 'boards'}" ng-click="setTab('boards')">Boards</button>
+		</div>
 		
 		<!-- <div 
 			class="list_carousel"
@@ -47,6 +53,10 @@
 					class="note_list"
 					ng-class="{ containsShared: sharedCount }"
 				>
+					<div class="list_tabs list_tabs_notes">
+						<button class="list_tab" ng-class="{active: activeTab() !== 'shared'}" ng-click="setTab('private')">Notes</button>
+						<button class="list_tab" ng-class="{active: activeTab() === 'shared'}" ng-click="setTab('shared')" ng-show="sharedCount">Shared</button>
+					</div>
 					<div class="note_list_shared" ng-show="sharedFilter(sharednotes).length">
 						<p class="list_title">Shared Notes</p>
 						<li class="list_item list_note list_shared_note"

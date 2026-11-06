@@ -1220,6 +1220,99 @@ app.directive('longPress', ['$timeout', function($timeout){
 	};
 }]);
 
+// touch screens: hold a bit still for a moment to pick it up and sort it by hand.
+// A tap still focuses the text and a swipe still scrolls, because nothing is
+// intercepted until the hold completes. Once it has, the touch is handed to the
+// sortable as if the bit's handle had been dragged.
+app.directive('holdToSort', ['$timeout', function($timeout){
+	return {
+		restrict: 'A',
+		link: function(scope, element, attrs){
+			if (!window.is_touch_device()) return;
+
+			var DELAY = 300,
+				SLOP = 8,
+				node = element[0],
+				timer = null,
+				held = false,
+				startTouch = null;
+
+			var relay = function(type, touch){
+				var handle = element.children('.bit_anchor')[0];
+				if (!handle) return;
+
+				var ev = document.createEvent('MouseEvents');
+				ev.initMouseEvent(type, true, true, window, 1, touch.screenX, touch.screenY, touch.clientX, touch.clientY, false, false, false, false, 0, null);
+				handle.dispatchEvent(ev);
+			};
+
+			var cancel = function(){
+				if (timer){
+					$timeout.cancel(timer);
+					timer = null;
+				}
+			};
+
+			var release = function(touch){
+				if (!held) return;
+				held = false;
+				element.removeClass('bit_held');
+				relay('mouseup', touch);
+				relay('mouseout', touch);
+			};
+
+			node.addEventListener('touchstart', function(event){
+				cancel();
+				if (scope.noEdit || event.touches.length > 1) return;
+				// the handle and the bit menu already work on their own
+				if ($(event.target).closest('.bit_anchor, .bit_menu').length) return;
+
+				startTouch = event.touches[0];
+
+				timer = $timeout(function(){
+					timer = null;
+					held = true;
+					element.addClass('bit_held');
+					relay('mouseover', startTouch);
+					relay('mousemove', startTouch);
+					relay('mousedown', startTouch);
+				}, DELAY, false);
+			}, {passive: true});
+
+			node.addEventListener('touchmove', function(event){
+				var touch = event.touches[0];
+
+				if (held){
+					event.preventDefault();
+					relay('mousemove', touch);
+				}else if (
+					timer &&
+					(Math.abs(touch.clientX - startTouch.clientX) > SLOP || Math.abs(touch.clientY - startTouch.clientY) > SLOP)
+				){
+					// it's a scroll
+					cancel();
+				}
+			}, {passive: false});
+
+			node.addEventListener('touchend', function(event){
+				cancel();
+				if (held){
+					// no click afterwards, which would focus the text and open the keyboard
+					event.preventDefault();
+					release(event.changedTouches[0]);
+				}
+			}, {passive: false});
+
+			node.addEventListener('touchcancel', function(event){
+				cancel();
+				release(event.changedTouches[0]);
+			}, {passive: true});
+
+			scope.$on('$destroy', cancel);
+		}
+	};
+}]);
+
 app.filter('orderObjectBy', function() {
 	return function(items, field, reverse) {
 	var filtered = [];

@@ -103,9 +103,52 @@ module.exports = function(
 
   }
 
+  // Remote edits land in _note (the live Firebase object) but not in the local
+  // copy, $scope.note. Compare what matters, ignoring visual state and empty
+  // values, so we can offer the newer version without clobbering what's on screen.
+  var _contentSignature = function(n){
+  	if (!n) return null;
+  	return JSON.stringify({title: n.title, mark: n.mark, body: n.body}, function(key, value){
+  		if (key === 'selected' || key === 'menu_open' || key === 'contentCaret' || key.charAt(0) === '$')
+  			return undefined;
+  		if (value === null || value === false || value === '' || (angular.isArray(value) && !value.length))
+  			return undefined;
+  		return value;
+  	});
+  };
+
+  // Every write from this screen is stamped with this id, so a change that lands
+  // in Firebase from anywhere else (another device or tab) can be told apart from
+  // our own writes echoing back.
+  var clientId = Math.random().toString(36).slice(2);
+
+  $scope.updateAvailable = false;
+
+  $scope.$watch(function(){
+  	return $scope._note ? _contentSignature($scope._note) + '|' + $scope._note.editedBy : null;
+  }, function(){
+  	if (!$scope._note || !$scope.note) return;
+
+  	// the chip is for someone else's version that differs from what's on screen
+  	$scope.updateAvailable = (
+  		$scope._note.editedBy !== clientId &&
+  		_contentSignature($scope._note) !== _contentSignature($scope.note)
+  	);
+  });
+
+  $scope.refreshNote = function(){
+  	$scope.note = angular.copy($scope._note);
+  	lastBodySignature = _bodySignature();
+  	$scope.updateAvailable = false;
+  	$scope.unselector();
+  };
+
   $scope.debounceNote = _.debounce(function(){
   	console.log('NOTE DEBOUNCE');
+  	$scope.note.editedBy = clientId;
   	$scope._note = angular.copy($scope.note);
+  	$scope.updateAvailable = false;
+  	$scope.$digest();
   }, 250);
 
   $scope.noteTrigger = $scope.debounceNote;
@@ -755,6 +798,15 @@ module.exports = function(
 		}
 	}
 
+	// Tapping a keyboard suggestion (or autocorrect, dictation, paste...) changes
+	// the text with an input event but no keyup, so the key handlers never run.
+	$scope.inputSync = function(index, content){
+		if (!$scope.note.body[index]) return;
+		$scope.note.body[index].contentCaret = content;
+		$scope.historical_trigger();
+		$scope.noteTrigger();
+	};
+
 	$scope.debounceHistorical = _.debounce(function(){
 		var now = Date.now();
 
@@ -869,55 +921,6 @@ module.exports = function(
 		return window.innerWidth < 768;
 	};
 
-	// Bit handle: on mobile a tap selects the bit and a long press opens its
-	// menu (dragging reorders, see sortableOptions_note). Elsewhere a click
-	// opens the menu.
-	$scope.anchorClick = function(index, event){
-		// shopping mode: let the click bubble up to the bit, which toggles it
-		if ($scope.noEdit) return true;
-
-		if ($scope.longPressed){
-			event.stopPropagation();
-			return;
-		}
-
-		if (_isMobile() && !$scope.commandIsPressed){
-			event.stopPropagation();
-
-			if ($scope.note.body[index].menu_open){
-				$scope.closeBitMenus();
-				$scope.menuing = false;
-			}else{
-				$scope.toggleSelected(index);
-			}
-			return;
-		}
-
-		return $scope.toggleBitMenu(index, event);
-	};
-
-	$scope.anchorLongPress = function(index){
-		if ($scope.noEdit || !_isMobile()) return;
-		// don't pop a menu open in the middle of a drag
-		if ($('.note_body .ui-sortable-helper').length) return;
-
-		// the click that follows the release is swallowed in anchorClick
-		$scope.longPressed = true;
-
-		$scope.closeBitMenus($scope.note.body[index].bitID);
-		$scope.note.body[index].menu_open = true;
-		$scope.menuing = true;
-	};
-
-	$scope.anchorLongPressEnd = function(){
-		$timeout(function(){ $scope.longPressed = false; }, 400);
-	};
-
-	$scope.toggleSelected = function(index){
-		$scope.note.body[index].selected = !$scope.note.body[index].selected;
-		$scope.selectedBits = $scope.note.body.some(function(e){ return e.selected; });
-	};
-
 	$scope.toggleBitMenu = function(index, event){
 		if ($scope.noEdit) return true;
 
@@ -966,19 +969,11 @@ module.exports = function(
 	};
 
 
-	$scope.clearSelected = function(){
+	// removes the bits that have been checked off (marked)
+	$scope.clearChecked = function(){
 		$scope.unselector();
-		$scope.closeMenu();
-	};
-
-	$scope.deleteSelected = function(){
-		if (!$scope.deleteArmed){
-			$scope.deleteArmed = true;
-			return;
-		}
-
-		$scope.deleteArmed = false;
-		$scope.killBit();
+		$scope.note.body = $scope.note.body.filter(function(e){ return !e.mark; });
+		if (!$scope.note.body.length) $scope.note.body = [newBit(0)];
 		$scope.closeMenu();
 	};
 
@@ -1094,7 +1089,6 @@ module.exports = function(
 
 	$scope.closeMenu = function(){
 		$scope.clearArmed = false;
-		$scope.deleteArmed = false;
 		$('#main').removeClass('menuOpen');	
 	};
 

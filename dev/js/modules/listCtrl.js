@@ -132,6 +132,19 @@ module.exports = function(
 		}
 	})
 
+	// mobile only: which of private notes / shared notes / boards is showing
+	var _tab = window.listTab || (window.listLookingAt === 'boards' ? 'boards' : 'private');
+
+	$scope.activeTab = function(){
+		if (_tab === 'shared' && !$scope.sharedCount) return 'private';
+		return _tab;
+	};
+
+	$scope.setTab = function(tab){
+		_tab = window.listTab = tab;
+		$('body').scrollTop(0);
+	};
+
 	$scope.newNote = function(){
 		$location.path('/note/' + newNote());
 		$scope.closeMenu();

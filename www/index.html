@@ -11,7 +11,7 @@
     <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
 
     <meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="assets/css/main.css?=v3_0_7" />
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css?v=20261106123058" />
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -119,7 +119,22 @@
 	<script src="assets/js/vendor/slick.min.js"></script>
 	<script src="assets/js/vendor/angular-slick.min.js"></script>
 
-	<script src="assets/js/totem.js?v=3_1_8"></script>
+	<script>window.BUILD = "20261106123058";</script>
+	<script src="assets/js/totem.js?v=20261106123058"></script>
+	<script>
+	// When the app is resumed (e.g. from the iOS home screen), reload if a newer build has been deployed.
+	(function(){
+		var check = function(){
+			if (document.hidden || !window.fetch) return;
+			fetch('version.txt?' + Date.now(), {cache: 'no-store'})
+				.then(function(r){ return r.text(); })
+				.then(function(v){ if (v.trim() && v.trim() !== window.BUILD) location.reload(true); })
+				.catch(function(){});
+		};
+		document.addEventListener('visibilitychange', check);
+		window.addEventListener('pageshow', check);
+	})();
+	</script>
 	
 
 	<!-- <script type="text/javascript" src="cordova.js"></script> -->

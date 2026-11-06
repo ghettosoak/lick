@@ -97,11 +97,25 @@
 	min-height: 45px;
 	cursor: pointer;
 
+	-webkit-tap-highlight-color: transparent;
+
 	a{
 		display: block;
 		color: @color-primary;
+		outline: none;
+		-webkit-tap-highlight-color: transparent;
 
-		&:hover{ text-decoration: none; }
+		&:hover,
+		&:focus{ text-decoration: none; outline: none; }
+	}
+
+	// only for the duration of the tap / click, so no fading
+	&.list_note a{ transition: none; }
+
+	&:active{
+		background-color: @color-primary;
+
+		a{ .directions_color; }
 	}
 
 	.shared_marker{
@@ -127,5 +141,86 @@
 	a, p{
 		padding: 15px 0px;
 		margin: 0;
+	}
+}
+
+// tabs
+// mobile: notes / shared / boards. desktop: notes / shared, boards keep their own column.
+.list_tabs{
+	display: none;
+	border-bottom: 1px @color-primary dotted;
+}
+
+.list_tab{
+	flex: 1;
+	background: none;
+	border: 0;
+	border-bottom: 0;
+	color: @color-primary;
+	font-size: 20px;
+	line-height: 25px;
+	padding: 15px 0 12px;
+	margin-bottom: -1px;
+	cursor: pointer;
+
+	&.active{
+		background-color: @color-primary;
+		.directions_color;
+	}
+}
+
+@media @mobile-max{
+	.list_tabs_all{
+		display: flex;
+		margin: 60px 0 5px;
+		border-bottom: 10px white solid;
+	}
+
+	.board_list,
+	.note_list_shared,
+	.note_list_private{
+		display: none;
+	}
+
+	.tab_boards .board_list,
+	.tab_shared .note_list_shared,
+	.tab_private .note_list_private{
+		display: block;
+	}
+
+	// the tab says what it is
+	.list_title,
+	.containsShared .list_title{
+		display: none;
+	}
+}
+
+@media @mobile-min{
+	.list_tabs_notes{
+		display: flex;
+		height: 70px;
+		margin: 50px 0 5px;
+		border-bottom: 10px white solid;
+	}
+
+	.list_tab{
+		padding: 0;
+		line-height: 60px;
+	}
+
+	.note_list .list_title{
+		display: none;
+	}
+
+	.note_list_shared{
+		display: none;
+	}
+
+	.tab_shared .note_list_shared{
+		display: block;
+	}
+
+	.tab_shared .note_list_private{
+		display: none;
 	}
 }
